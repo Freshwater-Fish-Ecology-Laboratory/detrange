@@ -1,10 +1,10 @@
 Package: detrange
-Title: What the Package Does (One Line, Title Case)
+Title: Estimate Detection Range from Passive Acoustic Telemetry
 Version: 0.0.0.9000
 Authors@R: 
-    person("Seb", "Dalgarno", , "seb@pissonconsulting.ca", role = c("aut", "cre"),
+    person("Seb", "Dalgarno", , "dalgarno@unbc.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3658-4517"))
-Description: What the package does (one paragraph).
+Description: Estimate detection range from passive acoustic telemetry range test data using a Bayesian mixed effects model.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -13,3 +13,12 @@ RoxygenNote: 7.1.2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Imports: 
+    yesno,
+    chk,
+    lifecycle,
+    ggplot2,
+    purrr,
+    glue
+Depends: 
+    R (>= 2.10)
