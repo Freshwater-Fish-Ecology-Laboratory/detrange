@@ -1,0 +1,15 @@
+Package: detrange
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person("Seb", "Dalgarno", , "seb@pissonconsulting.ca", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-3658-4517"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
