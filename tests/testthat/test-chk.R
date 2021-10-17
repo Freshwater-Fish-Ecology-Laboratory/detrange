@@ -18,6 +18,4 @@ test_that("checking functions work", {
   dat2 <- dat
   dat2$Pings <- NULL
   expect_chk_error(chk_range_test(dat2))
-
-
 })

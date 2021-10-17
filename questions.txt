@@ -1,0 +1,9 @@
+### for joe
+1. is it good idea to use JAGS? i.e. easy for people to install on their machine? STAN would be harder? what about TMB - I think using something that makes installation easier might be better
+
+2. How to specify any point not jsut midpoint?
+
+3. what do you think best way of accepting user priors?
+
+### for me/ further research
+1. default priors should essentially capture what is expected by the manufacturer under 'stanard' conditions - i.e. 100% DE at 0m and max_range of 500m? what would be the expected slope and midpoint?

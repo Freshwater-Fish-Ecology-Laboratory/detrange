@@ -1,5 +1,4 @@
-#' @import chk yesno lifecycle
-#' @importFrom ggplot2 ggplot
+#' @import chk yesno lifecycle ggplot2
 #' @importFrom purrr map
 #' @importFrom stats setNames
 #' @importFrom lifecycle deprecated

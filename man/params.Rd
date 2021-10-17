@@ -6,7 +6,15 @@
 \arguments{
 \item{...}{Unused parameters.}
 
-\item{data}{A tibble of the range test data.
+\item{data}{A tibble of the range test data.}
+
+\item{analysis}{The analysis object from \code{dr_analyse}.}
+
+\item{distance_seq}{A vector of the distances to make predictions for.}
+
+\item{priors}{A list of the priors for each model term.}
+
+\item{nthin}{A number of the number of thins.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 }
 \description{

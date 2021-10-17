@@ -19,6 +19,9 @@ Imports:
     lifecycle,
     ggplot2,
     purrr,
-    glue
+    glue,
+    mbr,
+    jmbr,
+    newdata
 Depends: 
     R (>= 2.10)
