@@ -19,17 +19,29 @@ knitr::opts_chunk$set(
 
 ## Introduction 
 
-`detrange` estimates detection range from multiple stations within a passive acoustic telemetry array. Under the hood is a Bayesian mixed-effects logistic linear regression model. Each station has a random intercept and slope.
+`detrange` estimates detection range from multiple stations within a passive acoustic telemetry array. We use the definition of detection range from Kessel et al. (2014):
+
+>"... the relationship between detection probability and the distance between the receiver and tag. This can be presented graphically in the form of a logistic curve of detection probability, derived from the results of detection range testing in the field."
+
+Given the detection range, `detrange` also estimates the distance (wth confidence intervals) at which a specified level of detection efficiency is achieved. Typically, we are interested in the midpoint of the detection range (i.e. distance at which 50% of pings are detected).
+
+Under the hood, `detrange` uses a Bayesian mixed-effects logistic linear regression model. Station is treated as a random effect (slope and intercept) and Distance is the sole covariate.
 
 ## Demonstration
 
 ### Data
 
-`detrange` expects range test data, which must include columns `Station`, `Distance`, `Detects` and `Pings`. `Pings` is the expected number of detections. An example dataset `range_test` is included for reference.
+`detrange` expects data typical of detection range testing. These data must include columns:  
+
+- `Station` (factor)  
+- `Distance` (numeric)  
+- `Detects` (integer)  
+- `Pings` (integer)
+
+`Pings` is the expected number of detections. An example dataset `range_test` is included for reference.
 
 ```{r data}
 library(detrange)
-library(jmbr)
 
 ### view example dataset
 data <- range_test
@@ -37,11 +49,11 @@ data
 ```
 
 ### Analysis
-Detection range is modelled using `dr_analyse`. It is possible for the user to provide a list of priors for each parameter using the `priors` argument. If the model fails to converge, try increase the value of `nthin`.
+To estimate detection range, use `dr_analyse()`. The `priors` argument allows the user to change the default priors and `nthin` can be adjusted to improve model convergence. 
 ```{r}
 analysis <- dr_analyse(data, nthin = 1L)
 ```
-The output of `dr_analyse` is an object of class `mbr`. It can be manipulated using any functions within the [mbr package](https://github.com/poissonconsulting/mbr). For convenience `detrange` also provides some functions to view summary tables and plots, including the detection range midpoint estimates and confidence intervals. 
+The output of `dr_analyse()` is an object of class `mbr`. It can be manipulated using any functions within the [mbr package](https://github.com/poissonconsulting/mbr). For convenience, `detrange` provides some functions to summarise/visualise the analysis.
 
 ```{r}
 ### plot predicted values

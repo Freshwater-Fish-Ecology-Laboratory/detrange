@@ -9,25 +9,45 @@
 ## Introduction
 
 `detrange` estimates detection range from multiple stations within a
-passive acoustic telemetry array. Under the hood is a Bayesian
-mixed-effects logistic linear regression model. Each station has a
-random intercept and slope.
+passive acoustic telemetry array. We use the definition of detection
+range from Kessel et al. (2014):
+
+> “… the relationship between detection probability and the distance
+> between the receiver and tag. This can be presented graphically in the
+> form of a logistic curve of detection probability, derived from the
+> results of detection range testing in the field.”
+
+Given the detection range, `detrange` also estimates the distance (wth
+confidence intervals) at which a specified level of detection efficiency
+is achieved. Typically, we are interested in the midpoint of the
+detection range (i.e. distance at which 50% of pings are detected).
+
+Under the hood, `detrange` uses a Bayesian mixed-effects logistic linear
+regression model. Station is treated as a random effect (slope and
+intercept) and Distance is the sole covariate.
 
 ## Demonstration
 
 ### Data
 
-`detrange` expects range test data, which must include columns
-`Station`, `Distance`, `Detects` and `Pings`. `Pings` is the expected
-number of detections. An example dataset `range_test` is included for
-reference.
+`detrange` expects data typical of detection range testing. These data
+must include columns:
+
+-   `Station` (factor)  
+-   `Distance` (numeric)  
+-   `Detects` (integer)  
+-   `Pings` (integer)
+
+`Pings` is the expected number of detections. An example dataset
+`range_test` is included for reference.
 
 ``` r
 library(detrange)
-library(jmbr)
+#> Loading required package: mbr
 #> Registered S3 method overwritten by 'mbr':
 #>   method         from
 #>   pars.character term
+#> Loading required package: jmbr
 
 ### view example dataset
 data <- range_test
@@ -50,10 +70,9 @@ data
 
 ### Analysis
 
-Detection range is modelled using `dr_analyse`. It is possible for the
-user to provide a list of priors for each parameter using the `priors`
-argument. If the model fails to converge, try increase the value of
-`nthin`.
+To estimate detection range, use `dr_analyse()`. The `priors` argument
+allows the user to change the default priors and `nthin` can be adjusted
+to improve model convergence.
 
 ``` r
 analysis <- dr_analyse(data, nthin = 1L)
@@ -63,15 +82,13 @@ analysis <- dr_analyse(data, nthin = 1L)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    34     4       3   1000     1   162  1.01 FALSE
+#> 1    34     4       3   1000     1   150  1.05 FALSE
 ```
 
-The output of `dr_analyse` is an object of class `mbr`. It can be
+The output of `dr_analyse()` is an object of class `mbr`. It can be
 manipulated using any functions within the [mbr
-package](https://github.com/poissonconsulting/mbr). For convenience
-`detrange` also provides some functions to view summary tables and
-plots, including the detection range midpoint estimates and confidence
-intervals.
+package](https://github.com/poissonconsulting/mbr). For convenience,
+`detrange` provides some functions to summarise/visualise the analysis.
 
 ``` r
 ### plot predicted values
@@ -86,11 +103,11 @@ dr_analysis_midpoint(analysis)
 #> # A tibble: 6 × 5
 #>   Station  estimate lower upper svalue
 #>   <fct>       <dbl> <dbl> <dbl>  <dbl>
-#> 1 Station1     263.  249.  276.   11.6
-#> 2 Station2     207.  195.  221.   11.6
-#> 3 Station3     313.  297.  328.   11.6
-#> 4 Station4     373.  353.  395.   11.6
-#> 5 Station5     308.  293.  323.   11.6
+#> 1 Station1     263.  249.  277.   11.6
+#> 2 Station2     208.  195.  221.   11.6
+#> 3 Station3     313.  298.  328.   11.6
+#> 4 Station4     373.  353.  394.   11.6
+#> 5 Station5     308.  294.  324.   11.6
 #> 6 Station6     250.  236.  265.   11.6
 ```
 
@@ -98,12 +115,12 @@ dr_analysis_midpoint(analysis)
 ### coefficient table
 dr_analysis_coef(analysis)
 #> # A tibble: 4 × 5
-#>   term              estimate   lower  upper svalue
-#>   <term>               <dbl>   <dbl>  <dbl>  <dbl>
-#> 1 bIntercept           3.89    3.26    4.37   11.6
-#> 2 bMidpoint          285.    270.    299.     11.6
-#> 3 sInterceptStation    0.498   0.105   1.42   11.6
-#> 4 sMidpointStation    16.0    13.8    18.2    11.6
+#>   term              estimate    lower  upper svalue
+#>   <term>               <dbl>    <dbl>  <dbl>  <dbl>
+#> 1 bIntercept           3.92    2.94     4.44   11.6
+#> 2 bMidpoint          286.    273.     299.     11.6
+#> 3 sInterceptStation    0.499   0.0932   1.54   11.6
+#> 4 sMidpointStation    15.9    13.7     18.3    11.6
 ```
 
 ## Code of Conduct
