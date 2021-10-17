@@ -22,6 +22,7 @@ Imports:
     glue,
     mbr,
     jmbr,
-    newdata
+    newdata,
+    magrittr
 Depends: 
     R (>= 2.10)
