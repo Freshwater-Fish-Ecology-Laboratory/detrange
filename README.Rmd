@@ -19,36 +19,39 @@ knitr::opts_chunk$set(
 
 ## Introduction 
 
-`detrange` estimates detection range of receivers within passive acoustic telemetry arrays. Under the hood is a Bayesian mixed-effects logistic linear regression model, where each station has a random intercept and slope. 
+`detrange` estimates detection range from multiple stations within a passive acoustic telemetry array. Under the hood is a Bayesian mixed-effects logistic linear regression model. Each station has a random intercept and slope.
 
 ## Demonstration
 
-### Range test data
-Range test data must include columns `Station`, `Distance`, `Detects` and `Pings`.
+### Data
+
+`detrange` expects range test data, which must include columns `Station`, `Distance`, `Detects` and `Pings`. `Pings` is the expected number of detections. An example dataset `range_test` is included for reference.
 
 ```{r data}
 library(detrange)
-library(mbr)
 library(jmbr)
 
-data <- detrange::range_test
+### view example dataset
+data <- range_test
 data
-dr_plot_observed(data)
 ```
 
 ### Analysis
-Model the detection range with `dr_analyse`.
+Detection range is modelled using `dr_analyse`. It is possible for the user to set their own priors. If the model fails to converge, increase the value of `nthin`.
 ```{r}
-analysis <- detrange::dr_analyse(data, nthin = 1L)
+analysis <- dr_analyse(data, nthin = 1L)
+```
+With the analysis object, view various summary tables and plots, including the detection range midpoint estimates and confidence intervals. 
 
+```{r}
 ### coefficient table
 dr_analysis_coef(analysis)
-
+```
+```{r}
 ### get midpoint estimates
 dr_analysis_midpoint(analysis)
 ```
-### Plot
-Plot predicted detection range, midpoints and confidence intervals. 
+
 ```{r}
 ### plot predicted values
 dr_plot_predicted(analysis)
