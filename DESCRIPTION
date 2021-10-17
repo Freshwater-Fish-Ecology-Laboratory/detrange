@@ -11,18 +11,17 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    purrr
 Config/testthat/edition: 3
 Imports: 
     yesno,
     chk,
     lifecycle,
     ggplot2,
-    purrr,
     glue,
+    newdata
+Depends: 
     mbr,
     jmbr,
-    newdata,
-    magrittr
-Depends: 
     R (>= 2.10)

@@ -8,12 +8,12 @@
 dr_analyse(data, priors = rsi_priors, nthin = 10L)
 }
 \arguments{
-\item{data}{A tibble of the range test data.}
+\item{data}{A tibble of the range test data.
+Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 
 \item{priors}{A list of the priors for each model term.}
 
-\item{nthin}{A number of the number of thins.
-Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
+\item{nthin}{A number of the number of thins.}
 }
 \value{
 A mbr model object.
@@ -24,11 +24,10 @@ Note that with fewer data points per station, priors will have strong influence 
 The default priors are based on understanding of typical detection range.
 }
 \seealso{
-Other model: 
+Other analysis: 
 \code{\link{dr_analysis_coef}()},
 \code{\link{dr_analysis_glance}()},
 \code{\link{dr_analysis_midpoint}()},
-\code{\link{dr_analysis_predict}()},
-\code{\link{jags_template_rsi}()}
+\code{\link{dr_analysis_predict}()}
 }
-\concept{model}
+\concept{analysis}

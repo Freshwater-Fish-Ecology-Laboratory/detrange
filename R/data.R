@@ -4,6 +4,5 @@
 #' @family data
 #' @examples
 #' range_test
-#' dtr_plot_observed(range_test)
 "range_test"
 

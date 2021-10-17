@@ -9,21 +9,12 @@ jags_template_rsi(priors = rsi_priors, nthin = 3L)
 \arguments{
 \item{priors}{A list of the priors for each model term.}
 
-\item{nthin}{A number of the number of thins.
-Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
+\item{nthin}{A number of the number of thins.}
 }
 \value{
 A mbr model object.
 }
 \description{
 JAGS template for model with random intercept and slope.
-}
-\seealso{
-Other model: 
-\code{\link{dr_analyse}()},
-\code{\link{dr_analysis_coef}()},
-\code{\link{dr_analysis_glance}()},
-\code{\link{dr_analysis_midpoint}()},
-\code{\link{dr_analysis_predict}()}
 }
 \concept{model}

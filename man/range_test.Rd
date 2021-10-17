@@ -15,7 +15,6 @@ Simulated range test data
 }
 \examples{
 range_test
-dtr_plot_observed(range_test)
 }
 \concept{data}
 \keyword{datasets}

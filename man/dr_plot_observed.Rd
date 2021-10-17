@@ -7,7 +7,8 @@
 dr_plot_observed(data)
 }
 \arguments{
-\item{data}{A tibble of the range test data.}
+\item{data}{A tibble of the range test data.
+Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 }
 \value{
 A ggplot2 object.
@@ -16,9 +17,7 @@ A ggplot2 object.
 Plot observed range test data
 }
 \examples{
-\dontrun{
 dr_plot_observed(detrange::range_test)
-}
 }
 \seealso{
 Other plot: 

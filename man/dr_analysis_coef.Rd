@@ -2,13 +2,14 @@
 % Please edit documentation in R/analyse.R
 \name{dr_analysis_coef}
 \alias{dr_analysis_coef}
-\alias{dr_analyze}
 \title{Get model coefficients}
 \usage{
-dr_analysis_coef(analysis, include_random = TRUE)
+dr_analysis_coef(analysis, include_random = FALSE)
 }
 \arguments{
 \item{analysis}{The analysis object from \code{dr_analyse}.}
+
+\item{include_random}{A flag indicating whether to include coefficients for random terms.}
 }
 \value{
 A tibble of the coefficients.
@@ -17,11 +18,10 @@ A tibble of the coefficients.
 Get coefficients from model object output of \code{dr_analyse}.
 }
 \seealso{
-Other model: 
+Other analysis: 
 \code{\link{dr_analyse}()},
 \code{\link{dr_analysis_glance}()},
 \code{\link{dr_analysis_midpoint}()},
-\code{\link{dr_analysis_predict}()},
-\code{\link{jags_template_rsi}()}
+\code{\link{dr_analysis_predict}()}
 }
-\concept{model}
+\concept{analysis}

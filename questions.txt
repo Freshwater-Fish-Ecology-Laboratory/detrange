@@ -5,5 +5,15 @@
 
 3. what do you think best way of accepting user priors?
 
+4. If I add parameter descriptions, can these be seen in coefficient table?
+
+5. should i include slope term estimates as well as midpoint?
+
+6. Is it good idea to provide wrappers on basic mbr funs eg glance and coef? only reason might be good is that there is no user-friendly documentation for mbr - so might be nice to repackage to make obvious what can be done
+
 ### for me/ further research
 1. default priors should essentially capture what is expected by the manufacturer under 'stanard' conditions - i.e. 100% DE at 0m and max_range of 500m? what would be the expected slope and midpoint?
+
+2. should we build functionality for multiple directions within singel station - is this a nested mixed-effects model? or does user simply need to give each transect a unique station name?
+
+

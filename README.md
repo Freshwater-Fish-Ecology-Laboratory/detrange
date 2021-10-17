@@ -51,8 +51,9 @@ data
 ### Analysis
 
 Detection range is modelled using `dr_analyse`. It is possible for the
-user to set their own priors. If the model fails to converge, increase
-the value of `nthin`.
+user to provide a list of priors for each parameter using the `priors`
+argument. If the model fails to converge, try increase the value of
+`nthin`.
 
 ``` r
 analysis <- dr_analyse(data, nthin = 1L)
@@ -62,24 +63,22 @@ analysis <- dr_analyse(data, nthin = 1L)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    34     4       3   1000     1   138  1.01 FALSE
+#> 1    34     4       3   1000     1   162  1.01 FALSE
 ```
 
-With the analysis object, view various summary tables and plots,
-including the detection range midpoint estimates and confidence
+The output of `dr_analyse` is an object of class `mbr`. It can be
+manipulated using any functions within the [mbr
+package](https://github.com/poissonconsulting/mbr). For convenience
+`detrange` also provides some functions to view summary tables and
+plots, including the detection range midpoint estimates and confidence
 intervals.
 
 ``` r
-### coefficient table
-dr_analysis_coef(analysis)
-#> # A tibble: 4 × 5
-#>   term              estimate   lower  upper svalue
-#>   <term>               <dbl>   <dbl>  <dbl>  <dbl>
-#> 1 bIntercept           3.93    3.22    4.48   11.6
-#> 2 bMidpoint          287.    270.    301.     11.6
-#> 3 sInterceptStation    0.495   0.154   1.38   11.6
-#> 4 sMidpointStation    15.9    13.8    18.2    11.6
+### plot predicted values
+dr_plot_predicted(analysis)
 ```
+
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 ### get midpoint estimates
@@ -88,19 +87,24 @@ dr_analysis_midpoint(analysis)
 #>   Station  estimate lower upper svalue
 #>   <fct>       <dbl> <dbl> <dbl>  <dbl>
 #> 1 Station1     263.  249.  276.   11.6
-#> 2 Station2     208.  196.  221.   11.6
-#> 3 Station3     314.  299.  329.   11.6
+#> 2 Station2     207.  195.  221.   11.6
+#> 3 Station3     313.  297.  328.   11.6
 #> 4 Station4     373.  353.  395.   11.6
-#> 5 Station5     308.  293.  324.   11.6
+#> 5 Station5     308.  293.  323.   11.6
 #> 6 Station6     250.  236.  265.   11.6
 ```
 
 ``` r
-### plot predicted values
-dr_plot_predicted(analysis)
+### coefficient table
+dr_analysis_coef(analysis)
+#> # A tibble: 4 × 5
+#>   term              estimate   lower  upper svalue
+#>   <term>               <dbl>   <dbl>  <dbl>  <dbl>
+#> 1 bIntercept           3.89    3.26    4.37   11.6
+#> 2 bMidpoint          285.    270.    299.     11.6
+#> 3 sInterceptStation    0.498   0.105   1.42   11.6
+#> 4 sMidpointStation    16.0    13.8    18.2    11.6
 ```
-
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 ## Code of Conduct
 

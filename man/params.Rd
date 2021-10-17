@@ -6,7 +6,8 @@
 \arguments{
 \item{...}{Unused parameters.}
 
-\item{data}{A tibble of the range test data.}
+\item{data}{A tibble of the range test data.
+Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 
 \item{analysis}{The analysis object from \code{dr_analyse}.}
 
@@ -14,8 +15,9 @@
 
 \item{priors}{A list of the priors for each model term.}
 
-\item{nthin}{A number of the number of thins.
-Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
+\item{nthin}{A number of the number of thins.}
+
+\item{include_random}{A flag indicating whether to include coefficients for random terms.}
 }
 \description{
 Parameter Descriptions for detrange Functions

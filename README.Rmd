@@ -37,24 +37,25 @@ data
 ```
 
 ### Analysis
-Detection range is modelled using `dr_analyse`. It is possible for the user to set their own priors. If the model fails to converge, increase the value of `nthin`.
+Detection range is modelled using `dr_analyse`. It is possible for the user to provide a list of priors for each parameter using the `priors` argument. If the model fails to converge, try increase the value of `nthin`.
 ```{r}
 analysis <- dr_analyse(data, nthin = 1L)
 ```
-With the analysis object, view various summary tables and plots, including the detection range midpoint estimates and confidence intervals. 
+The output of `dr_analyse` is an object of class `mbr`. It can be manipulated using any functions within the [mbr package](https://github.com/poissonconsulting/mbr). For convenience `detrange` also provides some functions to view summary tables and plots, including the detection range midpoint estimates and confidence intervals. 
 
 ```{r}
-### coefficient table
-dr_analysis_coef(analysis)
+### plot predicted values
+dr_plot_predicted(analysis)
 ```
+
 ```{r}
 ### get midpoint estimates
 dr_analysis_midpoint(analysis)
 ```
 
 ```{r}
-### plot predicted values
-dr_plot_predicted(analysis)
+### coefficient table
+dr_analysis_coef(analysis)
 ```
 
 ## Code of Conduct

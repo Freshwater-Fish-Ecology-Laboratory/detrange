@@ -7,15 +7,13 @@
 #' @family plot
 #' @export
 #' @examples
-#' \dontrun{
 #' dr_plot_observed(detrange::range_test)
-#' }
 
 dr_plot_observed <- function(data){
   chk_range_test(data)
-  ggplot2::ggplot(data = data, ggplot2::aes(x = Distance, y = Detects/Pings)) +
+  ggplot(data = data, aes(x = .data$Distance, y = .data$Detects/.data$Pings)) +
     ggplot2::geom_point() +
-    ggplot2::facet_wrap(~Station) +
+    ggplot2::facet_wrap(ggplot2::vars(.data$Station)) +
     ggplot2::labs(x = "Distance", y = "Proportion of Pings Detected")
 }
 
@@ -35,23 +33,24 @@ dr_plot_observed <- function(data){
 dr_plot_predicted <- function(analysis){
   chk_s3_class(analysis, "jmb_analysis")
 
-  prediction <- dr_analysis_predict(analysis)
+  predicted <- dr_analysis_predict(analysis)
   midpoint <- dr_analysis_midpoint(analysis)
+  data <- mbr::data_set(analysis)
 
   gp <- ggplot() +
-    geom_point(data = data, aes(y = Detects/Pings, x = Distance)) +
-    geom_errorbarh(data = midpoint, aes(xmin = lower,
-                                        xmax = upper,
+    ggplot2::geom_point(data = data, aes(y = .data$Detects/.data$Pings, x = .data$Distance)) +
+    ggplot2::geom_errorbarh(data = midpoint, aes(xmin = .data$lower,
+                                        xmax = .data$upper,
                                         y = 0.5),
                    height = .05, color = "red") +
-    geom_point(data = midpoint, aes(x = estimate, y = 0.5), color = "red") +
-    geom_vline(data = midpoint, aes(xintercept = estimate),
+    ggplot2::geom_point(data = midpoint, aes(x = .data$estimate, y = 0.5), color = "red") +
+    ggplot2::geom_vline(data = midpoint, aes(xintercept = .data$estimate),
                linetype = "longdash", size = 0.3) +
-    geom_line(data = prediction, aes(x = Distance, y = estimate)) +
-    geom_line(data = prediction, aes(x = Distance, y = lower), linetype = "dotted") +
-    geom_line(data = prediction, aes(x = Distance, y = upper), linetype = "dotted") +
-    facet_wrap(~Station) +
-    labs(x = "Distance", y = "Proportion of Pings Detected") +
+    ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$estimate)) +
+    ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$lower), linetype = "dotted") +
+    ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$upper), linetype = "dotted") +
+    ggplot2::facet_wrap(ggplot2::vars(.data$Station)) +
+    ggplot2::labs(x = "Distance", y = "Proportion of Pings Detected") +
     NULL
 
   gp

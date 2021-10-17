@@ -18,11 +18,10 @@ A tibble of the coefficients.
 Predict detection range from model object output of \code{dr_analyse}.
 }
 \seealso{
-Other model: 
+Other analysis: 
 \code{\link{dr_analyse}()},
 \code{\link{dr_analysis_coef}()},
 \code{\link{dr_analysis_glance}()},
-\code{\link{dr_analysis_midpoint}()},
-\code{\link{jags_template_rsi}()}
+\code{\link{dr_analysis_midpoint}()}
 }
-\concept{model}
+\concept{analysis}

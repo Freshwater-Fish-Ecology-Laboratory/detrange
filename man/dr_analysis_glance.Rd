@@ -16,11 +16,10 @@ A tibble of the glance summary.
 Get analysis glance summary from model object output of \code{dr_analyse}.
 }
 \seealso{
-Other model: 
+Other analysis: 
 \code{\link{dr_analyse}()},
 \code{\link{dr_analysis_coef}()},
 \code{\link{dr_analysis_midpoint}()},
-\code{\link{dr_analysis_predict}()},
-\code{\link{jags_template_rsi}()}
+\code{\link{dr_analysis_predict}()}
 }
-\concept{model}
+\concept{analysis}

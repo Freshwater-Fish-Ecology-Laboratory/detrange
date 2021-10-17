@@ -8,7 +8,7 @@
 #' @return A mbr model object.
 #' @aliases dr_analyze
 #' @export
-#' @family model
+#' @family analysis
 dr_analyse <- function(data, priors = rsi_priors, nthin = 10L){
 
   chk::chk_whole_number(nthin)
@@ -27,12 +27,17 @@ dr_analyse <- function(data, priors = rsi_priors, nthin = 10L){
 #' @inheritParams params
 #' @return A tibble of the coefficients.
 #' @export
-#' @aliases dr_analyze
-#' @family model
-dr_analysis_coef <- function(analysis, include_random = TRUE){
+#' @family analysis
+dr_analysis_coef <- function(analysis, include_random = FALSE){
 
   mbr::check_mb_analysis(analysis)
-  mbr::coef(analysis, simplify = TRUE)
+
+  coefs <- mbr::coef(analysis, simplify = TRUE)
+  if(include_random){
+   rndm <-  mbr::coef(analysis, simplify = TRUE, param_type = "random")
+   coefs <- rbind(coefs, rndm)
+  }
+  coefs
 }
 
 #' Get midpoint estimates
@@ -42,13 +47,12 @@ dr_analysis_coef <- function(analysis, include_random = TRUE){
 #' @inheritParams params
 #' @return A tibble of the estimates.
 #' @export
-#' @family model
+#' @family analysis
 dr_analysis_midpoint <- function(analysis){
 
   mbr::check_mb_analysis(analysis)
-  predict(analysis, new_data = "Station",
-          term = c("eMidpoint")) %>%
-    dplyr::select(Station, estimate, lower, upper, svalue)
+  predicted <- mbr::predict(analysis, new_data = "Station", term = c("eMidpoint"))
+  predicted[,c("Station", "estimate", "lower", "upper", "svalue")]
 }
 
 #' Get analysis glance summary
@@ -58,7 +62,7 @@ dr_analysis_midpoint <- function(analysis){
 #' @inheritParams params
 #' @return A tibble of the glance summary.
 #' @export
-#' @family model
+#' @family analysis
 dr_analysis_glance <- function(analysis){
 
   mbr::check_mb_analysis(analysis)
@@ -72,12 +76,12 @@ dr_analysis_glance <- function(analysis){
 #' @inheritParams params
 #' @return A tibble of the coefficients.
 #' @export
-#' @family model
+#' @family analysis
 dr_analysis_predict <- function(analysis,
                                 distance_seq = NULL){
 
   mbr::check_mb_analysis(analysis)
-  chkor(chk_null(distance_seq), chk_vector(distance_seq))
+  chkor_vld(is.null(distance_seq), all(is.numeric(distance_seq)))
 
   if(is.null(distance_seq)){
     return(mbr::predict(analysis, new_data = c("Distance", "Station")))
