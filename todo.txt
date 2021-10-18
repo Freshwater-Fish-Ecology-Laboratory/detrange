@@ -6,3 +6,6 @@
 - rename midpoint (model terms + priors + analysis_midpoint fun name)
 - build shiny app
 - implement correlated slope/intercept model
+- add lifecycle badges
+- add test coverage
+- add de to midpoint table
