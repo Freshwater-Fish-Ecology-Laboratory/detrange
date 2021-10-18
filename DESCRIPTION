@@ -20,7 +20,8 @@ Imports:
     lifecycle,
     ggplot2,
     glue,
-    newdata
+    newdata,
+    tibble
 Depends: 
     mbr,
     jmbr,

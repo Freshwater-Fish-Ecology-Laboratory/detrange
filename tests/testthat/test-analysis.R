@@ -17,8 +17,9 @@ test_that("analysis functions work", {
   expect_s3_class(glance, "tbl")
 
    ### dr_analysis_coef
-  coefs <- dr_analysis_coef(analysis)
+  coefs <- dr_analysis_coef(analysis, include_random = TRUE)
   expect_s3_class(coefs, "tbl")
+  expect_true(all(!is.na(coefs$description)))
 
   ### dr_analysis_predict
   prediction <- dr_analysis_predict(analysis)

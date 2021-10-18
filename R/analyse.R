@@ -38,12 +38,14 @@ dr_analysis_coef <- function(analysis, include_random = FALSE){
 
   mbr::check_mb_analysis(analysis)
 
+  nstation <- length(unique(mbr::data_set(analysis)$Station))
+  param_desc <- param_description(n = nstation)
   coefs <- mbr::coef(analysis, simplify = TRUE)
   if(include_random){
    rndm <-  mbr::coef(analysis, simplify = TRUE, param_type = "random")
    coefs <- rbind(coefs, rndm)
   }
-  coefs
+  tibble::as_tibble(merge(coefs, param_desc, by = "term", all.x = TRUE))
 }
 
 #' Get midpoint estimates

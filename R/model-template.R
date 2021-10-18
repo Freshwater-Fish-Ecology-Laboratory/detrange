@@ -1,4 +1,3 @@
-
 jags_template_rsi <- function(de_logit = 0, priors = rsi_priors, nthin = 3L){
   mbr::model(as.character(glue::glue("model {
 

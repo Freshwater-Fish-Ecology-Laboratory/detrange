@@ -1,6 +1,5 @@
-- document terms
+- double check term descriptions
 - pass de_target through model
-- allow setting one prior (i.e. replacement)
 - build website
 - account for nested station/transect (i.e. directions at single station)
 - add legend to plot

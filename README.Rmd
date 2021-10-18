@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 >"... the relationship between detection probability and the distance between the receiver and tag. This can be presented graphically in the form of a logistic curve of detection probability, derived from the results of detection range testing in the field."
 
-Given the detection range, `detrange` also estimates the distance (wth confidence intervals) at which a specified level of detection efficiency is achieved. Typically, we are interested in the midpoint of the detection range (i.e. distance at which 50% of pings are detected).
+Given the detection range, `detrange` also estimates the distance (with confidence intervals) at which a specified level of detection efficiency is achieved. Typically, we are interested in the midpoint of the detection range (i.e. distance at which 50% of pings are detected).
 
 Under the hood, `detrange` uses a Bayesian mixed-effects logistic linear regression model. Station is treated as a random effect (slope and intercept) and Distance is the sole covariate.
 
