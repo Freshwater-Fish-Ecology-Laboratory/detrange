@@ -49,15 +49,16 @@ data
 ```
 
 ### Analysis
-To estimate detection range, use `dr_analyse()`. The `priors` argument allows the user to change the default priors and `nthin` can be adjusted to improve model convergence. 
+To estimate detection range, use `dr_analyse()`. The `priors` argument allows the user to change the default priors (in JAGS language), `de_target` specifies the desired detection efficiency to estimate distance at and `nthin` can be adjusted to improve model convergence. Note a single prior can be changed and the default priors will remain for the rest.
 ```{r}
-analysis <- dr_analyse(data, nthin = 1L)
+de_target <- 0.5
+analysis <- dr_analyse(data, de_target = de_target, nthin = 1L)
 ```
 The output of `dr_analyse()` is an object of class `mbr`. It can be manipulated using any functions within the [mbr package](https://github.com/poissonconsulting/mbr). For convenience, `detrange` provides some functions to summarise/visualise the analysis.
 
 ```{r}
 ### plot predicted values
-dr_plot_predicted(analysis)
+dr_plot_predicted(analysis, de_target = de_target)
 ```
 
 ```{r}

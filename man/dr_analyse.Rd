@@ -5,13 +5,15 @@
 \alias{dr_analyze}
 \title{Analyse model}
 \usage{
-dr_analyse(data, priors = rsi_priors, nthin = 10L)
+dr_analyse(data, de_target = 0.5, priors = rsi_priors, nthin = 10L)
 }
 \arguments{
 \item{data}{A tibble of the range test data.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 
-\item{priors}{A list of the priors for each model term.}
+\item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
+
+\item{priors}{A named list of the priors for each model term \code{bIntercept}, \code{bMidpoint}, \code{sInterceptStation}, \code{sMidpointStation}.}
 
 \item{nthin}{A number of the number of thins.}
 }

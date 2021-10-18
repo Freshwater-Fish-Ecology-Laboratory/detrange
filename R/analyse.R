@@ -9,14 +9,19 @@
 #' @aliases dr_analyze
 #' @export
 #' @family analysis
-dr_analyse <- function(data, priors = rsi_priors, nthin = 10L){
+dr_analyse <- function(data, de_target = 0.5, priors = rsi_priors, nthin = 10L){
 
-  chk::chk_whole_number(nthin)
-  chk::chk_gte(nthin, value = 1L)
+  chk_whole_number(nthin)
+  chk_gte(nthin, value = 1L)
   chk_rsi_priors(priors)
   chk_range_test(data)
+  chk_number(de_target)
+  chk_gte(de_target, 0)
+  chk_lte(de_target, 1)
 
-  template <- jags_template_rsi(priors = priors, nthin = nthin)
+  de_logit <- logit(de_target)
+
+  template <- jags_template_rsi(de_logit = de_logit, priors = priors, nthin = nthin)
   mbr::analyse(template, data = data, silent = TRUE)
 }
 

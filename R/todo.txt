@@ -1,0 +1,7 @@
+- document terms
+- pass de_target through model
+- allow setting one prior (i.e. replacement)
+- build website
+- account for nested station/transect
+- add legend to plot
+- rename midpoint (model terms + priors + analysis_midpoint fun name)

@@ -1,11 +1,11 @@
 test_that("analysis functions work", {
   ### dr_analysis_coefficient
   data <- range_test
-  template <- jags_template_rsi(priors = rsi_priors, nthin = 1L)
+  template <- jags_template_rsi(de_logit = 0.1, priors = rsi_priors, nthin = 1L)
 
   expect_s3_class(template, "jmb_model")
 
-  analysis <- dr_analyse(data, priors = rsi_priors, nthin = 1L)
+  analysis <- dr_analyse(data, de_target = 0.5, priors = rsi_priors, nthin = 1L)
   expect_s3_class(analysis, "jmb_analysis")
 
   ### dr_analysis_glance
@@ -36,7 +36,7 @@ test_that("analysis functions work", {
   gp <- dr_plot_observed(data)
   expect_s3_class(gp, "ggplot")
 
-  gp <- dr_plot_predicted(analysis)
+  gp <- dr_plot_predicted(analysis, de_target = 0.5)
   expect_s3_class(gp, "ggplot")
 
 })

@@ -52,37 +52,41 @@ library(detrange)
 ### view example dataset
 data <- range_test
 data
-#> # A tibble: 34 × 4
+#> # A tibble: 38 × 4
 #>    Station  Distance Detects Pings
 #>    <fct>       <dbl>   <int> <int>
-#>  1 Station1       44     109   113
-#>  2 Station1      105     135   144
-#>  3 Station1      203      90   120
-#>  4 Station1      326      29   123
-#>  5 Station1      431       5   133
-#>  6 Station2       40     117   123
-#>  7 Station2      135      73   107
-#>  8 Station2      209      31    76
-#>  9 Station2      300      25   146
-#> 10 Station2      433       0   113
-#> # … with 24 more rows
+#>  1 Station1       48      98   104
+#>  2 Station1      146      72   138
+#>  3 Station1      209      28   178
+#>  4 Station1      332       0    55
+#>  5 Station1      408       1   119
+#>  6 Station1      511       0   154
+#>  7 Station1      636       0    85
+#>  8 Station2       10      71    71
+#>  9 Station2      104      39    52
+#> 10 Station2      226      28   142
+#> # … with 28 more rows
 ```
 
 ### Analysis
 
 To estimate detection range, use `dr_analyse()`. The `priors` argument
-allows the user to change the default priors and `nthin` can be adjusted
-to improve model convergence.
+allows the user to change the default priors (in JAGS language),
+`de_target` specifies the desired detection efficiency to estimate
+distance at and `nthin` can be adjusted to improve model convergence.
+Note a single prior can be changed and the default priors will remain
+for the rest.
 
 ``` r
-analysis <- dr_analyse(data, nthin = 1L)
+de_target <- 0.5
+analysis <- dr_analyse(data, de_target = de_target, nthin = 1L)
 #> Registered S3 method overwritten by 'rjags':
 #>   method               from 
 #>   as.mcmc.list.mcarray mcmcr
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    34     4       3   1000     1   150  1.05 FALSE
+#> 1    38     4       3   1000     1    12  1.85 FALSE
 ```
 
 The output of `dr_analyse()` is an object of class `mbr`. It can be
@@ -92,7 +96,7 @@ package](https://github.com/poissonconsulting/mbr). For convenience,
 
 ``` r
 ### plot predicted values
-dr_plot_predicted(analysis)
+dr_plot_predicted(analysis, de_target = de_target)
 ```
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
@@ -103,24 +107,24 @@ dr_analysis_midpoint(analysis)
 #> # A tibble: 6 × 5
 #>   Station  estimate lower upper svalue
 #>   <fct>       <dbl> <dbl> <dbl>  <dbl>
-#> 1 Station1     263.  249.  277.   11.6
-#> 2 Station2     208.  195.  221.   11.6
-#> 3 Station3     313.  298.  328.   11.6
-#> 4 Station4     373.  353.  394.   11.6
-#> 5 Station5     308.  294.  324.   11.6
-#> 6 Station6     250.  236.  265.   11.6
+#> 1 Station1     149.  139.  158.   11.6
+#> 2 Station2     167.  152.  182.   11.6
+#> 3 Station3     471.  439.  508.   11.6
+#> 4 Station4     316.  297.  337.   11.6
+#> 5 Station5     287.  270.  303.   11.6
+#> 6 Station6     132.  123.  139.   11.6
 ```
 
 ``` r
 ### coefficient table
 dr_analysis_coef(analysis)
 #> # A tibble: 4 × 5
-#>   term              estimate    lower  upper svalue
-#>   <term>               <dbl>    <dbl>  <dbl>  <dbl>
-#> 1 bIntercept           3.92    2.94     4.44   11.6
-#> 2 bMidpoint          286.    273.     299.     11.6
-#> 3 sInterceptStation    0.499   0.0932   1.54   11.6
-#> 4 sMidpointStation    15.9    13.7     18.3    11.6
+#>   term              estimate   lower  upper svalue
+#>   <term>               <dbl>   <dbl>  <dbl>  <dbl>
+#> 1 bIntercept            3.65   1.33    4.94   11.6
+#> 2 bMidpoint           264.   221.    342.     11.6
+#> 3 sInterceptStation     1.14   0.483   3.09   11.6
+#> 4 sMidpointStation    122.    78.8   205.     11.6
 ```
 
 ## Code of Conduct

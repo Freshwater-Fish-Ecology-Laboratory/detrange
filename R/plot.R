@@ -30,7 +30,7 @@ dr_plot_observed <- function(data){
 #' dr_plot_predicted(analysis)
 #' }
 
-dr_plot_predicted <- function(analysis){
+dr_plot_predicted <- function(analysis, de_target){
   chk_s3_class(analysis, "jmb_analysis")
 
   predicted <- dr_analysis_predict(analysis)
@@ -41,11 +41,11 @@ dr_plot_predicted <- function(analysis){
     ggplot2::geom_point(data = data, aes(y = .data$Detects/.data$Pings, x = .data$Distance)) +
     ggplot2::geom_errorbarh(data = midpoint, aes(xmin = .data$lower,
                                         xmax = .data$upper,
-                                        y = 0.5),
+                                        y = de_target),
                    height = .05, color = "red") +
-    ggplot2::geom_point(data = midpoint, aes(x = .data$estimate, y = 0.5), color = "red") +
+    ggplot2::geom_point(data = midpoint, aes(x = .data$estimate, y = de_target), color = "red") +
     ggplot2::geom_vline(data = midpoint, aes(xintercept = .data$estimate),
-               linetype = "longdash", size = 0.3) +
+               linetype = "longdash", size = 0.2) +
     ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$estimate)) +
     ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$lower), linetype = "dotted") +
     ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$upper), linetype = "dotted") +

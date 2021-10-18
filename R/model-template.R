@@ -1,11 +1,5 @@
-#' Jags model template
-#'
-#' JAGS template for model with random intercept and slope.
-#'
-#' @inheritParams params
-#' @return A mbr model object.
-#' @family model
-jags_template_rsi <- function(priors = rsi_priors, nthin = 3L){
+
+jags_template_rsi <- function(de_logit = 0, priors = rsi_priors, nthin = 3L){
   mbr::model(as.character(glue::glue("model {
 
   bIntercept ~ _{priors$bIntercept}_
@@ -22,17 +16,23 @@ jags_template_rsi <- function(priors = rsi_priors, nthin = 3L){
   for(i in 1:nObs) {
     eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
     eMidpoint[i] <- bMidpoint + bMidpointStation[Station[i]]
-    logit(eDetects[i]) <- eIntercept[i] + -eIntercept[i]/eMidpoint[i] * Distance[i]
+    logit(eDetects[i]) <- eIntercept[i] + (_{de_logit}_ - eIntercept[i])/eMidpoint[i] * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
   }
-}", .open = "_{", .close = "}_")), new_expr = "
+}", .open = "_{", .close = "}_")),
+             new_expr = as.character(glue::glue("
   for(i in 1:nObs) {
     eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
     eMidpoint[i] <- bMidpoint + bMidpointStation[Station[i]]
-    logit(eDetects[i]) <- eIntercept[i] + -eIntercept[i]/eMidpoint[i] * Distance[i]
+    logit(eDetects[i]) <- eIntercept[i] + (_{de_logit}_ - eIntercept[i])/eMidpoint[i] * Distance[i]
     prediction[i] <- eDetects[i]
   }
-", nthin = nthin, select_data = chk_values_rangetest,
+", .open = "_{", .close = "}_")),
+             nthin = nthin,
+             select_data = list(Station = factor(),
+                                Distance = c(0, Inf),
+                                Detects = c(0L, .max_int),
+                                Pings = c(1L, .max_int)),
                  random_effects = list(bMidpointStation = "Station",
                                        bInterceptStation = "Station"))
 }
