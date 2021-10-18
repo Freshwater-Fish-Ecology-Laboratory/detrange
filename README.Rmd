@@ -31,7 +31,7 @@ Under the hood, `detrange` uses a Bayesian mixed-effects logistic linear regress
 
 ### Data
 
-`detrange` expects data typical of detection range testing. These data must include columns:  
+`detrange` expects data typical of detection range testing. Mandatory columns include:  
 
 - `Station` (factor)  
 - `Distance` (numeric)  

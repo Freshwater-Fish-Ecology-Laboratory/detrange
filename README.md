@@ -30,8 +30,8 @@ intercept) and Distance is the sole covariate.
 
 ### Data
 
-`detrange` expects data typical of detection range testing. These data
-must include columns:
+`detrange` expects data typical of detection range testing. Mandatory
+columns include:
 
 -   `Station` (factor)  
 -   `Distance` (numeric)  
@@ -90,7 +90,7 @@ analysis <- dr_analyse(data, de_target = de_target, priors = prior_bIntercept, n
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    38     4       3   1000     1    33  2.62 FALSE
+#> 1    38     4       3   1000     1    18  1.99 FALSE
 ```
 
 The output of `dr_analyse()` is an object of class `mbr`. It can be
@@ -111,12 +111,12 @@ dr_analysis_midpoint(analysis)
 #> # A tibble: 6 × 5
 #>   Station  estimate lower upper svalue
 #>   <fct>       <dbl> <dbl> <dbl>  <dbl>
-#> 1 Station1     149.  140.  158.   11.6
-#> 2 Station2     168.  151.  182.   11.6
-#> 3 Station3     471.  437.  507.   11.6
+#> 1 Station1     149.  139.  158.   11.6
+#> 2 Station2     167.  152.  182.   11.6
+#> 3 Station3     470.  438.  508.   11.6
 #> 4 Station4     316.  296.  336.   11.6
-#> 5 Station5     287.  270.  302.   11.6
-#> 6 Station6     133.  124.  140.   11.6
+#> 5 Station5     287.  269.  304.   11.6
+#> 6 Station6     132.  124.  139.   11.6
 ```
 
 ``` r
@@ -125,10 +125,10 @@ dr_analysis_coef(analysis)
 #> # A tibble: 4 × 6
 #>   term              estimate   lower  upper svalue description                  
 #>   <term>               <dbl>   <dbl>  <dbl>  <dbl> <chr>                        
-#> 1 bIntercept            3.80   2.89    5.67   11.6 "Intercept of logit(`eDetect…
-#> 2 bMidpoint           265.   190.    317.     11.6 "Intercept of logit(`eDetect…
-#> 3 sInterceptStation     1.15   0.540   2.79   11.6 "Standard deviation of `bInt…
-#> 4 sMidpointStation    124.    77.6   204.     11.6 "Standard deviation of `bMid…
+#> 1 bIntercept            3.77   2.93    4.99   11.6 "Intercept of logit(`eDetect…
+#> 2 bMidpoint           244.   193.    320.     11.6 "Intercept of logit(`eDetect…
+#> 3 sInterceptStation     1.09   0.528   2.45   11.6 "Standard deviation of `bInt…
+#> 4 sMidpointStation    122.    77.5   198.     11.6 "Standard deviation of `bMid…
 ```
 
 ## Code of Conduct
