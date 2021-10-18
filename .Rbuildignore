@@ -3,3 +3,6 @@
 ^\.github$
 ^README\.Rmd$
 ^data-raw$
+
+questions.txt
+todo.txt

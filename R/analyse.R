@@ -20,6 +20,7 @@ dr_analyse <- function(data, de_target = 0.5, priors = rsi_priors, nthin = 10L){
   chk_lte(de_target, 1)
 
   de_logit <- logit(de_target)
+  priors <- replace_prior(rsi_priors, priors)
 
   template <- jags_template_rsi(de_logit = de_logit, priors = priors, nthin = nthin)
   mbr::analyse(template, data = data, silent = TRUE)

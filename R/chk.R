@@ -6,9 +6,10 @@ chk_range_test <- function(data, x_name = deparse(substitute(data))) {
 
 chk_rsi_priors <- function(priors){
   chk_is(priors, "list")
+  chk_named(priors)
   x <- unlist(priors)
   chk_true(all(is.character(x)))
-  check_names(x, names_rsi_priors)
+  chk_subset(names(x), names_rsi_priors, x_name = "Term name")
 }
 
 

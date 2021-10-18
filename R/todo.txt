@@ -2,6 +2,8 @@
 - pass de_target through model
 - allow setting one prior (i.e. replacement)
 - build website
-- account for nested station/transect
+- account for nested station/transect (i.e. directions at single station)
 - add legend to plot
 - rename midpoint (model terms + priors + analysis_midpoint fun name)
+- build shiny app
+- implement correlated slope/intercept model

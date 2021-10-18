@@ -2,10 +2,14 @@ test_that("analysis functions work", {
   ### dr_analysis_coefficient
   data <- range_test
   template <- jags_template_rsi(de_logit = 0.1, priors = rsi_priors, nthin = 1L)
-
   expect_s3_class(template, "jmb_model")
 
-  analysis <- dr_analyse(data, de_target = 0.5, priors = rsi_priors, nthin = 1L)
+  wrong_prior <- list(bInterce = "dnorm(0, 5^-2)")
+  new_prior <- list(bIntercept = "dnorm(0, 5^-2)")
+  expect_chk_error(dr_analyse(data, de_target = 50, priors = rsi_priors, nthin = 1L))
+  expect_chk_error(dr_analyse(data, de_target = 0.5, priors = wrong_prior, nthin = 1L))
+  analysis <- dr_analyse(data, de_target = 0.5, priors = new_prior, nthin = 1L)
+
   expect_s3_class(analysis, "jmb_analysis")
 
   ### dr_analysis_glance

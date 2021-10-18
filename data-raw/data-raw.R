@@ -11,6 +11,16 @@ rsi_priors <- list(bIntercept = "dnorm(5, 5^-2)",
                    sInterceptStation = "dnorm(0, 2^-2) T(0,)",
                    sMidpointStation ="dnorm(0, 100^-2) T(0,)")
 
+replace_prior <- function(priors, new_prior){
+  nms <- intersect(names(new_prior), names(rsi_priors))
+  modifyList(rsi_priors, new_prior[nms])
+}
+new_prior <- list(bIntercept = "dnorm(10, 5^-2)")
+
+replace_prior(rsi_priors, new_prior)
+
+
+
 names_rsi_priors <- names(unlist(rsi_priors))
 
 usethis::use_data(rsi_priors, names_rsi_priors, chk_values_rangetest, overwrite = TRUE, internal = TRUE)
