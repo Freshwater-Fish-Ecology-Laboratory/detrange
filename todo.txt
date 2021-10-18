@@ -1,11 +1,17 @@
+Issues/fixes
 - double check term descriptions
+- rename midpoint (model terms + priors + analysis_midpoint fun name)
+- add de to midpoint table
+
+Enhancements
 - pass de_target through model
-- build website
 - account for nested station/transect (i.e. directions at single station)
 - add legend to plot
-- rename midpoint (model terms + priors + analysis_midpoint fun name)
-- build shiny app
 - implement correlated slope/intercept model
+- build shiny app
+
+Pkg maintenance stuff
+- build website
+- set up GH actions and badge
 - add lifecycle badges
 - add test coverage
-- add de to midpoint table
