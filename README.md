@@ -3,28 +3,34 @@
 
 # detrange
 
-<!-- badges: start -->
-<!-- badges: end -->
-
 ## Introduction
 
-`detrange` estimates detection range from multiple stations within a
-passive acoustic telemetry array. We use the definition of detection
-range from Kessel et al. (2014):
+`detrange` estimates detection range (DR) from multiple stations within
+a passive acoustic telemetry array using range testing data collected in
+the field. DR is defined by Kessel et al. (2014) as
 
 > “… the relationship between detection probability and the distance
-> between the receiver and tag. This can be presented graphically in the
-> form of a logistic curve of detection probability, derived from the
-> results of detection range testing in the field.”
+> between the receiver and tag…presented graphically in the form of a
+> logistic curve of detection probability.”
 
-Given the detection range, `detrange` also estimates the distance (with
-confidence intervals) at which a specified level of detection efficiency
-is achieved. Typically, we are interested in the midpoint of the
-detection range (i.e. distance at which 50% of pings are detected).
+Given a modeled DR, it is possible to estimate the distance at which a
+target detection efficiency (DE) occurs. DE is defined by Brownscombe et
+al (2019) as
+
+> “\[t\]he number of acoustic transmitter detections effectively logged
+> by an acoustic receiver in a given time period, expressed as a
+> percentage (or proportion) of total potential detections based on
+> transmission rate.”
+
+Following recommendations from Brownscombe et al (2019) and Huveneers et
+al. (2016), it can be useful to estimate the midpoint of the DR
+(i.e. distance at 50% DE) in order to place sentinel tags at a sample of
+receivers to measure variation in DE over time.
 
 Under the hood, `detrange` uses a Bayesian mixed-effects logistic linear
-regression model. Station is treated as a random effect (slope and
-intercept) and Distance is the sole covariate.
+regression model implemented in the JAGS language. Station is treated as
+a random effect (slope and intercept) and Distance is the sole
+covariate.
 
 ## Demonstration
 
@@ -90,7 +96,7 @@ analysis <- dr_analyse(data, de_target = de_target, priors = prior_bIntercept, n
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    38     4       3   1000     1    18  1.99 FALSE
+#> 1    38     4       3   1000     1    21  1.36 FALSE
 ```
 
 The output of `dr_analyse()` is an object of class `mbr`. It can be
@@ -112,11 +118,11 @@ dr_analysis_midpoint(analysis)
 #>   Station  estimate lower upper svalue
 #>   <fct>       <dbl> <dbl> <dbl>  <dbl>
 #> 1 Station1     149.  139.  158.   11.6
-#> 2 Station2     167.  152.  182.   11.6
-#> 3 Station3     470.  438.  508.   11.6
-#> 4 Station4     316.  296.  336.   11.6
-#> 5 Station5     287.  269.  304.   11.6
-#> 6 Station6     132.  124.  139.   11.6
+#> 2 Station2     167.  151.  181.   11.6
+#> 3 Station3     470.  440.  509.   11.6
+#> 4 Station4     315.  297.  336.   11.6
+#> 5 Station5     286.  268.  304.   11.6
+#> 6 Station6     132.  124.  140.   11.6
 ```
 
 ``` r
@@ -125,10 +131,10 @@ dr_analysis_coef(analysis)
 #> # A tibble: 4 × 6
 #>   term              estimate   lower  upper svalue description                  
 #>   <term>               <dbl>   <dbl>  <dbl>  <dbl> <chr>                        
-#> 1 bIntercept            3.77   2.93    4.99   11.6 "Intercept of logit(`eDetect…
-#> 2 bMidpoint           244.   193.    320.     11.6 "Intercept of logit(`eDetect…
-#> 3 sInterceptStation     1.09   0.528   2.45   11.6 "Standard deviation of `bInt…
-#> 4 sMidpointStation    122.    77.5   198.     11.6 "Standard deviation of `bMid…
+#> 1 bIntercept            3.85   2.99    5.28   11.6 "Intercept of logit(`eDetect…
+#> 2 bMidpoint           238.   197.    307.     11.6 "Intercept of logit(`eDetect…
+#> 3 sInterceptStation     1.10   0.521   2.52   11.6 "Standard deviation of `bInt…
+#> 4 sMidpointStation    122.    76.1   207.     11.6 "Standard deviation of `bMid…
 ```
 
 ## Code of Conduct

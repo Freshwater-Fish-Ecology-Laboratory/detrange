@@ -14,18 +14,19 @@ knitr::opts_chunk$set(
 
 # detrange
 
-<!-- badges: start -->
-<!-- badges: end -->
-
 ## Introduction 
 
-`detrange` estimates detection range from multiple stations within a passive acoustic telemetry array. We use the definition of detection range from Kessel et al. (2014):
+`detrange` estimates detection range (DR) from multiple stations within a passive acoustic telemetry array using range testing data collected in the field. DR is defined by Kessel et al. (2014) as
 
->"... the relationship between detection probability and the distance between the receiver and tag. This can be presented graphically in the form of a logistic curve of detection probability, derived from the results of detection range testing in the field."
+>"... the relationship between detection probability and the distance between the receiver and tag...presented graphically in the form of a logistic curve of detection probability."
 
-Given the detection range, `detrange` also estimates the distance (with confidence intervals) at which a specified level of detection efficiency is achieved. Typically, we are interested in the midpoint of the detection range (i.e. distance at which 50% of pings are detected).
+Given a modeled DR, it is possible to estimate the distance at which a target detection efficiency (DE) occurs. DE is defined by Brownscombe et al (2019) as 
 
-Under the hood, `detrange` uses a Bayesian mixed-effects logistic linear regression model. Station is treated as a random effect (slope and intercept) and Distance is the sole covariate.
+>"[t]he number of acoustic transmitter detections effectively logged by an acoustic receiver in a given time period, expressed as a percentage (or proportion) of total potential detections based on transmission rate."
+
+Following recommendations from Brownscombe et al (2019) and Huveneers et al. (2016), it can be useful to estimate the midpoint of the DR (i.e. distance at 50% DE) in order to place sentinel tags at a sample of receivers to measure variation in DE over time.
+
+Under the hood, `detrange` uses a Bayesian mixed-effects logistic linear regression model implemented in the JAGS language. Station is treated as a random effect (slope and intercept) and Distance is the sole covariate.
 
 ## Demonstration
 
