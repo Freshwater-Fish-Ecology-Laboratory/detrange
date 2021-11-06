@@ -1,21 +1,14 @@
-### for joe
-1. is it good idea to use JAGS? i.e. easy for people to install on their machine? STAN would be harder? what about TMB - I think using something that makes installation easier might be better
-
-2. Why is midpoint model so sensitive to priors? sensible default priors?
-
-3. what do you think best way of accepting user priors?
-
-4. If I add parameter descriptions, can these be seen in coefficient table?
-
-5. should i include slope term estimates as well as midpoint?
-
-6. Is it good idea to provide wrappers on basic mbr funs eg glance and coef? only reason might be good is that there is no user-friendly documentation for mbr - so might be nice to repackage to make obvious what can be done
-
-7. is there a way to pass the de_target through the model so user doesnt have to specify again in plot fun
-
 ### for me/ further research
-1. default priors should essentially capture what is expected by the manufacturer under 'stanard' conditions - i.e. 100% DE at 0m and max_range of 500m? what would be the expected slope and midpoint?
+1. default priors should essentially capture what is expected by the manufacturer under 'standard' conditions - i.e. 100% DE at 0m and max_range of 500m? what would be the expected slope and midpoint?
 
 2. should we build functionality for multiple directions within singel station - is this a nested mixed-effects model? or does user simply need to give each transect a unique station name?
+
+3. Should we allow for a model with low DE at close distance (i.e. CPDI; Kessler 2015) in n-shape curve.
+we could model both and test best model on the data by AIC or model average estimates.
+
+4. only allow random effects with >5 stations?
+
+might need to allow users to include quadratic term so taht can account for CPDI - see
+
 
 
