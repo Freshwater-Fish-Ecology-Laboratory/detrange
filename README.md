@@ -96,7 +96,7 @@ analysis <- dr_analyse(data, de_target = de_target, priors = prior_bIntercept, n
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    38     4       3   1000     1    21  1.36 FALSE
+#> 1    38     4       3   1000     1    12  1.76 FALSE
 ```
 
 The output of `dr_analyse()` is an object of class `mbr`. It can be
@@ -117,11 +117,11 @@ dr_analysis_midpoint(analysis)
 #> # A tibble: 6 × 5
 #>   Station  estimate lower upper svalue
 #>   <fct>       <dbl> <dbl> <dbl>  <dbl>
-#> 1 Station1     149.  139.  158.   11.6
-#> 2 Station2     167.  151.  181.   11.6
-#> 3 Station3     470.  440.  509.   11.6
-#> 4 Station4     315.  297.  336.   11.6
-#> 5 Station5     286.  268.  304.   11.6
+#> 1 Station1     149.  139.  157.   11.6
+#> 2 Station2     167.  151.  182.   11.6
+#> 3 Station3     471.  440.  508.   11.6
+#> 4 Station4     316.  298.  337.   11.6
+#> 5 Station5     286.  269.  303.   11.6
 #> 6 Station6     132.  124.  140.   11.6
 ```
 
@@ -131,10 +131,10 @@ dr_analysis_coef(analysis)
 #> # A tibble: 4 × 6
 #>   term              estimate   lower  upper svalue description                  
 #>   <term>               <dbl>   <dbl>  <dbl>  <dbl> <chr>                        
-#> 1 bIntercept            3.85   2.99    5.28   11.6 "Intercept of logit(`eDetect…
-#> 2 bMidpoint           238.   197.    307.     11.6 "Intercept of logit(`eDetect…
-#> 3 sInterceptStation     1.10   0.521   2.52   11.6 "Standard deviation of `bInt…
-#> 4 sMidpointStation    122.    76.1   207.     11.6 "Standard deviation of `bMid…
+#> 1 bIntercept            3.73   2.63    4.70   11.6 "Intercept of logit(`eDetect…
+#> 2 bMidpoint           267.   202.    321.     11.6 "Intercept of logit(`eDetect…
+#> 3 sInterceptStation     1.07   0.547   2.37   11.6 "Standard deviation of `bInt…
+#> 4 sMidpointStation    122.    78.2   211.     11.6 "Standard deviation of `bMid…
 ```
 
 ## Code of Conduct
