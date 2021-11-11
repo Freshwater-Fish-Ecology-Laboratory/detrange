@@ -85,18 +85,14 @@ for the rest.
 
 ``` r
 ### set target DE to 50%
-de_target <- 0.5
-### replace default prior for bIntercept
-prior_bIntercept <- list(bIntercept = "dnorm(10, 5^-2)") 
-
-analysis <- dr_analyse(data, de_target = de_target, priors = prior_bIntercept, nthin = 1L)
+analysis <- dr_analyse(data, de_target = 0.5, nthin = 1L)
 #> Registered S3 method overwritten by 'rjags':
 #>   method               from 
 #>   as.mcmc.list.mcarray mcmcr
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    38     4       3   1000     1    12  1.76 FALSE
+#> 1    38     4       3   1000     1    15  1.77 FALSE
 ```
 
 The output of `dr_analyse()` is an object of class `mbr`. It can be
@@ -106,35 +102,17 @@ package](https://github.com/poissonconsulting/mbr). For convenience,
 
 ``` r
 ### plot predicted values
-dr_plot_predicted(analysis, de_target = de_target)
+# dr_plot_predicted(analysis, de_target = de_target)
 ```
-
-![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 ### get midpoint estimates
-dr_analysis_midpoint(analysis)
-#> # A tibble: 6 × 5
-#>   Station  estimate lower upper svalue
-#>   <fct>       <dbl> <dbl> <dbl>  <dbl>
-#> 1 Station1     149.  139.  157.   11.6
-#> 2 Station2     167.  151.  182.   11.6
-#> 3 Station3     471.  440.  508.   11.6
-#> 4 Station4     316.  298.  337.   11.6
-#> 5 Station5     286.  269.  303.   11.6
-#> 6 Station6     132.  124.  140.   11.6
+# dr_analysis_midpoint(analysis)
 ```
 
 ``` r
 ### coefficient table
-dr_analysis_coef(analysis)
-#> # A tibble: 4 × 6
-#>   term              estimate   lower  upper svalue description                  
-#>   <term>               <dbl>   <dbl>  <dbl>  <dbl> <chr>                        
-#> 1 bIntercept            3.73   2.63    4.70   11.6 "Intercept of logit(`eDetect…
-#> 2 bMidpoint           267.   202.    321.     11.6 "Intercept of logit(`eDetect…
-#> 3 sInterceptStation     1.07   0.547   2.37   11.6 "Standard deviation of `bInt…
-#> 4 sMidpointStation    122.    78.2   211.     11.6 "Standard deviation of `bMid…
+# dr_analysis_coef(analysis)
 ```
 
 ## Code of Conduct

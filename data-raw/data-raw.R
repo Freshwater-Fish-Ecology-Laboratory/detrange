@@ -1,21 +1,5 @@
 .max_int <- .Machine$integer.max
 
-chk_values_rangetest <- list(Station = factor(),
-                             Distance = c(0, Inf),
-                             Detects = c(0L, .max_int),
-                             Pings = c(1L, .max_int))
-
-### priors for jags model random slope and intercept ----
-rsi_priors <- list(bIntercept = "dnorm(5, 5^-2)",
-                   bMidpoint = "dnorm(250, 50^-2) T(0,)",
-                   sInterceptStation = "dnorm(0, 2^-2) T(0,)",
-                   sMidpointStation ="dnorm(0, 100^-2) T(0,)")
-
-names_rsi_priors <- names(unlist(rsi_priors))
-
-usethis::use_data(rsi_priors, names_rsi_priors, chk_values_rangetest,
-                  overwrite = TRUE, internal = TRUE)
-
 ### simulate range test data for demo and testing ----
 set.seed(153)
 nstation <- 6

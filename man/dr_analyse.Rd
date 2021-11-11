@@ -5,7 +5,7 @@
 \alias{dr_analyze}
 \title{Analyse model}
 \usage{
-dr_analyse(data, de_target = 0.5, priors = rsi_priors, nthin = 10L)
+dr_analyse(data, de_target = 0.5, nthin = 10L, priors = NULL, quiet = TRUE)
 }
 \arguments{
 \item{data}{A tibble of the range test data.
@@ -13,17 +13,18 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 
 \item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
 
+\item{nthin}{A number of the number of thins.}
+
 \item{priors}{A named list of the priors for each model term \code{bIntercept}, \code{bMidpoint}, \code{sInterceptStation}, \code{sMidpointStation}.}
 
-\item{nthin}{A number of the number of thins.}
+\item{quiet}{A flag indicating whether to suppress messages and progress bars.}
 }
 \value{
-A mbr model object.
+A list of the jags model object and mcmcr samples.
 }
 \description{
-Analyse detection range test data with a Bayesian mixed-effects model. Each station has a random slope and intercept.
-Note that with fewer data points per station, priors will have strong influence on the posterior.
-The default priors are based on understanding of typical detection range.
+Analyse detection range test data with a Bayesian model fit with JAGS.
+Each station has a random slope and intercept.
 }
 \seealso{
 Other analysis: 

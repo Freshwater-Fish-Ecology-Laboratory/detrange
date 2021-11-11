@@ -1,5 +1,5 @@
-#' @import chk yesno lifecycle mbr jmbr
-#' @importFrom stats setNames
+#' @import chk yesno lifecycle
+#' @importFrom stats setNames update
 #' @importFrom ggplot2 aes ggplot .data
 #' @importFrom lifecycle deprecated
 #' @importFrom utils modifyList

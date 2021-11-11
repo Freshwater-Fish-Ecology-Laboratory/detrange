@@ -17,6 +17,8 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 
 \item{nthin}{A number of the number of thins.}
 
+\item{quiet}{A flag indicating whether to suppress messages and progress bars.}
+
 \item{include_random}{A flag indicating whether to include coefficients for random terms.}
 
 \item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
