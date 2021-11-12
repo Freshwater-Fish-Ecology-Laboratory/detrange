@@ -1,75 +1,46 @@
-test_that("analysis functions work", {
-  ### dr_analysis_coefficient
+test_that("analysis funs work", {
   data <- range_test
-  model <- "random"
-  priors <- priors(model)
+  analysis <- dr_analyse(data, de_target = 0.5, nthin = 1L)
 
-  ### check template fun
-  template <- template(de_logit = 0.1, model = model, priors = priors)
-  expect_type(template, "character")
+  ### test new_data fun
+  x <- new_data(analysis, by = "Station", distance_seq = NULL)
+  expect_s3_class(x, "data.frame")
+  expect_true(all(names(data) %in% names(x)))
+  expect_identical(range(x$Distance), range(data$Distance))
+  expect_identical(length(unique(x$Station)), length(unique(data$Station)))
 
-  ### check that priors can be replaced
-  wrong_prior <- list(bInterce = "dnorm(0, 5^-2)")
-  new_prior <- list(bIntercept = "dnorm(0, 5^-2)")
-  priors2 <- replace_priors(priors, new_prior)
-  expect_identical(priors2$bIntercept, new_prior$bIntercept)
-  priors2 <- replace_priors(priors, wrong_prior)
-  expect_identical(priors, priors2)
+  seq1 <- seq(0, 200, 100)
+  x <- new_data(analysis, by = NULL, distance_seq = seq1)
+  x2 <- new_data(analysis, by = character(0), distance_seq = seq1)
+  expect_identical(x, x2)
 
-  ### check dr_analyse
-  expect_chk_error(dr_analyse(data, de_target = 50, priors = priors, nthin = 1L))
-  expect_chk_error(dr_analyse(data, de_target = 0.5, priors = wrong_prior, nthin = 1L))
-  analysis <- dr_analyse(data, de_target = 0.5, priors = new_prior, nthin = 1L)
+  expect_s3_class(x, "data.frame")
+  expect_true(all(names(data) %in% names(x)))
+  expect_identical(range(x$Distance), range(seq1))
+  expect_identical(length(unique(x$Station)), 1L)
 
-  expect_type(analysis, "list")
-  expect_identical(names(analysis), c("model", "samples"))
-  expect_s3_class(analysis$model, "jags")
-  expect_s3_class(analysis$samples, "mcmcr")
+  ### test predict fun
+  y <- predict(analysis, x)
+  expect_s3_class(y, "data.frame")
+  expect_true(all(c("estimate", "lower", "upper") %in% names(y)))
+  y2 <- predict(analysis, x, conf_level = 0.5, estimate = mean)
+  expect_true(all(y$lower < y2$lower))
+  expect_true(all(y$estimate != y2$estimate))
 
-  # ### dr_analysis_glance
-  # glance <- dr_analysis_glance(analysis)
-  # expect_s3_class(glance, "tbl")
-  #
-  #  ### dr_analysis_coef
-  # coefs <- dr_analysis_coef(analysis, include_random = TRUE)
-  # expect_s3_class(coefs, "tbl")
-  # expect_true(all(!is.na(coefs$description)))
-  #
-  # ### dr_analysis_predict
-  # prediction <- dr_analysis_predict(analysis, by_station = FALSE)
-  # expect_s3_class(prediction, "tbl")
-  # expect_identical(length(unique(prediction$Station)), 1L)
-  #
-  # prediction <- dr_analysis_predict(analysis, by_station = TRUE)
-  # expect_s3_class(prediction, "tbl")
-  # expect_identical(length(unique(prediction$Station)), 6L)
-  #
-  # prediction2 <- dr_analysis_predict(analysis,
-  #                                    distance_seq = seq(0, 1000, 100),
-  #                                    by_station = FALSE)
-  # expect_s3_class(prediction2, "tbl")
-  # expect_identical(range(prediction2$Distance), c(0, 1000))
-  # expect_identical(names(prediction2), c("Station",
-  #                                        "Distance",
-  #                                        "Detects",
-  #                                        "Pings",
-  #                                        "estimate",
-  #                                        "lower",
-  #                                        "upper",
-  #                                        "svalue"))
-  # expect_identical(length(unique(prediction2$Station)), 1L)
-  #
-  # prediction2 <- dr_analysis_predict(analysis,
-  #                                    distance_seq = seq(0, 1000, 100),
-  #                                    by_station = TRUE)
-  # expect_identical(length(unique(prediction2$Station)), 6L)
-  # expect_s3_class(prediction2, "tbl")
-  #
-  # ### test plotting functions work
-  # gp <- dr_plot_observed(data)
-  # expect_s3_class(gp, "ggplot")
-  #
-  # gp <- dr_plot_predicted(analysis, de_target = 0.5)
-  # expect_s3_class(gp, "ggplot")
+  ### test predict
+  y3 <- dr_predict(analysis, distance_seq = seq1, by = NULL)
+  expect_identical(y, y3)
 
+  ### test param_description and coef
+  random <- param_description(2, "random")
+  expect_s3_class(random, "data.frame")
+  expect_identical(nrow(random), 9L)
+
+  fixed <- param_description(2, "fixed")
+  expect_s3_class(fixed, "data.frame")
+  expect_identical(nrow(fixed), 3L)
+
+  coefs <- dr_coef(analysis)
+  expect_s3_class(coefs, "data.frame")
+  expect_true(all(names(coefs) %in% c("term", "lower", "upper", "estimate", "svalue", "description")))
 })

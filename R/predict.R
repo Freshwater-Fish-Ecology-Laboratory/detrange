@@ -36,11 +36,11 @@ predict <- function(analysis, new_data, conf_level = 0.95, estimate = median){
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_analysis_predict <- function(analysis,
-                                distance_seq = NULL,
-                                by = "Station",
-                                conf_level = 0.95,
-                                estimate = median){
+dr_predict <- function(analysis,
+                       distance_seq = NULL,
+                       by = "Station",
+                       conf_level = 0.95,
+                       estimate = median){
 
   chk_analysis(analysis)
   chkor_vld(vld_null(distance_seq), vld_numeric(distance_seq))

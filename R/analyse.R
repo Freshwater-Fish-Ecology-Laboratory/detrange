@@ -43,18 +43,19 @@ dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_analysis_coef <- function(analysis, include_random = FALSE){
+dr_coef <- function(analysis){
 
-  # mbr::check_mb_analysis(analysis)
-  #
-  # nstation <- length(unique(mbr::data_set(analysis)$Station))
-  # param_desc <- param_description(n = nstation)
-  # coefs <- mbr::coef(analysis, simplify = TRUE)
-  # if(include_random){
-  #  rndm <-  mbr::coef(analysis, simplify = TRUE, param_type = "random")
-  #  coefs <- rbind(coefs, rndm)
-  # }
-  # tibble::as_tibble(merge(coefs, param_desc, by = "term", all.x = TRUE))
+  chk_analysis(analysis)
+  data <- data_set(analysis, df = FALSE)
+  samples <- samples(analysis)
+  model <- attr(analysis, "model_type")
+
+  nstation <- data$nStation
+
+  param_desc <- param_description(n = nstation, model)
+  coefs <- mcmcr::coef(samples)
+  coefs <- merge(coefs, param_desc, by = "term", all.x = TRUE)
+  tibble::as_tibble(coefs)
 }
 
 #' Get midpoint estimates
@@ -65,7 +66,7 @@ dr_analysis_coef <- function(analysis, include_random = FALSE){
 #' @return A tibble of the estimates.
 #' @export
 #' @family analysis
-dr_analysis_midpoint <- function(analysis){
+dr_target <- function(analysis){
 
   # mbr::check_mb_analysis(analysis)
   # predicted <- mbr::predict(analysis, new_data = "Station", term = c("eMidpoint"))
@@ -80,7 +81,7 @@ dr_analysis_midpoint <- function(analysis){
 #' @return A tibble of the glance summary.
 #' @export
 #' @family analysis
-dr_analysis_glance <- function(analysis){
+dr_glance <- function(analysis){
 
   # mbr::check_mb_analysis(analysis)
   # mbr::glance(analysis, simplify = TRUE)
@@ -94,7 +95,7 @@ dr_analysis_glance <- function(analysis){
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_analysis_predict <- function(analysis,
+dr_predict <- function(analysis,
                                 distance_seq = NULL){
 
   # mbr::check_mb_analysis(analysis)

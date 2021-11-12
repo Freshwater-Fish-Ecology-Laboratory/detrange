@@ -28,9 +28,9 @@ Each station has a random slope and intercept.
 }
 \seealso{
 Other analysis: 
-\code{\link{dr_analysis_coef}()},
-\code{\link{dr_analysis_glance}()},
-\code{\link{dr_analysis_midpoint}()},
-\code{\link{dr_analysis_predict}()}
+\code{\link{dr_coef}()},
+\code{\link{dr_glance}()},
+\code{\link{dr_predict}()},
+\code{\link{dr_target}()}
 }
 \concept{analysis}

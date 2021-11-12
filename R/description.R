@@ -1,5 +1,11 @@
-param_description <- function(n){
+param_description <- function(n, model){
+  switch(model,
+         "random" = param_description_random(n),
+         "fixed" = param_description_fixed(n),
+         NULL)
+}
 
+param_description_random <- function(n){
   description <- c(
     "eDetects[i]" = "Expected `Detects` of `i`^th^ sample event",
     "bIntercept" = "Intercept of logit(`eDetects`)",
@@ -27,3 +33,16 @@ param_description <- function(n){
   }
   description
 }
+
+param_description_fixed <- function(n){
+  description <- c(
+    "eDetects[i]" = "Expected `Detects` of `i`^th^ sample event",
+    "bIntercept" = "Intercept of logit(`eDetects`)",
+    "bTarget" = "Intercept of logit(`eDetects`) at target detection efficiency "
+  )
+
+  description <- tibble::tibble(term = names(description),
+                                description = description)
+  description
+}
+
