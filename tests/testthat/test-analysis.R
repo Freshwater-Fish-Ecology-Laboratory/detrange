@@ -19,7 +19,7 @@ test_that("analysis functions work", {
   ### check dr_analyse
   expect_chk_error(dr_analyse(data, de_target = 50, priors = priors, nthin = 1L))
   expect_chk_error(dr_analyse(data, de_target = 0.5, priors = wrong_prior, nthin = 1L))
-  analysis <- dr_analyse(data, de_target = 0.5, priors = new_prior, nthin = 5L)
+  analysis <- dr_analyse(data, de_target = 0.5, priors = new_prior, nthin = 1L)
 
   expect_type(analysis, "list")
   expect_identical(names(analysis), c("model", "samples"))

@@ -4,14 +4,32 @@
 \alias{dr_analysis_predict}
 \title{Predict detection range}
 \usage{
-dr_analysis_predict(analysis, distance_seq = NULL, by_station = TRUE)
+dr_analysis_predict(
+  analysis,
+  distance_seq = NULL,
+  by = "Station",
+  conf_level = 0.95,
+  estimate = median
+)
 
-dr_analysis_predict(analysis, distance_seq = NULL, by_station = TRUE)
+dr_analysis_predict(
+  analysis,
+  distance_seq = NULL,
+  by = "Station",
+  conf_level = 0.95,
+  estimate = median
+)
 }
 \arguments{
 \item{analysis}{The analysis object from \code{dr_analyse}.}
 
 \item{distance_seq}{A vector of the distances to make predictions for.}
+
+\item{by}{A string of the grouping variable to derive predictions for.}
+
+\item{conf_level}{A number between 0 and 1 of the confidence level. Default is 0.95.}
+
+\item{estimate}{A function to calculate the estimate with. The default is median.}
 }
 \value{
 A tibble of the coefficients.

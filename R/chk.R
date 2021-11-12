@@ -16,4 +16,12 @@ chk_priors <- function(priors, model){
   chk_subset(names(x), names(priors(model)), x_name = "Term name")
 }
 
+chk_analysis <- function(analysis){
+  chk_is(analysis, "list")
+  chk_subset(names(analysis), c("model", "samples"))
+  chk_subset("model_type", names(attributes(analysis)))
+  chk_s3_class(analysis$model, "jags")
+  chk_s3_class(analysis$samples, "mcmcr")
+}
+
 

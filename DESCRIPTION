@@ -21,6 +21,10 @@ Imports:
     glue,
     mcmcr,
     rjags,
-    tibble
+    tibble,
+    newdata,
+    mcmcderive
+Remotes:
+    poissonconsulting/newdata
 Depends: 
     R (>= 2.10)

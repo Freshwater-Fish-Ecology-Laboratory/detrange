@@ -12,7 +12,7 @@ dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
                        priors = NULL, quiet = TRUE){
 
   chk_range_test(data)
-  data_list <- data_to_list(data)
+  data_list <- df_to_list(data)
   model <- if(data_list$nStation >= 5) "random" else "fixed"
   chk_priors(priors, model)
   chk_number(de_target)
@@ -27,9 +27,12 @@ dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
   template <- template(de, priors, model)
   monitors <- monitors(model)
 
-  run_jags(template = template, data = data_list, monitor = monitors,
-           inits = NULL, niters = 1000, nchains = 3,
-           nthin = nthin, quiet = quiet)
+  run <- run_jags(template = template, data = data_list, monitor = monitors,
+                  inits = NULL, niters = 1000, nchains = 3,
+                  nthin = nthin, quiet = quiet)
+
+  attr(run, 'model_type') <- model
+  run
 }
 
 #' Get model coefficients

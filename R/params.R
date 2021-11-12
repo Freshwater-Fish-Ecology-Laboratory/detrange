@@ -8,6 +8,9 @@
 #' @param nthin A number of the number of thins.
 #' @param quiet A flag indicating whether to suppress messages and progress bars.
 #' @param include_random A flag indicating whether to include coefficients for random terms.
+#' @param by A string of the grouping variable to derive predictions for.
+#' @param conf_level A number between 0 and 1 of the confidence level. Default is 0.95.
+#' @param estimate 	A function to calculate the estimate with. The default is median.
 #' @param de_target A number of the target detection efficiency (from 0 to 1) to estimate distance at.
 #' @keywords internal
 #' @name params
