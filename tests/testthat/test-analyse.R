@@ -26,6 +26,12 @@ test_that("analysis functions work", {
   expect_s3_class(analysis$model, "jags")
   expect_s3_class(analysis$samples, "mcmcr")
 
+  ### check glance
+  glance <- dr_glance(analysis)
+  expect_s3_class(glance, "data.frame")
+  expect_true(all(names(glance) %in% c("n", "K", "nchains", "niters",
+                                       "nthin", "ess", "rhat", "converged")))
+
   # ### dr_analysis_glance
   # glance <- dr_analysis_glance(analysis)
   # expect_s3_class(glance, "tbl")

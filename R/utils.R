@@ -17,21 +17,3 @@ list_to_df <- function(x){
   x
 }
 
-data <- function(analysis){
-  analysis$model$data()
-}
-
-data_df <- function(analysis){
-  x <- data(analysis)
-  list_to_df(x)
-}
-
-samples <- function(analysis){
-  analysis$samples
-}
-
-model_type <- function(analysis){
-  attr(analysis, "model_type")
-}
-
-

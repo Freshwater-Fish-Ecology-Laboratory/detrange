@@ -32,6 +32,7 @@ dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
                   nthin = nthin, quiet = quiet)
 
   attr(run, 'model_type') <- model
+  attr(run, 'nthin') <- nthin
   run
 }
 
@@ -84,10 +85,14 @@ dr_target <- function(analysis){
 dr_glance <- function(analysis){
 
   chk_analysis(analysis)
-  data <- data_set(analysis, )
-
-  # mbr::check_mb_analysis(analysis)
-  # mbr::glance(analysis, simplify = TRUE)
+  tibble::tibble(n = n(analysis),
+                 K = K(analysis),
+                 nchains = nchains(analysis),
+                 niters = niters(analysis),
+                 nthin = nthin(analysis),
+                 ess = ess(analysis),
+                 rhat = rhat(analysis),
+                 converged = converged(analysis))
 }
 
 #' Predict detection range
@@ -99,7 +104,7 @@ dr_glance <- function(analysis){
 #' @export
 #' @family analysis
 dr_predict <- function(analysis,
-                                distance_seq = NULL){
+                       distance_seq = NULL){
 
   # mbr::check_mb_analysis(analysis)
   # chkor_vld(is.null(distance_seq), all(is.numeric(distance_seq)))
