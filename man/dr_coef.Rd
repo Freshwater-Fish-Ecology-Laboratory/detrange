@@ -18,6 +18,7 @@ Get coefficients from model object output of \code{dr_analyse}.
 \seealso{
 Other analysis: 
 \code{\link{dr_analyse}()},
+\code{\link{dr_distance_at_de}()},
 \code{\link{dr_glance}()},
 \code{\link{dr_predict}()},
 \code{\link{dr_target}()}

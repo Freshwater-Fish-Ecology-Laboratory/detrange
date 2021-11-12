@@ -4,12 +4,10 @@
 \alias{dr_plot_predicted}
 \title{Plot predicted detection range and midpoint}
 \usage{
-dr_plot_predicted(analysis, de_target)
+dr_plot_predicted(analysis)
 }
 \arguments{
 \item{analysis}{The analysis object from \code{dr_analyse}.}
-
-\item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
 }
 \value{
 A ggplot2 object.

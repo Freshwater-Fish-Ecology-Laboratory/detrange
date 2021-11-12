@@ -23,9 +23,6 @@ run_jags <- function(template, data, monitor, inits, niters, nchains, nthin, qui
   samples <- mcmcr::as.mcmcr(samples)
   # converged <- mcmcr::converged(samples)
   # if(!converged) warning("model did not converge")
-
-  message("add a glance table at end")
-
   list(model = model, samples = samples)
 }
 

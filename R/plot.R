@@ -30,7 +30,8 @@ dr_plot_observed <- function(data){
 #' dr_plot_predicted(analysis)
 #' }
 
-dr_plot_predicted <- function(analysis, de_target){
+dr_plot_predicted <- function(analysis){
+  message("add method for data.frame predicted and for anlalysis object")
   # chk_s3_class(analysis, "jmb_analysis")
   #
   # predicted <- dr_analysis_predict(analysis)

@@ -21,9 +21,9 @@ Imports:
     glue,
     mcmcr,
     rjags,
-    tibble,
     newdata,
-    mcmcderive
+    mcmcderive,
+    tibble
 Remotes:
     poissonconsulting/newdata
 Depends: 

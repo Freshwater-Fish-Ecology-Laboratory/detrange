@@ -2,6 +2,7 @@
 
 export(dr_analyse)
 export(dr_coef)
+export(dr_distance_at_de)
 export(dr_glance)
 export(dr_plot_observed)
 export(dr_plot_predicted)

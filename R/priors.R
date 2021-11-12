@@ -6,18 +6,16 @@ replace_priors <- function(priors, new_prior){
 }
 
 priors <- function(model = "random"){
-  switch(model,
-         "random" = list(
-           bIntercept = "dnorm(0, 10^-2)",
-           bTarget = "dnorm(0, 1000^-2) T(0,)",
-           sInterceptStation = "dnorm(0, 10^-2) T(0,)",
-           sTargetStation = "dnorm(0, 500^-2) T(0,)"),
-         NULL)
+  priors_list[[model]]
 }
 
-monitors <- function(model = "random"){
-  switch(model,
-         "random" = c("bIntercept", "bTarget", "sInterceptStation", "sTargetStation",
-                      "bInterceptStation", "bTargetStation"),
-         NULL)
-}
+priors_list <- list(
+  random = list(
+    bIntercept = "dnorm(0, 10^-2)",
+    bDist = "dnorm(0, 10^-2)",
+    sInterceptStation = "dnorm(0, 10^-2) T(0,)",
+    sDistStation = "dnorm(0, 500^-2) T(0,)"
+  )
+)
+
+

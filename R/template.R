@@ -1,33 +1,31 @@
-template <- function(de_logit, priors, model){
-  code <- model_code(model)
-  as.character(glue::glue(code, .open = "<<", .close = ">>"))
-}
-
-model_code <- function(model){
-  switch(model,
-         "random" = model_random)
+template <- function(model, priors){
+  code <- model_list[[model]]
+  as.character(glue::glue(code, .open = "<<", .close = ">>", .envir = parent.frame()))
 }
 
 model_random <-
   "model {
 
   bIntercept ~ <<priors$bIntercept>>
-  bTarget ~ <<priors$bTarget>>
+  bDist ~ <<priors$bDist>>
 
   sInterceptStation ~ <<priors$sInterceptStation>>
-  sTargetStation ~ <<priors$sTargetStation>>
+  sDistStation ~ <<priors$sDistStation>>
 
   for(i in 1:nStation) {
     bInterceptStation[i] ~ dnorm(0, sInterceptStation^-2)
-    bTargetStation[i] ~ dnorm(0, sTargetStation^-2)
+    bDistStation[i] ~ dnorm(0, sDistStation^-2)
   }
 
   for(i in 1:nObs) {
     eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
-    eTarget[i] <- bTarget + bTargetStation[Station[i]]
-    logit(eDetects[i]) <- eIntercept[i] + (<<de_logit>> - eIntercept[i])/eTarget[i] * Distance[i]
+    eDist[i] <- bDist + bDistStation[Station[i]]
+    logit(eDetects[i]) <- eIntercept[i] + eDist[i] * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
   }
 }"
 
+model_list <- list(
+  random = model_random
+)
 

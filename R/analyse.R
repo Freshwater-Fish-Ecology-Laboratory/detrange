@@ -8,23 +8,19 @@
 #' @aliases dr_analyze
 #' @export
 #' @family analysis
-dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
+dr_analyse <- function(data, nthin = 10L,
                        priors = NULL, quiet = TRUE){
 
   chk_range_test(data)
   data_list <- df_to_list(data)
   model <- if(data_list$nStation >= 5) "random" else "fixed"
   chk_priors(priors, model)
-  chk_number(de_target)
-  chk_gte(de_target, 0)
-  chk_lte(de_target, 1)
   chk_whole_number(nthin)
   chk_gte(nthin, value = 1L)
   chk_flag(quiet)
 
-  de <- logit(de_target)
   priors <- replace_priors(priors(model), priors)
-  template <- template(de, priors, model)
+  template <- template(model, priors)
   monitors <- monitors(model)
 
   run <- run_jags(template = template, data = data_list, monitor = monitors,
@@ -33,6 +29,8 @@ dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
 
   attr(run, 'model_type') <- model
   attr(run, 'nthin') <- nthin
+  attr(run, 'priors') <- priors
+  class(run) <- 'dr_model'
   run
 }
 
@@ -47,7 +45,7 @@ dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
 dr_coef <- function(analysis){
 
   chk_analysis(analysis)
-  data <- data(analysis)
+  data <- data_set(analysis)
   samples <- samples(analysis)
   model <- attr(analysis, "model_type")
 
@@ -59,19 +57,22 @@ dr_coef <- function(analysis){
   tibble::as_tibble(coefs)
 }
 
-#' Get midpoint estimates
+#' Get estimates of distance at target DE
 #'
-#' Get estimates of midpoints for each station from model object output of `dr_analyse`.
+#' Get estimates of distance for each station at target detection efficiency from model object output of `dr_analyse`.
 #'
 #' @inheritParams params
 #' @return A tibble of the estimates.
 #' @export
 #' @family analysis
-dr_target <- function(analysis){
+dr_target <- function(analysis, conf_level, estimate, by = "Station"){
 
-  # mbr::check_mb_analysis(analysis)
-  # predicted <- mbr::predict(analysis, new_data = "Station", term = c("eMidpoint"))
-  # predicted[,c("Station", "estimate", "lower", "upper", "svalue")]
+  # new_data <- new_data(analysis, by = by)
+  # target <- predict(analysis, new_data = "Distance", monitor = "eTarget")
+  # coefs <- dr_coef(analysis)
+  # coefs <- coefs[grep("bTarget", coefs$term),]
+  # data <- data_df(analysis)
+  # mcmcderive::mcmc_derive(analysis$samples, expr = new_expr("random"), monitor = "eTarget")
 }
 
 #' Get analysis glance summary
@@ -93,29 +94,5 @@ dr_glance <- function(analysis){
                  ess = ess(analysis),
                  rhat = rhat(analysis),
                  converged = converged(analysis))
-}
-
-#' Predict detection range
-#'
-#' Predict detection range from model object output of `dr_analyse`.
-#'
-#' @inheritParams params
-#' @return A tibble of the coefficients.
-#' @export
-#' @family analysis
-dr_predict <- function(analysis,
-                       distance_seq = NULL){
-
-  # mbr::check_mb_analysis(analysis)
-  # chkor_vld(is.null(distance_seq), all(is.numeric(distance_seq)))
-  #
-  # if(is.null(distance_seq)){
-  #   return(mbr::predict(analysis, new_data = c("Distance", "Station")))
-  # } else {
-  #   data <-  newdata::new_data(data = mbr::data_set(analysis),
-  #                              seq = c("Station"),
-  #                              ref = list(Distance = distance_seq))
-  #  return(mbr::predict(analysis, new_data = data))
-  # }
 }
 

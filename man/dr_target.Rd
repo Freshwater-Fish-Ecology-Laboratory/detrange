@@ -2,23 +2,30 @@
 % Please edit documentation in R/analyse.R
 \name{dr_target}
 \alias{dr_target}
-\title{Get midpoint estimates}
+\title{Get estimates of distance at target DE}
 \usage{
-dr_target(analysis)
+dr_target(analysis, conf_level, estimate, by = "Station")
 }
 \arguments{
 \item{analysis}{The analysis object from \code{dr_analyse}.}
+
+\item{conf_level}{A number between 0 and 1 of the confidence level. Default is 0.95.}
+
+\item{estimate}{A function to calculate the estimate with. The default is median.}
+
+\item{by}{A string of the grouping variable to derive predictions for.}
 }
 \value{
 A tibble of the estimates.
 }
 \description{
-Get estimates of midpoints for each station from model object output of \code{dr_analyse}.
+Get estimates of distance for each station at target detection efficiency from model object output of \code{dr_analyse}.
 }
 \seealso{
 Other analysis: 
 \code{\link{dr_analyse}()},
 \code{\link{dr_coef}()},
+\code{\link{dr_distance_at_de}()},
 \code{\link{dr_glance}()},
 \code{\link{dr_predict}()}
 }

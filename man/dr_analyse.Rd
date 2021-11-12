@@ -5,13 +5,11 @@
 \alias{dr_analyze}
 \title{Analyse model}
 \usage{
-dr_analyse(data, de_target = 0.5, nthin = 10L, priors = NULL, quiet = TRUE)
+dr_analyse(data, nthin = 10L, priors = NULL, quiet = TRUE)
 }
 \arguments{
 \item{data}{A tibble of the range test data.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
-
-\item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
 
 \item{nthin}{A number of the number of thins.}
 
@@ -29,6 +27,7 @@ Each station has a random slope and intercept.
 \seealso{
 Other analysis: 
 \code{\link{dr_coef}()},
+\code{\link{dr_distance_at_de}()},
 \code{\link{dr_glance}()},
 \code{\link{dr_predict}()},
 \code{\link{dr_target}()}
