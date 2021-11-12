@@ -57,24 +57,6 @@ dr_coef <- function(analysis){
   tibble::as_tibble(coefs)
 }
 
-#' Get estimates of distance at target DE
-#'
-#' Get estimates of distance for each station at target detection efficiency from model object output of `dr_analyse`.
-#'
-#' @inheritParams params
-#' @return A tibble of the estimates.
-#' @export
-#' @family analysis
-dr_target <- function(analysis, conf_level, estimate, by = "Station"){
-
-  # new_data <- new_data(analysis, by = by)
-  # target <- predict(analysis, new_data = "Distance", monitor = "eTarget")
-  # coefs <- dr_coef(analysis)
-  # coefs <- coefs[grep("bTarget", coefs$term),]
-  # data <- data_df(analysis)
-  # mcmcderive::mcmc_derive(analysis$samples, expr = new_expr("random"), monitor = "eTarget")
-}
-
 #' Get analysis glance summary
 #'
 #' Get analysis glance summary from model object output of `dr_analyse`.
