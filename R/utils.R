@@ -17,11 +17,13 @@ list_to_df <- function(x){
   x
 }
 
-data_set <- function(analysis, df = TRUE){
-  x <- analysis$model$data()
-  if(df)
-    x <- list_to_df(x)
-  x
+data <- function(analysis){
+  analysis$model$data()
+}
+
+data_df <- function(analysis){
+  x <- data(analysis)
+  list_to_df(x)
 }
 
 samples <- function(analysis){

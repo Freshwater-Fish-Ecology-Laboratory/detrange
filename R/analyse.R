@@ -46,7 +46,7 @@ dr_analyse <- function(data, de_target = 0.5, nthin = 10L,
 dr_coef <- function(analysis){
 
   chk_analysis(analysis)
-  data <- data_set(analysis, df = FALSE)
+  data <- data(analysis)
   samples <- samples(analysis)
   model <- attr(analysis, "model_type")
 
@@ -82,6 +82,9 @@ dr_target <- function(analysis){
 #' @export
 #' @family analysis
 dr_glance <- function(analysis){
+
+  chk_analysis(analysis)
+  data <- data_set(analysis, )
 
   # mbr::check_mb_analysis(analysis)
   # mbr::glance(analysis, simplify = TRUE)

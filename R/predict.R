@@ -1,7 +1,7 @@
 new_data <- function(analysis, by = "Station", distance_seq){
   if(is.null(by)) by <- character(0)
 
-  data <- data_set(analysis)
+  data <- data_df(analysis)
 
   if(is.null(distance_seq))
     distance_seq <- newdata::new_seq(data$Distance, length_out = 30)
