@@ -18,7 +18,7 @@ chk_priors <- function(priors, model){
 
 chk_analysis <- function(analysis){
   chk_s3_class(analysis, "dr_model")
-  chk_subset(names(analysis), c("model", "samples"))
+  chk_subset(names(analysis), c("model", "samples", "data"))
   chk_identical(c("names", "model_type", "nthin", "priors", "class"),
                 names(attributes(analysis)))
   chk_s3_class(analysis$model, "jags")

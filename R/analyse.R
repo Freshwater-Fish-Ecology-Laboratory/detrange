@@ -27,6 +27,7 @@ dr_analyse <- function(data, nthin = 10L,
                   inits = NULL, niters = 1000, nchains = 3,
                   nthin = nthin, quiet = quiet)
 
+  run$data <- data
   attr(run, 'model_type') <- model
   attr(run, 'nthin') <- nthin
   attr(run, 'priors') <- priors

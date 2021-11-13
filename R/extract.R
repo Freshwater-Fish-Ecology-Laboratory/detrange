@@ -4,8 +4,7 @@ data_set <- function(analysis){
 }
 
 data_df <- function(analysis){
-  x <- data_set(analysis)
-  list_to_df(x)
+  analysis$data
 }
 
 samples <- function(analysis){

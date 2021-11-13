@@ -53,7 +53,7 @@ test_that("analysis funs work", {
   ### test dr_distance_at_de
   z <- dr_distance_at_de(analysis)
   expect_s3_class(z, "data.frame")
-  expect_identical(length(unique(z$Station)), length(unique(data$Station)))
+  expect_identical(unique(z$Station), unique(data$Station))
   z2 <- dr_distance_at_de(analysis, de_target = 0.9)
   expect_true(all(z2$estimate < z$estimate))
   z3 <- dr_distance_at_de(analysis, de_target = 0.1)
@@ -80,6 +80,7 @@ test_that("analysis funs work", {
   ### plot
   gp <- dr_plot(data)
   expect_s3_class(gp, "ggplot")
+  gp
   gp <- dr_plot(data, y5)
   gp
   gp <- dr_plot(data, y5, z)
