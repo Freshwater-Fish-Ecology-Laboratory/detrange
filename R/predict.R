@@ -59,7 +59,10 @@ dr_predict <- function(analysis,
 
   x <- predict(analysis, new_data, new_expr, conf_level,
           estimate, monitor = "prediction")
-  x[, unique(c(seq, "Distance", "estimate", "lower", "upper", "svalue"))]
+  x <- x[, unique(c(seq, "Distance", "estimate", "lower", "upper", "svalue"))]
+  if("Station" %in% names(x))
+    x <- x[order(x$Station), , drop = FALSE]
+  x
 }
 
 #' Predict distance at target DE
@@ -94,5 +97,8 @@ dr_distance_at_de <- function(analysis,
 
   x <- predict(analysis, new_data, new_expr, conf_level,
           estimate, monitor = "target")
-  x[, c(seq, "estimate", "lower", "upper", "svalue")]
+  x <- x[, c(seq, "estimate", "lower", "upper", "svalue")]
+  if("Station" %in% names(x))
+    x <- x[order(x$Station), , drop = FALSE]
+  x
 }

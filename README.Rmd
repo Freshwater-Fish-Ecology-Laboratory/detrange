@@ -98,7 +98,6 @@ The output of `dr_analyse()` is an object of s3 class `dr_model`. It contains a 
 1. `analysis$samples` - the MCMC samples generated from`rjags::jags.samples()` and converted to `mcmcr` class
 
 
-
 These objects are the raw materials for any further exploration or analysis. For example, view trace and density plots with `plot(analysis$samples)`.
 
 See [mcmcr](https://github.com/poissonconsulting/mcmcr) and [mcmcderive](https://github.com/poissonconsulting/mcmcderive) for working with `mcmcr` objects, or convert samples to an object of class `mcmc.list`, e,g, with `coda::as.mcmc.list` for working with the [coda](https://github.com/cran/coda) R package. 
