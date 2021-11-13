@@ -94,7 +94,7 @@ dr_plot(data) |>
 ```
 
 ### How to do more
-The output of `dr_analyse()` is an list with 3 elements:  
+The output of `dr_analyse()` is a list with 3 elements:  
 1. `analysis$model` - the model object of class `jags` created by `rjags::jags.model()`    
 1. `analysis$samples` - the MCMC samples generated from`rjags::jags.samples()` and converted to `mcmcr` class  
 1. `analysis$data` - the range test data provided  

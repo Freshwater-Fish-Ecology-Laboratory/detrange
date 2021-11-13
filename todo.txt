@@ -1,24 +1,20 @@
 Readme/justification
-- sensible default priors based on literature
 - reference to gold standard range testing methods (and why pkg works for that)
 
 Issues/fixes
 - double check term descriptions
-- rename midpoint (model terms + priors + analysis_midpoint fun name)
-- add de to midpoint table
-- colect a set of sensible priors for detection range in different environments (river, lake, ocean)
 
 Enhancements
-- pass de_target through model
-- add CI levels (e.g. 95%, etc.)
-- flexible point estimate as argument? (e.g. mean, median)
-- pass vector of de_target
 - function to plot posteriors of distance estimates?
-- account for nested station/transect (i.e. directions at single station)
+- model for nested station/transect (i.e. cardinal directions at single station)
+- model for CPDI - lower detection efficiency at close distance due to CPDI (i.e. a n-shaped curve), should fit two models (one with breakpoint) and use AIC to select the best model - or model average for estimates.
 - add legend to plot
 - implement correlated slope/intercept model
 - build shiny app
 - put on CRAN
+- Use tidyverse funs from generics for model object manipulation - glance, tidy, augment, predict
+- link to funs in documentation
+- make priors and terms accessible to user - data-raw
 
 Pkg maintenance stuff
 - build website
@@ -34,10 +30,6 @@ Tutorials
 Implement with TMB
 - option for fixed or random effects
 - fixed effects should be used if <5 stations
-Why use random effects? if one station has limited data it will be helped by data from other stations
-- in case of lower detection efficiency at close distance due to CPDI (i.e. a n-shaped curve), should fit two models (one with breakpoint) and use AIC to select the best model - or model average for estimates.
-- Use tidyverse funs from generics for model object manipulation - glance, tidy, augment, predict
-
 
 ssdtools
 generics - glance, tidy, augment, predict

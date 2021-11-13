@@ -2,40 +2,39 @@
 
 ### simulate range test data for demo and testing ----
 set.seed(153)
-nstation <- 6
-# generate samples per river
-n <- sample(x = 5:7, size = nstation, replace = TRUE)
-
-bMidpoint <- 300 # typical midpoint
-bIntercept <- 4 # typical intercept
-
-# generate random slopes + intercepts
-sMidpointStation <- 100 # sd of random effect
-sInterceptStation <- 1 # sd of random intercept
-bMidpointStation <- rnorm(nstation, bMidpoint, sMidpointStation)
-bInterceptStation <- rnorm(nstation, bIntercept, sInterceptStation)
+logit <- function(x) log(x / (1 - x))
 
 generate_distance <- function(n){
   sapply(1:n, function(x) {
-    xmin <- (x-1)*100
+    xmin <- (x-1)*130
     round(runif(1, xmin, xmin+50))
   })
 }
 
-logit <- function(x) log(x / (1 - x))
-de <- logit(0.5)
+### set up data
+ngroup = 6
+n = 7
+nobs = ngroup * n
+distance <- as.vector(replicate(ngroup, generate_distance(n)))
 
-range_test <- purrr::map_df(seq_len(nstation), function(i){
-  distance <- generate_distance(n[i])
-  intercept <- bInterceptStation[i]
-  mu <- intercept + (de - intercept)/bMidpointStation[i]*distance
-  p <- 1/(1 + exp(-mu))
-  pings <- round(runif(n[i], 50, 200))
-  detects <- rbinom(n[i], size = pings, p = p)
-  tibble::tibble(Station = factor(glue::glue("Station{i}")),
-                 Distance = distance,
-                 Detects = as.integer(detects),
-                 Pings = as.integer(pings))
-})
+bIntercept = 5
+bDist = -0.02
+sDistStation = 0.007
+sInterceptStation = 0.1
+bDistStation <- rnorm(ngroup, mean = 0, sd = sDistStation)
+bInterceptStation <- rnorm(ngroup, mean = 0, sd = sInterceptStation)
+
+eIntercept <- bIntercept + bInterceptStation
+eDist <- bDist + bDistStation
+mu <- eIntercept + eDist * distance
+
+p <- 1/(1 + exp(-mu))
+pings <- round(runif(nobs, 50, 60))
+detects <- rbinom(nobs, size = pings, p = p)
+
+range_test <- tibble::tibble(Distance = distance,
+                             Pings = as.integer(pings),
+                             Detects = as.integer(detects),
+                             Station = factor(paste0("Station", rep(1:ngroup, n))))
 
 usethis::use_data(range_test, overwrite = TRUE)

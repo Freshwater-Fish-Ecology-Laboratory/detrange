@@ -74,14 +74,14 @@ library(detrange)
 data <- range_test
 head(data)
 #> # A tibble: 6 × 4
-#>   Station  Distance Detects Pings
-#>   <fct>       <dbl>   <int> <int>
-#> 1 Station1       48      98   104
-#> 2 Station1      146      72   138
-#> 3 Station1      209      28   178
-#> 4 Station1      332       0    55
-#> 5 Station1      408       1   119
-#> 6 Station1      511       0   154
+#>   Distance Pings Detects Station 
+#>      <dbl> <int>   <int> <fct>   
+#> 1       50    51      50 Station1
+#> 2      155    57      45 Station2
+#> 3      275    51      10 Station3
+#> 4      409    50       4 Station4
+#> 5      564    56       0 Station5
+#> 6      659    57      33 Station6
 ```
 
 ### Analysis
@@ -104,7 +104,7 @@ dr_glance(analysis)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <dbl>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    38     4       3   1000    10    15  1.60 FALSE
+#> 1    42     4       3   1000    10    48  1.04 FALSE
 ```
 
 Look at model coefficient estimates `dr_coef()`
@@ -113,12 +113,12 @@ Look at model coefficient estimates `dr_coef()`
 coef <- dr_coef(analysis, conf_level = 0.89)
 coef
 #> # A tibble: 4 × 6
-#>   term              estimate    lower    upper svalue description               
-#>   <term>               <dbl>    <dbl>    <dbl>  <dbl> <chr>                     
-#> 1 bDist              -0.0155 -0.0253  -0.00606   11.6 Effect of distance on log…
-#> 2 bIntercept          3.71    2.89     4.84      11.6 Intercept of logit(`eDete…
-#> 3 sDistStation        0.0148  0.00865  0.0294    11.6 Standard deviation of `bD…
-#> 4 sInterceptStation   1.10    0.559    2.43      11.6 Standard deviation of `bI…
+#>   term              estimate    lower   upper svalue description                
+#>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
+#> 1 bDist             -0.0163  -0.0204  -0.0106   11.6 Effect of distance on logi…
+#> 2 bIntercept         4.80     4.27     5.33     11.6 Intercept of logit(`eDetec…
+#> 3 sDistStation       0.00686  0.00408  0.0141   11.6 Standard deviation of `bDi…
+#> 4 sInterceptStation  0.412    0.0351   1.37     11.6 Standard deviation of `bIn…
 ```
 
 Predict distance at which a target level of detection efficiency occurs
@@ -128,12 +128,12 @@ with `dr_distance_at_de()`
 midpoint <- dr_distance_at_de(analysis, de_target = 0.5, conf_level = 0.8)
 midpoint
 #>    Station Distance estimate    lower    upper   svalue  de
-#> 1 Station1 294.6053 152.4436 146.0728 158.6761 11.55123 0.5
-#> 2 Station2 294.6053 170.7196 159.6943 180.5443 11.55123 0.5
-#> 3 Station3 294.6053 476.3264 454.8052 501.1937 11.55123 0.5
-#> 4 Station4 294.6053 319.4781 306.8178 332.7188 11.55123 0.5
-#> 5 Station5 294.6053 289.0381 278.1810 300.3279 11.55123 0.5
-#> 6 Station6 294.6053 136.4492 130.3500 142.1384 11.55123 0.5
+#> 1 Station1 411.1429 389.5150 371.3640 407.1647 11.55123 0.5
+#> 2 Station2 411.1429 245.1641 231.0814 259.4771 11.55123 0.5
+#> 3 Station3 411.1429 217.1748 203.1858 230.8923 11.55123 0.5
+#> 4 Station4 411.1429 297.5194 283.0262 313.0842 11.55123 0.5
+#> 5 Station5 411.1429 260.2500 247.2967 272.9672 11.55123 0.5
+#> 6 Station6 411.1429 676.3841 650.3171 706.1666 11.55123 0.5
 ```
 
 Predict detection efficiency at a sequence of distances with
@@ -143,12 +143,12 @@ Predict detection efficiency at a sequence of distances with
 predicted <- dr_predict(analysis, distance_seq = seq(0, 1000, 20)) 
 head(predicted)
 #>     Station Distance  estimate     lower     upper   svalue
-#> 1  Station1        0 0.9804885 0.9609154 0.9912380 11.55123
-#> 7  Station1       20 0.9673739 0.9401654 0.9837848 11.55123
-#> 13 Station1       40 0.9457669 0.9092441 0.9702128 11.55123
-#> 19 Station1       60 0.9116154 0.8650452 0.9463592 11.55123
-#> 25 Station1       80 0.8589154 0.8024626 0.9052741 11.55123
-#> 31 Station1      100 0.7823869 0.7198908 0.8391500 11.55123
+#> 1  Station1        0 0.9915576 0.9829468 0.9958597 11.55123
+#> 7  Station1       20 0.9892091 0.9788900 0.9945098 11.55123
+#> 13 Station1       40 0.9861995 0.9737913 0.9927856 11.55123
+#> 19 Station1       60 0.9823810 0.9676875 0.9905167 11.55123
+#> 25 Station1       80 0.9775514 0.9599867 0.9875527 11.55123
+#> 31 Station1      100 0.9713987 0.9503957 0.9835830 11.55123
 ```
 
 Plot results with `dr_plot()`
@@ -163,7 +163,7 @@ dr_plot(data) |>
 
 ### How to do more
 
-The output of `dr_analyse()` is an list with 3 elements:  
+The output of `dr_analyse()` is a list with 3 elements:  
 1. `analysis$model` - the model object of class `jags` created by
 `rjags::jags.model()`  
 1. `analysis$samples` - the MCMC samples generated
