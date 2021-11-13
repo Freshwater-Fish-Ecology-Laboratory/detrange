@@ -34,6 +34,7 @@ test_that("analyse functions work", {
   # test coef
   coef <- dr_coef(analysis)
   expect_s3_class(coef, "data.frame")
+  expect_true(all(!is.na(coef$description)))
   ## conf_level and estimate args work
   coef2 <- dr_coef(analysis, conf_level = 0.8, estimate = mean)
 

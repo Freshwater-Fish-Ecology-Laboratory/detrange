@@ -9,9 +9,9 @@ param_description_random <- function(n){
   description <- c(
     "eDetects[i]" = "Expected `Detects` of `i`^th^ sample event",
     "bIntercept" = "Intercept of logit(`eDetects`)",
-    "bTarget" = "Intercept of logit(`eDetects`) at target detection efficiency ",
+    "bDist" = "Effect of distance on logit(`eDetects`)",
     "sInterceptStation" = "Standard deviation of `bInterceptStation`",
-    "sTargetStation" = "Standard deviation of `bTargetStation`"
+    "sDistStation" = "Standard deviation of `bDistStation`"
   )
 
   description <- tibble::tibble(term = names(description),
@@ -23,8 +23,8 @@ param_description_random <- function(n){
     intercept_df <- tibble::tibble(term = intercept,
                                    description = intercept_desc)
 
-    target <- glue::glue("bTargetStation[{i}]")
-    target_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bTarget`")
+    target <- glue::glue("bDistStation[{i}]")
+    target_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bDist`")
     target_df <- tibble::tibble(term = target,
                                 description = target_desc)
 
@@ -38,7 +38,7 @@ param_description_fixed <- function(n){
   description <- c(
     "eDetects[i]" = "Expected `Detects` of `i`^th^ sample event",
     "bIntercept" = "Intercept of logit(`eDetects`)",
-    "bTarget" = "Intercept of logit(`eDetects`) at target detection efficiency "
+    "bDist" = "Effect of distance on logit(`eDetects`)"
   )
 
   description <- tibble::tibble(term = names(description),
