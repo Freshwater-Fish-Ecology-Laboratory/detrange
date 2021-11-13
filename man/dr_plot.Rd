@@ -4,7 +4,7 @@
 \alias{dr_plot}
 \title{Plot predicted detection range and midpoint}
 \usage{
-dr_plot(data, predicted = NULL, distance_at_de = NULL)
+dr_plot(data)
 }
 \arguments{
 \item{data}{A tibble of the range test data.
@@ -18,11 +18,12 @@ Plot predicted detection range and midpoint from analysis output of \code{dr_ana
 }
 \examples{
 \dontrun{
-dr_plot(analysis)
+dr_plot(detrange::range_test)
 }
 }
 \seealso{
 Other plot: 
-\code{\link{dr_plot_observed}()}
+\code{\link{add_geom_distance_at_de}()},
+\code{\link{add_geom_predicted}()}
 }
 \concept{plot}

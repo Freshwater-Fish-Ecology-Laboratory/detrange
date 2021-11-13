@@ -82,22 +82,24 @@ midpoint
 
 Predict detection efficiency at a sequence of distances with `dr_predict()`
 ```{r}
-predicted <- dr_predict(analysis, distance_seq = seq(0, 1000, 100)) 
+predicted <- dr_predict(analysis, distance_seq = seq(0, 1000, 20)) 
 head(predicted)
 ```
 
-Plot results with `dr_plot_predicted()`
+Plot results with `dr_plot()`
 ```{r}
-### coefficient table
-# dr_analysis_coef(analysis)
+dr_plot(data) |>
+  add_geom_predicted(predicted) |>
+  add_geom_distance_at_de(midpoint)
 ```
 
 ### How to do more
-The output of `dr_analyse()` is an object of s3 class `dr_model`. It contains a list with two elements:  
+The output of `dr_analyse()` is an list with 3 elements:  
 1. `analysis$model` - the model object of class `jags` created by `rjags::jags.model()`    
-1. `analysis$samples` - the MCMC samples generated from`rjags::jags.samples()` and converted to `mcmcr` class
+1. `analysis$samples` - the MCMC samples generated from`rjags::jags.samples()` and converted to `mcmcr` class  
+1. `analysis$data` - the range test data provided  
 
-These objects are the raw materials for any further exploration or analysis. For example, view trace and density plots with `plot(analysis$samples)`.
+These are the raw materials for any further exploration or analysis. For example, view trace and density plots with `plot(analysis$samples)`.
 
 See [mcmcr](https://github.com/poissonconsulting/mcmcr) and [mcmcderive](https://github.com/poissonconsulting/mcmcderive) for working with `mcmcr` objects, or convert samples to an object of class `mcmc.list`, e,g, with `coda::as.mcmc.list` for working with the [coda](https://github.com/cran/coda) R package. 
 

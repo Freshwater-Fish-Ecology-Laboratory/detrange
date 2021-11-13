@@ -80,9 +80,8 @@ test_that("analysis funs work", {
   ### plot
   gp <- dr_plot(data)
   expect_s3_class(gp, "ggplot")
-  gp
-  gp <- dr_plot(data, y5)
-  gp
-  gp <- dr_plot(data, y5, z)
-  gp
+  gp <- gp %>% add_geom_predicted(y5)
+  expect_s3_class(gp, "ggplot")
+  gp <- gp %>% add_geom_distance_at_de(z)
+  expect_s3_class(gp, "ggplot")
 })

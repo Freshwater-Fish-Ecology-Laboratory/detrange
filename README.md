@@ -104,7 +104,7 @@ dr_glance(analysis)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <dbl>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    38     4       3   1000    10    18  1.43 FALSE
+#> 1    38     4       3   1000    10    15  1.60 FALSE
 ```
 
 Look at model coefficient estimates `dr_coef()`
@@ -113,12 +113,12 @@ Look at model coefficient estimates `dr_coef()`
 coef <- dr_coef(analysis, conf_level = 0.89)
 coef
 #> # A tibble: 4 × 6
-#>   term              estimate    lower   upper svalue description                
-#>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
-#> 1 bDist              -0.0201 -0.0294  -0.0137   11.6 Effect of distance on logi…
-#> 2 bIntercept          3.63    2.65     4.72     11.6 Intercept of logit(`eDetec…
-#> 3 sDistStation        0.0140  0.00831  0.0273   11.6 Standard deviation of `bDi…
-#> 4 sInterceptStation   1.13    0.578    2.49     11.6 Standard deviation of `bIn…
+#>   term              estimate    lower    upper svalue description               
+#>   <term>               <dbl>    <dbl>    <dbl>  <dbl> <chr>                     
+#> 1 bDist              -0.0155 -0.0253  -0.00606   11.6 Effect of distance on log…
+#> 2 bIntercept          3.71    2.89     4.84      11.6 Intercept of logit(`eDete…
+#> 3 sDistStation        0.0148  0.00865  0.0294    11.6 Standard deviation of `bD…
+#> 4 sInterceptStation   1.10    0.559    2.43      11.6 Standard deviation of `bI…
 ```
 
 Predict distance at which a target level of detection efficiency occurs
@@ -127,49 +127,51 @@ with `dr_distance_at_de()`
 ``` r
 midpoint <- dr_distance_at_de(analysis, de_target = 0.5, conf_level = 0.8)
 midpoint
-#>   Station Distance estimate    lower    upper   svalue
-#> 1       1 294.6053 152.2849 145.8452 158.3295 11.55123
-#> 2       2 294.6053 170.3947 160.1255 180.2049 11.55123
-#> 3       3 294.6053 477.4832 454.6989 501.4925 11.55123
-#> 4       4 294.6053 319.6326 306.9906 333.0834 11.55123
-#> 5       5 294.6053 289.2352 278.0037 300.1258 11.55123
-#> 6       6 294.6053 136.5460 130.4783 142.3214 11.55123
+#>    Station Distance estimate    lower    upper   svalue  de
+#> 1 Station1 294.6053 152.4436 146.0728 158.6761 11.55123 0.5
+#> 2 Station2 294.6053 170.7196 159.6943 180.5443 11.55123 0.5
+#> 3 Station3 294.6053 476.3264 454.8052 501.1937 11.55123 0.5
+#> 4 Station4 294.6053 319.4781 306.8178 332.7188 11.55123 0.5
+#> 5 Station5 294.6053 289.0381 278.1810 300.3279 11.55123 0.5
+#> 6 Station6 294.6053 136.4492 130.3500 142.1384 11.55123 0.5
 ```
 
 Predict detection efficiency at a sequence of distances with
 `dr_predict()`
 
 ``` r
-predicted <- dr_predict(analysis, distance_seq = seq(0, 1000, 100)) 
+predicted <- dr_predict(analysis, distance_seq = seq(0, 1000, 20)) 
 head(predicted)
-#>    Station Distance     estimate        lower        upper   svalue
-#> 1        1        0 9.806598e-01 9.620123e-01 0.9913530977 11.55123
-#> 7        1      100 7.819315e-01 7.177573e-01 0.8389098768 11.55123
-#> 13       1      200 2.029414e-01 1.550577e-01 0.2516542707 11.55123
-#> 19       1      300 1.758094e-02 8.635673e-03 0.0327082352 11.55123
-#> 25       1      400 1.263482e-03 3.972597e-04 0.0035892538 11.55123
-#> 31       1      500 9.052403e-05 1.762997e-05 0.0003864832 11.55123
+#>     Station Distance  estimate     lower     upper   svalue
+#> 1  Station1        0 0.9804885 0.9609154 0.9912380 11.55123
+#> 7  Station1       20 0.9673739 0.9401654 0.9837848 11.55123
+#> 13 Station1       40 0.9457669 0.9092441 0.9702128 11.55123
+#> 19 Station1       60 0.9116154 0.8650452 0.9463592 11.55123
+#> 25 Station1       80 0.8589154 0.8024626 0.9052741 11.55123
+#> 31 Station1      100 0.7823869 0.7198908 0.8391500 11.55123
 ```
 
-Plot results with `dr_plot_predicted()`
+Plot results with `dr_plot()`
 
 ``` r
-### coefficient table
-# dr_analysis_coef(analysis)
+dr_plot(data) |>
+  add_geom_predicted(predicted) |>
+  add_geom_distance_at_de(midpoint)
 ```
+
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 ### How to do more
 
-The output of `dr_analyse()` is an object of s3 class `dr_model`. It
-contains a list with two elements:  
+The output of `dr_analyse()` is an list with 3 elements:  
 1. `analysis$model` - the model object of class `jags` created by
 `rjags::jags.model()`  
 1. `analysis$samples` - the MCMC samples generated
-from`rjags::jags.samples()` and converted to `mcmcr` class
+from`rjags::jags.samples()` and converted to `mcmcr` class  
+1. `analysis$data` - the range test data provided
 
-These objects are the raw materials for any further exploration or
-analysis. For example, view trace and density plots with
-`plot(analysis$samples)`.
+These are the raw materials for any further exploration or analysis. For
+example, view trace and density plots with `plot(analysis$samples)`.
 
 See [mcmcr](https://github.com/poissonconsulting/mcmcr) and
 [mcmcderive](https://github.com/poissonconsulting/mcmcderive) for
