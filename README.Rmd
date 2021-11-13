@@ -70,7 +70,7 @@ Look at model coefficient estimates `dr_coef()`
 
 ```{r}
 coef <- dr_coef(analysis, conf_level = 0.89)
-head(coef)
+coef
 ```
 
 Predict distance at which a target level of detection efficiency occurs with `dr_distance_at_de()`
@@ -96,7 +96,6 @@ Plot results with `dr_plot_predicted()`
 The output of `dr_analyse()` is an object of s3 class `dr_model`. It contains a list with two elements:  
 1. `analysis$model` - the model object of class `jags` created by `rjags::jags.model()`    
 1. `analysis$samples` - the MCMC samples generated from`rjags::jags.samples()` and converted to `mcmcr` class
-
 
 These objects are the raw materials for any further exploration or analysis. For example, view trace and density plots with `plot(analysis$samples)`.
 

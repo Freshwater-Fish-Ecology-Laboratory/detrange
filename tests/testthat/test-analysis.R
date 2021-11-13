@@ -39,7 +39,7 @@ test_that("analysis funs work", {
 
   ### test predict
   y3 <- dr_predict(analysis, distance_seq = seq1, by = "Station")
-  expect_identical(y[, c("Station", "Distance", "estimate", "lower", "upper", "svalue")], y3)
+  expect_identical(clean_predict(y, "Station"), y3)
   y4 <- dr_predict(analysis, distance_seq = seq1, by = NULL)
   expect_true(nrow(y4) < nrow(y3))
   expect_true(!("Station" %in% names(y4)))
@@ -51,18 +51,18 @@ test_that("analysis funs work", {
   expect_identical(range(y5$Distance), range(data$Distance))
 
   ### test dr_distance_at_de
-  y <- dr_distance_at_de(analysis)
-  expect_s3_class(y6, "data.frame")
-  expect_identical(length(unique(y$Station)), length(unique(data$Station)))
-  y2 <- dr_distance_at_de(analysis, de_target = 0.9)
-  expect_true(all(y2$estimate < y$estimate))
-  y3 <- dr_distance_at_de(analysis, de_target = 0.1)
-  expect_true(all(y3$estimate > y$estimate))
-  y4 <- dr_distance_at_de(analysis, by = NULL)
-  expect_identical(nrow(y4), 1L)
-  y5 <- dr_distance_at_de(analysis, by = NULL, conf_level = 0.5, estimate = mean)
-  expect_true(y5$estimate != y4$estimate)
-  expect_true(y5$lower > y4$lower)
+  z <- dr_distance_at_de(analysis)
+  expect_s3_class(z, "data.frame")
+  expect_identical(length(unique(z$Station)), length(unique(data$Station)))
+  z2 <- dr_distance_at_de(analysis, de_target = 0.9)
+  expect_true(all(z2$estimate < z$estimate))
+  z3 <- dr_distance_at_de(analysis, de_target = 0.1)
+  expect_true(all(z3$estimate > z$estimate))
+  z4 <- dr_distance_at_de(analysis, by = NULL)
+  expect_identical(nrow(z4), 1L)
+  z5 <- dr_distance_at_de(analysis, by = NULL, conf_level = 0.5, estimate = mean)
+  expect_true(z5$estimate != z4$estimate)
+  expect_true(z5$lower > z4$lower)
 
   ### test param_description and coef
   random <- param_description(2, "random")
@@ -77,4 +77,11 @@ test_that("analysis funs work", {
   expect_s3_class(coefs, "data.frame")
   expect_true(all(names(coefs) %in% c("term", "lower", "upper", "estimate", "svalue", "description")))
 
+  ### plot
+  gp <- dr_plot(data)
+  expect_s3_class(gp, "ggplot")
+  gp <- dr_plot(data, y5)
+  gp
+  gp <- dr_plot(data, y5, z)
+  gp
 })

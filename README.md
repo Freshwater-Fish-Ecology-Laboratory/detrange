@@ -104,23 +104,21 @@ dr_glance(analysis)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <int> <dbl>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    38     4       3   1000    10    15  1.16 FALSE
+#> 1    38     4       3   1000    10    18  1.43 FALSE
 ```
 
 Look at model coefficient estimates `dr_coef()`
 
 ``` r
 coef <- dr_coef(analysis, conf_level = 0.89)
-head(coef)
-#> # A tibble: 6 × 6
-#>   term            estimate     lower    upper svalue description
-#>   <term>             <dbl>     <dbl>    <dbl>  <dbl> <chr>      
-#> 1 bDist           -0.0177  -0.0250   -0.00987  11.6  <NA>       
-#> 2 bDistStation[1] -0.00872 -0.0171   -0.00103   4.10 <NA>       
-#> 3 bDistStation[2] -0.00451 -0.0128    0.00346   1.33 <NA>       
-#> 4 bDistStation[3]  0.0122   0.00443   0.0196    9.97 <NA>       
-#> 5 bDistStation[4]  0.00481 -0.00308   0.0125    1.44 <NA>       
-#> 6 bDistStation[5]  0.00692 -0.000912  0.0143    2.66 <NA>
+coef
+#> # A tibble: 4 × 6
+#>   term              estimate    lower   upper svalue description                
+#>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
+#> 1 bDist              -0.0201 -0.0294  -0.0137   11.6 Effect of distance on logi…
+#> 2 bIntercept          3.63    2.65     4.72     11.6 Intercept of logit(`eDetec…
+#> 3 sDistStation        0.0140  0.00831  0.0273   11.6 Standard deviation of `bDi…
+#> 4 sInterceptStation   1.13    0.578    2.49     11.6 Standard deviation of `bIn…
 ```
 
 Predict distance at which a target level of detection efficiency occurs
@@ -129,13 +127,13 @@ with `dr_distance_at_de()`
 ``` r
 midpoint <- dr_distance_at_de(analysis, de_target = 0.5, conf_level = 0.8)
 midpoint
-#>   Station estimate    lower    upper   svalue
-#> 1       1 152.1880 145.7039 158.1136 11.55123
-#> 2       2 170.1580 159.8890 180.2851 11.55123
-#> 3       3 476.5847 454.4783 501.2350 11.55123
-#> 4       4 319.6113 307.0666 333.4099 11.55123
-#> 5       5 289.2454 277.7183 300.7178 11.55123
-#> 6       6 136.3924 130.2890 141.9790 11.55123
+#>   Station Distance estimate    lower    upper   svalue
+#> 1       1 294.6053 152.2849 145.8452 158.3295 11.55123
+#> 2       2 294.6053 170.3947 160.1255 180.2049 11.55123
+#> 3       3 294.6053 477.4832 454.6989 501.4925 11.55123
+#> 4       4 294.6053 319.6326 306.9906 333.0834 11.55123
+#> 5       5 294.6053 289.2352 278.0037 300.1258 11.55123
+#> 6       6 294.6053 136.5460 130.4783 142.3214 11.55123
 ```
 
 Predict detection efficiency at a sequence of distances with
@@ -145,12 +143,12 @@ Predict detection efficiency at a sequence of distances with
 predicted <- dr_predict(analysis, distance_seq = seq(0, 1000, 100)) 
 head(predicted)
 #>    Station Distance     estimate        lower        upper   svalue
-#> 1        1        0 9.804819e-01 9.609143e-01 0.9906552218 11.55123
-#> 7        1      100 7.817693e-01 7.159707e-01 0.8364171289 11.55123
-#> 13       1      200 2.034413e-01 1.594169e-01 0.2515770486 11.55123
-#> 19       1      300 1.782497e-02 9.113235e-03 0.0332016355 11.55123
-#> 25       1      400 1.292232e-03 4.315830e-04 0.0037830443 11.55123
-#> 31       1      500 9.173364e-05 2.003323e-05 0.0004160007 11.55123
+#> 1        1        0 9.806598e-01 9.620123e-01 0.9913530977 11.55123
+#> 7        1      100 7.819315e-01 7.177573e-01 0.8389098768 11.55123
+#> 13       1      200 2.029414e-01 1.550577e-01 0.2516542707 11.55123
+#> 19       1      300 1.758094e-02 8.635673e-03 0.0327082352 11.55123
+#> 25       1      400 1.263482e-03 3.972597e-04 0.0035892538 11.55123
+#> 31       1      500 9.052403e-05 1.762997e-05 0.0003864832 11.55123
 ```
 
 Plot results with `dr_plot_predicted()`

@@ -4,7 +4,7 @@
 \alias{dr_coef}
 \title{Get model coefficients}
 \usage{
-dr_coef(analysis, conf_level = 0.95, estimate = median)
+dr_coef(analysis, conf_level = 0.95, estimate = median, random_effects = FALSE)
 }
 \arguments{
 \item{analysis}{The analysis object from \code{dr_analyse}.}
@@ -12,6 +12,8 @@ dr_coef(analysis, conf_level = 0.95, estimate = median)
 \item{conf_level}{A number between 0 and 1 of the confidence level. Default is 0.95.}
 
 \item{estimate}{A function to calculate the estimate with. The default is median.}
+
+\item{random_effects}{A flag indicating whether to include random effects.}
 }
 \value{
 A tibble of the coefficients.

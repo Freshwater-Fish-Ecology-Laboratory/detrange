@@ -21,6 +21,6 @@ dr_plot_observed(detrange::range_test)
 }
 \seealso{
 Other plot: 
-\code{\link{dr_plot_predicted}()}
+\code{\link{dr_plot}()}
 }
 \concept{plot}

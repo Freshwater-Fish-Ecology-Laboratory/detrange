@@ -101,5 +101,7 @@ dr_distance_at_de <- function(analysis,
 
   x <- predict(analysis, new_data, new_expr, conf_level,
           estimate, monitor = "target")
-  clean_predict(x, seq)
+  x <- clean_predict(x, seq)
+  x$de <- de_target
+  x
 }

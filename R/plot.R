@@ -27,32 +27,35 @@ dr_plot_observed <- function(data){
 #' @export
 #' @examples
 #' \dontrun{
-#' dr_plot_predicted(analysis)
+#' dr_plot(analysis)
 #' }
 
-dr_plot_predicted <- function(analysis){
+dr_plot <- function(data, predicted = NULL, distance_at_de = NULL){
   message("add method for data.frame predicted and for anlalysis object")
-  # chk_s3_class(analysis, "jmb_analysis")
-  #
-  # predicted <- dr_analysis_predict(analysis)
-  # midpoint <- dr_analysis_midpoint(analysis)
-  # data <- mbr::data_set(analysis)
-  #
-  # gp <- ggplot() +
-  #   ggplot2::geom_point(data = data, aes(y = .data$Detects/.data$Pings, x = .data$Distance)) +
-  #   ggplot2::geom_errorbarh(data = midpoint, aes(xmin = .data$lower,
-  #                                       xmax = .data$upper,
-  #                                       y = de_target),
-  #                  height = .05, color = "red") +
-  #   ggplot2::geom_point(data = midpoint, aes(x = .data$estimate, y = de_target), color = "red") +
-  #   ggplot2::geom_vline(data = midpoint, aes(xintercept = .data$estimate),
-  #              linetype = "longdash", size = 0.2) +
-  #   ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$estimate)) +
-  #   ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$lower), linetype = "dotted") +
-  #   ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$upper), linetype = "dotted") +
-  #   ggplot2::facet_wrap(ggplot2::vars(.data$Station)) +
-  #   ggplot2::labs(x = "Distance", y = "Proportion of Pings Detected") +
-  #   NULL
-  #
-  # gp
+  chk_range_test(data)
+
+  gp <- ggplot() +
+    ggplot2::geom_point(data = data, aes(y = .data$Detects/.data$Pings, x = .data$Distance)) +
+    ggplot2::facet_wrap(ggplot2::vars(.data$Station)) +
+    ggplot2::labs(x = "Distance", y = "Proportion of Pings Detected")
+
+  if(!is.null(predicted)){
+    gp <- gp +
+      ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$estimate)) +
+      ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$lower), linetype = "dotted") +
+      ggplot2::geom_line(data = predicted, aes(x = .data$Distance, y = .data$upper), linetype = "dotted")
+  }
+
+  if(!is.null(distance_at_de)){
+    de <- unique(distance_at_de$de)
+    gp <- gp +
+      ggplot2::geom_errorbarh(data = distance_at_de, aes(xmin = .data$lower,
+                                                         xmax = .data$upper,
+                                                         y = de),
+                              height = .05, color = "red") +
+      ggplot2::geom_point(data = distance_at_de, aes(x = .data$estimate, y = de), color = "red") +
+      ggplot2::geom_vline(data = distance_at_de, aes(xintercept = .data$estimate),
+                          linetype = "longdash", size = 0.2)
+  }
+  gp
 }

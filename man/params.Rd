@@ -28,6 +28,8 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 \item{estimate}{A function to calculate the estimate with. The default is median.}
 
 \item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
+
+\item{random_effects}{A flag indicating whether to include random effects.}
 }
 \description{
 Parameter Descriptions for detrange Functions
