@@ -22,7 +22,7 @@ test_that("analyse functions work", {
   analysis <- dr_analyse(data, priors = new_prior, nthin = 1L)
 
   expect_type(analysis, "list")
-  expect_identical(names(analysis), c("model", "samples"))
+  expect_identical(names(analysis), c("model", "samples", "data"))
   expect_s3_class(analysis$model, "jags")
   expect_s3_class(analysis$samples, "mcmcr")
 
@@ -44,12 +44,5 @@ test_that("analyse functions work", {
   ## check random_effects
   coef3 <- dr_coef(analysis, random_effects = TRUE)
   expect_true(nrow(coef3) > nrow(coef2))
-
-  # ### test plotting observed data works
-  # gp <- dr_plot_observed(data)
-  # expect_s3_class(gp, "ggplot")
-  #
-  # gp <- dr_plot_predicted(analysis, de_target = 0.5)
-  # expect_s3_class(gp, "ggplot")
 
 })

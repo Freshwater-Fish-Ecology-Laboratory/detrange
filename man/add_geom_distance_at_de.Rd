@@ -6,6 +6,11 @@
 \usage{
 add_geom_distance_at_de(gp, distance_at_de)
 }
+\arguments{
+\item{gp}{A ggplot object returned from \code{dr_plot}.}
+
+\item{distance_at_de}{A tibble of the output of \code{dr_distance_at_de}.}
+}
 \value{
 A ggplot2 object.
 }

@@ -6,6 +6,11 @@
 \usage{
 add_geom_predicted(gp, predicted)
 }
+\arguments{
+\item{gp}{A ggplot object returned from \code{dr_plot}.}
+
+\item{predicted}{A tibble of the output of \code{dr_predict}.}
+}
 \value{
 A ggplot2 object.
 }

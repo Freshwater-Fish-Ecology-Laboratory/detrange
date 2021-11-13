@@ -13,13 +13,11 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 
 \item{distance_seq}{A vector of the distances to make predictions for.}
 
-\item{priors}{A named list of the priors for each model term \code{bIntercept}, \code{bMidpoint}, \code{sInterceptStation}, \code{sMidpointStation}.}
+\item{priors}{A named list of the priors for each model term.}
 
 \item{nthin}{A number of the number of thins.}
 
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
-
-\item{include_random}{A flag indicating whether to include coefficients for random terms.}
 
 \item{by}{A string of the grouping variable to derive predictions for.}
 
@@ -30,6 +28,12 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 \item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
 
 \item{random_effects}{A flag indicating whether to include random effects.}
+
+\item{gp}{A ggplot object returned from \code{dr_plot}.}
+
+\item{predicted}{A tibble of the output of \code{dr_predict}.}
+
+\item{distance_at_de}{A tibble of the output of \code{dr_distance_at_de}.}
 }
 \description{
 Parameter Descriptions for detrange Functions

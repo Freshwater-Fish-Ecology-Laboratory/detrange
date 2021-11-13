@@ -13,7 +13,7 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 
 \item{nthin}{A number of the number of thins.}
 
-\item{priors}{A named list of the priors for each model term \code{bIntercept}, \code{bMidpoint}, \code{sInterceptStation}, \code{sMidpointStation}.}
+\item{priors}{A named list of the priors for each model term.}
 
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
 }
