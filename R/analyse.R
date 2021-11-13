@@ -42,7 +42,8 @@ dr_analyse <- function(data, nthin = 10L,
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_coef <- function(analysis, conf_level = 0.95, estimate = median){
+dr_coef <- function(analysis, conf_level = 0.95,
+                    estimate = median, random_effects = FALSE){
 
   chk_analysis(analysis)
   data <- data_set(analysis)
@@ -54,6 +55,10 @@ dr_coef <- function(analysis, conf_level = 0.95, estimate = median){
   param_desc <- param_description(n = nstation, model)
   coefs <- mcmcr::coef(samples, conf_level = conf_level, estimate = estimate)
   coefs <- merge(coefs, param_desc, by = "term", all.x = TRUE)
+  if(!random_effects)
+    coefs <- coefs[!coefs$random,]
+  coefs$random <- NULL
+
   tibble::as_tibble(coefs)
 }
 

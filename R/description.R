@@ -15,18 +15,21 @@ param_description_random <- function(n){
   )
 
   description <- tibble::tibble(term = names(description),
-                                description = description)
+                                description = description,
+                                random = FALSE)
 
   for(i in 1:n){
     intercept <- glue::glue("bInterceptStation[{i}]")
     intercept_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bIntercept`")
     intercept_df <- tibble::tibble(term = intercept,
-                                   description = intercept_desc)
+                                   description = intercept_desc,
+                                   random = TRUE)
 
     target <- glue::glue("bDistStation[{i}]")
     target_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bDist`")
     target_df <- tibble::tibble(term = target,
-                                description = target_desc)
+                                description = target_desc,
+                                random = TRUE)
 
     description <- rbind(description, intercept_df)
     description <- rbind(description, target_df)
@@ -42,7 +45,8 @@ param_description_fixed <- function(n){
   )
 
   description <- tibble::tibble(term = names(description),
-                                description = description)
+                                description = description,
+                                random = FALSE)
   description
 }
 

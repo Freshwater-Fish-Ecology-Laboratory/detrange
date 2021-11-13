@@ -35,11 +35,15 @@ test_that("analyse functions work", {
   coef <- dr_coef(analysis)
   expect_s3_class(coef, "data.frame")
   expect_true(all(!is.na(coef$description)))
+
   ## conf_level and estimate args work
   coef2 <- dr_coef(analysis, conf_level = 0.8, estimate = mean)
-
   expect_true(all(coef2$estimate != coef$estimate))
   expect_true(all(coef2$lower > coef$lower))
+
+  ## check random_effects
+  coef3 <- dr_coef(analysis, random_effects = TRUE)
+  expect_true(nrow(coef3) > nrow(coef2))
 
   # ### test plotting observed data works
   # gp <- dr_plot_observed(data)
