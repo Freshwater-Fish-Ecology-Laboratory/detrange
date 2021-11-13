@@ -29,7 +29,6 @@ Other analysis:
 \code{\link{dr_coef}()},
 \code{\link{dr_distance_at_de}()},
 \code{\link{dr_glance}()},
-\code{\link{dr_predict}()},
-\code{\link{dr_target}()}
+\code{\link{dr_predict}()}
 }
 \concept{analysis}

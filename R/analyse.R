@@ -42,7 +42,7 @@ dr_analyse <- function(data, nthin = 10L,
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_coef <- function(analysis){
+dr_coef <- function(analysis, conf_level = 0.95, estimate = median){
 
   chk_analysis(analysis)
   data <- data_set(analysis)
@@ -52,7 +52,7 @@ dr_coef <- function(analysis){
   nstation <- data$nStation
 
   param_desc <- param_description(n = nstation, model)
-  coefs <- mcmcr::coef(samples)
+  coefs <- mcmcr::coef(samples, conf_level = conf_level, estimate = estimate)
   coefs <- merge(coefs, param_desc, by = "term", all.x = TRUE)
   tibble::as_tibble(coefs)
 }

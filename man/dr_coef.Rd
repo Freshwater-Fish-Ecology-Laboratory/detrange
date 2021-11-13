@@ -4,10 +4,14 @@
 \alias{dr_coef}
 \title{Get model coefficients}
 \usage{
-dr_coef(analysis)
+dr_coef(analysis, conf_level = 0.95, estimate = median)
 }
 \arguments{
 \item{analysis}{The analysis object from \code{dr_analyse}.}
+
+\item{conf_level}{A number between 0 and 1 of the confidence level. Default is 0.95.}
+
+\item{estimate}{A function to calculate the estimate with. The default is median.}
 }
 \value{
 A tibble of the coefficients.
@@ -20,7 +24,6 @@ Other analysis:
 \code{\link{dr_analyse}()},
 \code{\link{dr_distance_at_de}()},
 \code{\link{dr_glance}()},
-\code{\link{dr_predict}()},
-\code{\link{dr_target}()}
+\code{\link{dr_predict}()}
 }
 \concept{analysis}

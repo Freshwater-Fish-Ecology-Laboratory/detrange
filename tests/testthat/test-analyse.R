@@ -31,8 +31,16 @@ test_that("analyse functions work", {
   expect_s3_class(glance, "data.frame")
   expect_true(all(names(glance) %in% c("n", "K", "nchains", "niters",
                                        "nthin", "ess", "rhat", "converged")))
-  #
-  # ### test plotting functions work
+  # test coef
+  coef <- dr_coef(analysis)
+  expect_s3_class(coef, "data.frame")
+  ## conf_level and estimate args work
+  coef2 <- dr_coef(analysis, conf_level = 0.8, estimate = mean)
+
+  expect_true(all(coef2$estimate != coef$estimate))
+  expect_true(all(coef2$lower > coef$lower))
+
+  # ### test plotting observed data works
   # gp <- dr_plot_observed(data)
   # expect_s3_class(gp, "ggplot")
   #
