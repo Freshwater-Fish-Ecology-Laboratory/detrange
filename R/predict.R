@@ -22,6 +22,13 @@ predict <- function(analysis, new_data, new_expr, monitor, conf_level = 0.95,
   data
 }
 
+clean_predict <- function(x, seq){
+  x <- x[, unique(c(seq, "Distance", "estimate", "lower", "upper", "svalue"))]
+  if("Station" %in% names(x))
+    x <- x[order(x$Station), , drop = FALSE]
+  x
+}
+
 #' Predict detection range
 #'
 #' Predict detection efficiency at distance sequence from model object output of `dr_analyse`.
@@ -59,10 +66,7 @@ dr_predict <- function(analysis,
 
   x <- predict(analysis, new_data, new_expr, conf_level,
           estimate, monitor = "prediction")
-  x <- x[, unique(c(seq, "Distance", "estimate", "lower", "upper", "svalue"))]
-  if("Station" %in% names(x))
-    x <- x[order(x$Station), , drop = FALSE]
-  x
+  clean_predict(x, seq)
 }
 
 #' Predict distance at target DE
@@ -97,8 +101,5 @@ dr_distance_at_de <- function(analysis,
 
   x <- predict(analysis, new_data, new_expr, conf_level,
           estimate, monitor = "target")
-  x <- x[, c(seq, "estimate", "lower", "upper", "svalue")]
-  if("Station" %in% names(x))
-    x <- x[order(x$Station), , drop = FALSE]
-  x
+  clean_predict(x, seq)
 }
