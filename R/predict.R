@@ -78,15 +78,15 @@ dr_predict <- function(x,
 #' @export
 #' @family analysis
 dr_distance_at_de <- function(x,
-                              de_target = 0.5,
+                              de = 0.5,
                               by = "Station",
                               conf_level = 0.95,
                               estimate = median){
 
   chk_fit(x)
-  chk_number(de_target)
-  chk_gte(de_target, 0)
-  chk_lte(de_target, 1)
+  chk_number(de)
+  chk_gte(de, 0)
+  chk_lte(de, 1)
   chkor_vld(vld_null(by), vld_subset(by, c("Station", character(0))))
   chk_number(conf_level)
   chk_gte(conf_level, 0)
@@ -96,12 +96,13 @@ dr_distance_at_de <- function(x,
   seq <- if(is.null(by)) character(0) else by
   new_data <- new_data(x, seq, ref = list())
   model_type <- model_type(x)
-  de_logit <- logit(de_target)
+  de_logit <- logit(de)
   new_expr <- new_expr(model_type, "target", de_logit = de_logit)
 
   x <- predict(x, new_data, new_expr, conf_level,
           estimate, monitor = "target")
   x <- clean_predict(x, seq)
-  x$de <- de_target
+  x$de <- de
+  # x$Distance <- NULL
   x
 }

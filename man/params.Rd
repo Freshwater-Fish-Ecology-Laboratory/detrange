@@ -25,9 +25,9 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 
 \item{estimate}{A function to calculate the estimate with. The default is median.}
 
-\item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
+\item{de}{A number between 0 and 1 of the detection efficiency.}
 
-\item{random_effects}{A flag indicating whether to include random effects.}
+\item{random_effects}{A flag indicating whether to include random effect terms.}
 
 \item{gp}{A ggplot object returned from \code{dr_plot}.}
 

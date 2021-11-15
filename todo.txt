@@ -1,5 +1,14 @@
-Readme/justification
+package/function names
+- rename to drtools? this works better for possibility of package suite eg. drdata, drshiny, drsim
+
+Readme/articles
 - reference to gold standard range testing methods (and why pkg works for that)
+- move detailed readme sections into articles for website (only include simple call to dr_fit and installation)
+- articles
+  - getting started with detrange (includes background)
+  - doing more with detrange
+    - changing priors
+    - working with samples/model objects
 
 Issues/fixes
 - double check term descriptions

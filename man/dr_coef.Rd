@@ -13,7 +13,7 @@ dr_coef(x, conf_level = 0.95, estimate = median, random_effects = FALSE)
 
 \item{estimate}{A function to calculate the estimate with. The default is median.}
 
-\item{random_effects}{A flag indicating whether to include random effects.}
+\item{random_effects}{A flag indicating whether to include random effect terms.}
 }
 \value{
 A tibble of the coefficients.

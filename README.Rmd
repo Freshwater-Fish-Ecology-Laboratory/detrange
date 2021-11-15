@@ -75,7 +75,7 @@ coef
 
 Predict distance at which a target level of detection efficiency occurs with `dr_distance_at_de()`
 ```{r}
-midpoint <- dr_distance_at_de(fit, de_target = 0.5, conf_level = 0.8)
+midpoint <- dr_distance_at_de(fit, de = 0.5, conf_level = 0.8)
 midpoint
 ```
 

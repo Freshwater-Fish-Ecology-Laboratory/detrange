@@ -10,8 +10,8 @@
 #' @param by A string of the grouping variable to derive predictions for.
 #' @param conf_level A number between 0 and 1 of the confidence level. Default is 0.95.
 #' @param estimate 	A function to calculate the estimate with. The default is median.
-#' @param de_target A number of the target detection efficiency (from 0 to 1) to estimate distance at.
-#' @param random_effects A flag indicating whether to include random effects.
+#' @param de A number between 0 and 1 of the detection efficiency.
+#' @param random_effects A flag indicating whether to include random effect terms.
 #' @param gp A ggplot object returned from `dr_plot`.
 #' @param predicted A tibble of the output of `dr_predict`.
 #' @param distance_at_de A tibble of the output of `dr_distance_at_de`.

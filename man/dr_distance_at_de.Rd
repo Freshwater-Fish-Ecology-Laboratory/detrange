@@ -6,7 +6,7 @@
 \usage{
 dr_distance_at_de(
   x,
-  de_target = 0.5,
+  de = 0.5,
   by = "Station",
   conf_level = 0.95,
   estimate = median
@@ -15,7 +15,7 @@ dr_distance_at_de(
 \arguments{
 \item{x}{The object.}
 
-\item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
+\item{de}{A number between 0 and 1 of the detection efficiency.}
 
 \item{by}{A string of the grouping variable to derive predictions for.}
 
