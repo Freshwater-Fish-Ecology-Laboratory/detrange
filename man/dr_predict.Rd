@@ -5,7 +5,7 @@
 \title{Predict detection range}
 \usage{
 dr_predict(
-  analysis,
+  x,
   by = "Station",
   distance_seq = NULL,
   conf_level = 0.95,
@@ -13,7 +13,7 @@ dr_predict(
 )
 }
 \arguments{
-\item{analysis}{The analysis object from \code{dr_analyse}.}
+\item{x}{The object.}
 
 \item{by}{A string of the grouping variable to derive predictions for.}
 
@@ -27,11 +27,10 @@ dr_predict(
 A tibble of the coefficients.
 }
 \description{
-Predict detection efficiency at distance sequence from model object output of \code{dr_analyse}.
+Predict detection efficiency at distance sequence from model object output of \code{dr_fit}.
 }
 \seealso{
 Other analysis: 
-\code{\link{dr_analyse}()},
 \code{\link{dr_coef}()},
 \code{\link{dr_distance_at_de}()},
 \code{\link{dr_glance}()}

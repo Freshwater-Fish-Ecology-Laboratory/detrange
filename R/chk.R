@@ -36,13 +36,13 @@ chk_priors <- function(priors, model){
   chk_subset(names(x), names(priors(model)), x_name = "Term name")
 }
 
-chk_analysis <- function(analysis){
-  chk_s3_class(analysis, "dr_model")
-  chk_subset(names(analysis), c("model", "samples", "data"))
+chk_fit <- function(x){
+  chk_s3_class(x, "dr_model")
+  chk_subset(names(x), c("model", "samples", "data"))
   chk_identical(c("names", "model_type", "nthin", "priors", "class"),
-                names(attributes(analysis)))
-  chk_s3_class(analysis$model, "jags")
-  chk_s3_class(analysis$samples, "mcmcr")
+                names(attributes(x)))
+  chk_s3_class(x$model, "jags")
+  chk_s3_class(x$samples, "mcmcr")
 }
 
 

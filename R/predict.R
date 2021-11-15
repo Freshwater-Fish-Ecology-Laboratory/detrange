@@ -1,14 +1,14 @@
-new_data <- function(analysis, seq, ref){
-  data <- data_df(analysis)
+new_data <- function(x, seq, ref){
+  data <- data_df(x)
 
   newdata::new_data(data = data,
                     seq = seq,
                     ref = ref)
 }
 
-predict <- function(analysis, new_data, new_expr, monitor, conf_level = 0.95,
+predict <- function(x, new_data, new_expr, monitor, conf_level = 0.95,
                     estimate = median){
-  samples <- samples(analysis)
+  samples <- samples(x)
 
   derived <- mcmcderive::mcmc_derive(samples,
                                      expr = new_expr,
@@ -31,19 +31,19 @@ clean_predict <- function(x, seq){
 
 #' Predict detection range
 #'
-#' Predict detection efficiency at distance sequence from model object output of `dr_analyse`.
+#' Predict detection efficiency at distance sequence from model object output of `dr_fit`.
 #'
 #' @inheritParams params
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_predict <- function(analysis,
+dr_predict <- function(x,
                        by = "Station",
                        distance_seq = NULL,
                        conf_level = 0.95,
                        estimate = median){
 
-  chk_analysis(analysis)
+  chk_fit(x)
   chkor_vld(vld_null(distance_seq), vld_numeric(distance_seq))
   chkor_vld(vld_null(by), vld_subset(by, c("Station", character(0))))
   chk_number(conf_level)
@@ -59,12 +59,12 @@ dr_predict <- function(analysis,
     ref <- list(Distance = distance_seq)
   }
 
-  new_data <- new_data(analysis, seq = seq, ref = ref)
+  new_data <- new_data(x, seq = seq, ref = ref)
 
-  model_type <- model_type(analysis)
+  model_type <- model_type(x)
   new_expr <- new_expr(model_type, "prediction")
 
-  x <- predict(analysis, new_data, new_expr, conf_level,
+  x <- predict(x, new_data, new_expr, conf_level,
           estimate, monitor = "prediction")
   clean_predict(x, seq)
 }
@@ -77,13 +77,13 @@ dr_predict <- function(analysis,
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_distance_at_de <- function(analysis,
+dr_distance_at_de <- function(x,
                               de_target = 0.5,
                               by = "Station",
                               conf_level = 0.95,
                               estimate = median){
 
-  chk_analysis(analysis)
+  chk_fit(x)
   chk_number(de_target)
   chk_gte(de_target, 0)
   chk_lte(de_target, 1)
@@ -94,12 +94,12 @@ dr_distance_at_de <- function(analysis,
   chk_is(estimate, "function")
 
   seq <- if(is.null(by)) character(0) else by
-  new_data <- new_data(analysis, seq, ref = list())
-  model_type <- model_type(analysis)
+  new_data <- new_data(x, seq, ref = list())
+  model_type <- model_type(x)
   de_logit <- logit(de_target)
   new_expr <- new_expr(model_type, "target", de_logit = de_logit)
 
-  x <- predict(analysis, new_data, new_expr, conf_level,
+  x <- predict(x, new_data, new_expr, conf_level,
           estimate, monitor = "target")
   x <- clean_predict(x, seq)
   x$de <- de_target

@@ -56,33 +56,33 @@ head(data)
 ```
 
 ### Analysis
-To estimate detection range, use `dr_analyse()`
+To fit a model and estimate detection range, use `dr_fit()`
 ```{r}
-analysis <- dr_analyse(data)
+fit <- dr_fit(data)
 ```
-Check model convergence with `dr_glance()`. Try adjusting the `nthin` argument in `dr_analyse()` to improve convergence. Higher `nthin` generates more sample iterations.
+Check model convergence with `dr_glance()`. Try adjusting the `nthin` argument in `dr_fit()` to improve convergence. Higher `nthin` generates more sample iterations.
 
 ```{r}
-dr_glance(analysis)
+dr_glance(fit)
 ```
 
 Look at model coefficient estimates `dr_coef()`
 
 ```{r}
-coef <- dr_coef(analysis, conf_level = 0.89)
+coef <- dr_coef(fit, conf_level = 0.89)
 coef
 ```
 
 Predict distance at which a target level of detection efficiency occurs with `dr_distance_at_de()`
 ```{r}
-midpoint <- dr_distance_at_de(analysis, de_target = 0.5, conf_level = 0.8)
+midpoint <- dr_distance_at_de(fit, de_target = 0.5, conf_level = 0.8)
 midpoint
 ```
 
 
 Predict detection efficiency at a sequence of distances with `dr_predict()`
 ```{r}
-predicted <- dr_predict(analysis, distance_seq = seq(0, 1000, 20)) 
+predicted <- dr_predict(fit, distance_seq = seq(0, 1000, 20)) 
 head(predicted)
 ```
 

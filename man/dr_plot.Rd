@@ -14,7 +14,7 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 A ggplot2 object.
 }
 \description{
-Plot predicted detection range and midpoint from analysis output of \code{dr_analyse},
+Plot predicted detection range and midpoint from analysis output of \code{dr_fit},
 }
 \examples{
 \dontrun{

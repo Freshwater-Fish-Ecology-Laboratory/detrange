@@ -1,6 +1,6 @@
 test_that("analysis funs work", {
   data <- range_test
-  analysis <- dr_analyse(data, nthin = 1L)
+  analysis <- dr_fit(data, nthin = 1L)
 
   ### test new_data fun
   x <- new_data(analysis, seq = c("Station", "Distance"), ref = list())

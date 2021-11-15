@@ -2,7 +2,7 @@
 
 #' Plot predicted detection range and midpoint
 #'
-#' Plot predicted detection range and midpoint from analysis output of `dr_analyse`,
+#' Plot predicted detection range and midpoint from analysis output of `dr_fit`,
 #'
 #' @inheritParams params
 #' @return A ggplot2 object.

@@ -9,7 +9,7 @@
 \item{data}{A tibble of the range test data.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 
-\item{analysis}{The analysis object from \code{dr_analyse}.}
+\item{x}{The object.}
 
 \item{distance_seq}{A vector of the distances to make predictions for.}
 

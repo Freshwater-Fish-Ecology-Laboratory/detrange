@@ -5,7 +5,7 @@
 \title{Predict distance at target DE}
 \usage{
 dr_distance_at_de(
-  analysis,
+  x,
   de_target = 0.5,
   by = "Station",
   conf_level = 0.95,
@@ -13,7 +13,7 @@ dr_distance_at_de(
 )
 }
 \arguments{
-\item{analysis}{The analysis object from \code{dr_analyse}.}
+\item{x}{The object.}
 
 \item{de_target}{A number of the target detection efficiency (from 0 to 1) to estimate distance at.}
 
@@ -31,7 +31,6 @@ Predict distance at target detection efficiency from model object output of \cod
 }
 \seealso{
 Other analysis: 
-\code{\link{dr_analyse}()},
 \code{\link{dr_coef}()},
 \code{\link{dr_glance}()},
 \code{\link{dr_predict}()}

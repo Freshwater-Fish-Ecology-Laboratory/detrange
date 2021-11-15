@@ -5,10 +5,10 @@
 #'
 #' @inheritParams params
 #' @return A list of the jags model object and mcmcr samples.
-#' @aliases dr_analyze
+#' @aliases dr_fit
 #' @export
-#' @family analysis
-dr_analyse <- function(data, nthin = 10L,
+#' @family fit
+dr_fit <- function(data, nthin = 10L,
                        priors = NULL, quiet = TRUE){
 
   chk_range_test(data)
@@ -37,19 +37,19 @@ dr_analyse <- function(data, nthin = 10L,
 
 #' Get model coefficients
 #'
-#' Get coefficients from model object output of `dr_analyse`.
+#' Get coefficients from model object output of `dr_fit`.
 #'
 #' @inheritParams params
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_coef <- function(analysis, conf_level = 0.95,
+dr_coef <- function(x, conf_level = 0.95,
                     estimate = median, random_effects = FALSE){
 
-  chk_analysis(analysis)
-  data <- data_set(analysis)
-  samples <- samples(analysis)
-  model <- attr(analysis, "model_type")
+  chk_fit(x)
+  data <- data_set(x)
+  samples <- samples(x)
+  model <- attr(x, "model_type")
 
   nstation <- data$nStation
 
@@ -71,16 +71,16 @@ dr_coef <- function(analysis, conf_level = 0.95,
 #' @return A tibble of the glance summary.
 #' @export
 #' @family analysis
-dr_glance <- function(analysis){
+dr_glance <- function(x){
 
-  chk_analysis(analysis)
-  tibble::tibble(n = n(analysis),
-                 K = K(analysis),
-                 nchains = nchains(analysis),
-                 niters = niters(analysis),
-                 nthin = nthin(analysis),
-                 ess = ess(analysis),
-                 rhat = rhat(analysis),
-                 converged = converged(analysis))
+  chk_fit(x)
+  tibble::tibble(n = n(x),
+                 K = K(x),
+                 nchains = nchains(x),
+                 niters = niters(x),
+                 nthin = nthin(x),
+                 ess = ess(x),
+                 rhat = rhat(x),
+                 converged = converged(x))
 }
 

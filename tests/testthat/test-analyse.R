@@ -17,9 +17,9 @@ test_that("analyse functions work", {
   priors2 <- replace_priors(priors, wrong_prior)
   expect_identical(priors, priors2)
 
-  ### check dr_analyse
-  expect_chk_error(dr_analyse(data, priors = wrong_prior, nthin = 1L))
-  analysis <- dr_analyse(data, priors = new_prior, nthin = 1L)
+  ### check dr_fit
+  expect_chk_error(dr_fit(data, priors = wrong_prior, nthin = 1L))
+  analysis <- dr_fit(data, priors = new_prior, nthin = 1L)
 
   expect_type(analysis, "list")
   expect_identical(names(analysis), c("model", "samples", "data"))

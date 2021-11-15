@@ -2,9 +2,9 @@
 
 export(add_geom_distance_at_de)
 export(add_geom_predicted)
-export(dr_analyse)
 export(dr_coef)
 export(dr_distance_at_de)
+export(dr_fit)
 export(dr_glance)
 export(dr_plot)
 export(dr_predict)
