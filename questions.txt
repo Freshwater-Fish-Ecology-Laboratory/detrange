@@ -1,5 +1,5 @@
 ### for me/ further research
-1. default priors should essentially capture what is expected by the manufacturer under 'standard' conditions - i.e. 100% DE at 0m and max_range of 500m? what would be the expected slope and midpoint?
+1. should default priors capture what is expected by the manufacturer under 'standard' conditions - or rather should they be uninformative. in initial exploration using uninformative priors works best - as informative priors may yield unexpected results.
 
 2. should we build functionality for multiple directions within singel station - is this a nested mixed-effects model? or does user simply need to give each transect a unique station name?
 
@@ -8,7 +8,10 @@ we could model both and test best model on the data by AIC or model average esti
 
 4. only allow random effects with >5 stations?
 
-might need to allow users to include quadratic term so taht can account for CPDI - see
+5. Which generics should I use?
+difference between meaning of glance generic in mbr vs ssdtools
+
+6. Should i rename to drtools in anticipation of related pkgs (e.g. drdata, drshiny)
 
 
 
