@@ -1,3 +1,10 @@
+### class constructor
+drfit <- function(x){
+  chk_is(x, "list")
+  class(x) <- "drfit"
+  x
+}
+
 #' Analyse model
 #'
 #' Analyse detection range test data with a Bayesian model fit with JAGS.
@@ -31,7 +38,7 @@ dr_fit <- function(data, nthin = 10L,
   attr(run, 'model_type') <- model
   attr(run, 'nthin') <- nthin
   attr(run, 'priors') <- priors
-  class(run) <- 'dr_model'
+  run <- drfit(run)
   run
 }
 

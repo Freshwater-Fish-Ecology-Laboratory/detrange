@@ -37,7 +37,7 @@ chk_priors <- function(priors, model){
 }
 
 chk_fit <- function(x){
-  chk_s3_class(x, "dr_model")
+  chk_s3_class(x, "drfit")
   chk_subset(names(x), c("model", "samples", "data"))
   chk_identical(c("names", "model_type", "nthin", "priors", "class"),
                 names(attributes(x)))
