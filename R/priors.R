@@ -14,7 +14,11 @@ priors_list <- list(
     bIntercept = "dnorm(0, 10^-2)",
     bDist = "dnorm(0, 10^-2)",
     sInterceptStation = "dnorm(0, 10^-2) T(0,)",
-    sDistStation = "dnorm(0, 500^-2) T(0,)"
+    sDistStation = "dnorm(0, 10^-2) T(0,)"
+  ),
+  fixed = list(
+    bIntercept = "dnorm(0, 10^-2)",
+    bDist = "dnorm(0, 10^-2)"
   )
 )
 

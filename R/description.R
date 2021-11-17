@@ -47,6 +47,16 @@ param_description_fixed <- function(n){
   description <- tibble::tibble(term = names(description),
                                 description = description,
                                 random = FALSE)
+
+  for(i in 1:n){
+    dist <- glue::glue("bDistStation[{i}]")
+    dist_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bDist`")
+    dist_df <- tibble::tibble(term = dist,
+                                description = dist_desc,
+                                random = FALSE)
+
+    description <- rbind(description, dist_df)
+  }
   description
 }
 

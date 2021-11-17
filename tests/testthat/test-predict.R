@@ -1,4 +1,4 @@
-test_that("analysis funs work", {
+test_that("predict funs work", {
   data <- range_test
   analysis <- dr_fit(data, nthin = 1L)
 
@@ -63,19 +63,6 @@ test_that("analysis funs work", {
   z5 <- dr_distance_at_de(analysis, by = NULL, conf_level = 0.5, estimate = mean)
   expect_true(z5$estimate != z4$estimate)
   expect_true(z5$lower > z4$lower)
-
-  ### test param_description and coef
-  random <- param_description(2, "random")
-  expect_s3_class(random, "data.frame")
-  expect_identical(nrow(random), 9L)
-
-  fixed <- param_description(2, "fixed")
-  expect_s3_class(fixed, "data.frame")
-  expect_identical(nrow(fixed), 3L)
-
-  coefs <- dr_coef(analysis)
-  expect_s3_class(coefs, "data.frame")
-  expect_true(all(names(coefs) %in% c("term", "lower", "upper", "estimate", "svalue", "description")))
 
   ### plot
   gp <- dr_plot(data)

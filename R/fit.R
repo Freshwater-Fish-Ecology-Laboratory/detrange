@@ -15,12 +15,16 @@ drfit <- function(x){
 #' @aliases dr_fit
 #' @export
 #' @family fit
-dr_fit <- function(data, nthin = 10L,
-                       priors = NULL, quiet = TRUE){
+dr_fit <- function(data,
+                   nthin = 10,
+                   min_random = 5,
+                   priors = NULL,
+                   quiet = TRUE){
 
   chk_range_test(data)
   data_list <- df_to_list(data)
-  model <- if(data_list$nStation >= 5) "random" else "fixed"
+  chk_whole_number(min_random)
+  model <- if(data_list$nStation >= min_random) "random" else "fixed"
   chk_priors(priors, model)
   chk_whole_number(nthin)
   chk_gte(nthin, value = 1L)

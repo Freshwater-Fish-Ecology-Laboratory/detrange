@@ -4,13 +4,15 @@
 \alias{dr_fit}
 \title{Analyse model}
 \usage{
-dr_fit(data, nthin = 10L, priors = NULL, quiet = TRUE)
+dr_fit(data, nthin = 10, min_random = 5, priors = NULL, quiet = TRUE)
 }
 \arguments{
 \item{data}{A tibble of the range test data.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 
-\item{nthin}{A number of the number of thins.}
+\item{nthin}{A whole number of the number of thins.}
+
+\item{min_random}{A whole number of the minimum number of Stations required to fit a mixed-effects model.}
 
 \item{priors}{A named list of the priors for each model term.}
 

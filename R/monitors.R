@@ -8,5 +8,8 @@ monitors_list <- list(
              "sInterceptStation",
              "sDistStation",
              "bInterceptStation",
-             "bDistStation")
+             "bDistStation"),
+  fixed = c("bIntercept",
+            "bDist",
+            "bDistStation")
 )

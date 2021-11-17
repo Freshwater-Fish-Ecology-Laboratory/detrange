@@ -15,7 +15,9 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 
 \item{priors}{A named list of the priors for each model term.}
 
-\item{nthin}{A number of the number of thins.}
+\item{nthin}{A whole number of the number of thins.}
+
+\item{min_random}{A whole number of the minimum number of Stations required to fit a mixed-effects model.}
 
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
 
