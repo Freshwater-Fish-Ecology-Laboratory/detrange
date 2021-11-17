@@ -7,11 +7,12 @@ Readme/articles
 - articles
   - getting started with detrange (includes background)
   - doing more with detrange
-    - changing priors
+    - working with dr_template - changing priors, param names etc.
     - working with samples/model objects
 
 Issues/fixes
-- double check term descriptions
+- get edu/joe to look over term descriptions
+- get edu/joe to look over fixed-effect model and coef table
 
 Enhancements
 - function to plot posteriors of distance estimates?
@@ -21,9 +22,17 @@ Enhancements
 - implement correlated slope/intercept model
 - build shiny app
 - put on CRAN
-- Use tidyverse funs from generics for model object manipulation - glance, tidy, augment, predict
+- Use generics for model object manipulation - some ideas:
+  - glance (summary of model performance/convergence) - Construct a single row summary "glance" of a model, fit, or other object - glance methods always return either a one-row data frame
+  - augment (get underlying data back) - A tibble::tibble() with information about data points
+  - explore (run shiny app/widget on object) invokes a function that starts an interactive, pre-defined widget (e.g. plotly visualization, shiny app, etc.) to investigate the results.
+  - tidy (maybe get coef estimates?) - Turn an object into a tidy tibble
+  - visualize (maybe plot? or use autoplot?) - Visualize a data set or object.
+  - fit (maybe fit model? but would have to add class to data, or compile mdoel first - seems unnecessary step) - Estimates parameters for a given model from a set of data.
 - link to funs in documentation
-- make priors and terms accessible to user - data-raw
+- expose priors and terms to user - data-raw - to allow easily changing priors and seeing which terms will be in a given model
+- add dr_template function to build model without sampling so user can see it and adjust priors/terms - remove priors argument from dr_fit?
+- method for dr_fit - data.frame vs drtemplate class
 
 Pkg maintenance stuff
 - build website
@@ -44,3 +53,5 @@ ssdtools
 generics - glance, tidy, augment, predict
 basic TMB r package wrapper - tutorial - made a packge how to do it
 warn user if
+
+check out universals (generics), extras, nlist

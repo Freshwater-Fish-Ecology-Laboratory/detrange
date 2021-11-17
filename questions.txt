@@ -13,5 +13,7 @@ difference between meaning of glance generic in mbr vs ssdtools
 
 6. Should i rename to drtools in anticipation of related pkgs (e.g. drdata, drshiny)
 
+7. should i allow random interecept? should this be dependent on whether all stations utilize same technology and are in same water body - in that case probably safe to assume fixed intercept estimate?
+
 
 
