@@ -4,7 +4,14 @@
 \alias{dr_fit}
 \title{Analyse model}
 \usage{
-dr_fit(data, nthin = 10, min_random = 5, priors = NULL, quiet = TRUE)
+dr_fit(
+  data,
+  nthin = 10,
+  min_random = 5,
+  random_intercept = FALSE,
+  priors = NULL,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{data}{A tibble of the range test data.
@@ -13,6 +20,9 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 \item{nthin}{A whole number of the number of thins.}
 
 \item{min_random}{A whole number of the minimum number of Stations required to fit a mixed-effects model.}
+
+\item{random_intercept}{A flag indicating whether to model intercept as a random effect.
+In the case of a fixed-effects model, this will be ignored.}
 
 \item{priors}{A named list of the priors for each model term.}
 

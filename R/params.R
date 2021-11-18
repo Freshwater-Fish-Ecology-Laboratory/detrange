@@ -7,6 +7,8 @@
 #' @param priors A named list of the priors for each model term.
 #' @param nthin A whole number of the number of thins.
 #' @param min_random A whole number of the minimum number of Stations required to fit a mixed-effects model.
+#' @param random_intercept A flag indicating whether to model intercept as a random effect.
+#' In the case of a fixed-effects model, this will be ignored.
 #' @param quiet A flag indicating whether to suppress messages and progress bars.
 #' @param by A string of the grouping variable to derive predictions for.
 #' @param conf_level A number between 0 and 1 of the confidence level. Default is 0.95.

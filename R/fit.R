@@ -18,28 +18,33 @@ drfit <- function(x){
 dr_fit <- function(data,
                    nthin = 10,
                    min_random = 5,
+                   random_intercept = FALSE,
                    priors = NULL,
                    quiet = TRUE){
 
-  chk_range_test(data)
-  data_list <- df_to_list(data)
+  .chk_data(data)
   chk_whole_number(min_random)
-  model <- if(data_list$nStation >= min_random) "random" else "fixed"
-  chk_priors(priors, model)
+  .chk_priors(priors)
   chk_whole_number(nthin)
   chk_gte(nthin, value = 1L)
   chk_flag(quiet)
 
-  priors <- replace_priors(priors(model), priors)
-  template <- template(model, priors)
-  monitors <- monitors(model)
+  data_list <- df_to_list(data)
+  model_type <- if(data_list$nStation >= min_random) "random" else "fixed"
+  terms <- .terms()
+  default_priors <- .priors(terms)
+  priors <- replace_priors(default_priors, priors)
+  template <- .template(model_type, random_intercept)
+  template_model <- .model(template, priors)
+  monitors <- .monitors(terms)
 
-  run <- run_jags(template = template, data = data_list, monitor = monitors,
+  run <- run_jags(template = template_model,
+                  data = data_list, monitor = monitors,
                   inits = NULL, niters = 1000, nchains = 3,
                   nthin = nthin, quiet = quiet)
 
   run$data <- data
-  attr(run, 'model_type') <- model
+  attr(run, 'model_type') <- model_type
   attr(run, 'nthin') <- nthin
   attr(run, 'priors') <- priors
   run <- drfit(run)
@@ -57,16 +62,18 @@ dr_fit <- function(data,
 dr_coef <- function(x, conf_level = 0.95,
                     estimate = median, random_effects = FALSE){
 
-  chk_fit(x)
-  data <- data_set(x)
-  samples <- samples(x)
-  model <- attr(x, "model_type")
+  .chk_fit(x)
+  data <- .data_set(x)
+  samples <- .samples(x)
+  model <- .model_type(x)
 
   nstation <- data$nStation
+  desc <- .description(n = nstation)
+  if(model == "fixed")
+    desc$random <- FALSE
 
-  param_desc <- param_description(n = nstation, model)
   coefs <- mcmcr::coef(samples, conf_level = conf_level, estimate = estimate)
-  coefs <- merge(coefs, param_desc, by = "term", all.x = TRUE)
+  coefs <- merge(coefs, desc, by = "term", all.x = TRUE)
   if(!random_effects)
     coefs <- coefs[!coefs$random,]
   coefs$random <- NULL
@@ -84,14 +91,14 @@ dr_coef <- function(x, conf_level = 0.95,
 #' @family analysis
 dr_glance <- function(x){
 
-  chk_fit(x)
-  tibble::tibble(n = n(x),
-                 K = K(x),
-                 nchains = nchains(x),
-                 niters = niters(x),
-                 nthin = nthin(x),
-                 ess = ess(x),
-                 rhat = rhat(x),
-                 converged = converged(x))
+  .chk_fit(x)
+  tibble::tibble(n = .n(x),
+                 K = .K(x),
+                 nchains = .nchains(x),
+                 niters = .niters(x),
+                 nthin = .nthin(x),
+                 ess = .ess(x),
+                 rhat = .rhat(x),
+                 converged = .converged(x))
 }
 

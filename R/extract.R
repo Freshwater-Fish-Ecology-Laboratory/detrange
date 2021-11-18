@@ -1,62 +1,62 @@
 ### extract from analysis object
-data_set <- function(analysis){
-  analysis$model$data()
+.data_set <- function(x){
+  x$model$data()
 }
 
-data_df <- function(analysis){
-  analysis$data
+.augment <- function(x){
+  x$data
 }
 
-samples <- function(analysis){
-  analysis$samples
+.samples <- function(x){
+  x$samples
 }
 
-model_type <- function(analysis){
-  attr(analysis, "model_type")
+.model_type <- function(x){
+  attr(x, "model_type")
 }
 
-nthin <- function(analysis){
-  attr(analysis, "nthin")
+.nthin <- function(x){
+  attr(x, "nthin")
 }
 
-de_target <- function(analysis){
-  attr(analysis, "de_target")
+.de_target <- function(x){
+  attr(x, "de_target")
 }
 
-priors <- function(analysis){
-  attr(analysis, "priors")
+.priors <- function(x){
+  attr(x, "priors")
 }
 
-n <- function(analysis){
-  nrow(data_df(analysis))
+.n <- function(x){
+  nrow(.augment(x))
 }
 
 ### sample extract
-nchains <- function(analysis){
-  mcmcr::nchains(samples(analysis))
+.nchains <- function(x){
+  mcmcr::nchains(.samples(x))
 }
 
-niters <- function(analysis){
-  mcmcr::niters(samples(analysis))
+.niters <- function(x){
+  mcmcr::niters(.samples(x))
 }
 
-K <- function(analysis){
-  model <- model_type(analysis)
+.K <- function(analysis){
+  model <- .model_type(analysis)
   switch(model,
          "random" = 4,
          "fixed" = 2)
 }
 
-ess <- function(analysis){
-  mcmcr::ess(samples(analysis))
+.ess <- function(x){
+  mcmcr::ess(.samples(x))
 }
 
-rhat <- function(analysis){
-  mcmcr::rhat(samples(analysis))
+.rhat <- function(x){
+  mcmcr::rhat(.samples(x))
 }
 
-converged <- function(analysis){
-  mcmcr::converged(samples(analysis))
+.converged <- function(x){
+  mcmcr::converged(.samples(x))
 }
 
 

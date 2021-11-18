@@ -1,5 +1,5 @@
 new_data <- function(x, seq, ref){
-  data <- data_df(x)
+  data <- .augment(x)
 
   newdata::new_data(data = data,
                     seq = seq,

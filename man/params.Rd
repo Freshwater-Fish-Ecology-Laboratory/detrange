@@ -19,6 +19,9 @@ Data must include columns Station (character), Distance (numeric), Pings (intege
 
 \item{min_random}{A whole number of the minimum number of Stations required to fit a mixed-effects model.}
 
+\item{random_intercept}{A flag indicating whether to model intercept as a random effect.
+In the case of a fixed-effects model, this will be ignored.}
+
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
 
 \item{by}{A string of the grouping variable to derive predictions for.}
