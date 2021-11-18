@@ -1,3 +1,12 @@
+.coef <- function(samples, conf_level, estimate, description, random_effects){
+  coefs <- mcmcr::coef(samples, conf_level = conf_level, estimate = estimate)
+  coefs <- merge(coefs, description, by = "term", all.x = TRUE)
+  if(!random_effects)
+    coefs <- coefs[!coefs$random,]
+  coefs$random <- NULL
+  coefs
+}
+
 #' Analyse model
 #'
 #' Analyse detection range test data with a Bayesian model fit with JAGS.
@@ -60,18 +69,14 @@ dr_coef <- function(x, conf_level = 0.95,
   .chk_fit(x)
   data <- .data_set(x)
   samples <- .samples(x)
-  model <- .model_type(x)
+  model <- .model_type_drfit(x)
 
   nstation <- data$nStation
-  desc <- .description(n = nstation)
+  description <- .description(n = nstation)
   if(model == "fixed")
-    desc$random <- FALSE
+    description$random <- FALSE
 
-  coefs <- mcmcr::coef(samples, conf_level = conf_level, estimate = estimate)
-  coefs <- merge(coefs, desc, by = "term", all.x = TRUE)
-  if(!random_effects)
-    coefs <- coefs[!coefs$random,]
-  coefs$random <- NULL
+  coefs <- .coef(samples, conf_level, estimate, description, random_effects)
 
   tibble::as_tibble(coefs)
 }
@@ -87,11 +92,11 @@ dr_coef <- function(x, conf_level = 0.95,
 dr_glance <- function(x){
 
   .chk_fit(x)
-  tibble::tibble(n = .n(x),
+  tibble::tibble(n = .n_drfit(x),
                  K = .K(x),
                  nchains = .nchains(x),
                  niters = .niters(x),
-                 nthin = .nthin(x),
+                 nthin = .nthin_drfit(x),
                  ess = .ess(x),
                  rhat = .rhat(x),
                  converged = .converged(x))

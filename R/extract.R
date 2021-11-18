@@ -11,26 +11,6 @@
   x$samples
 }
 
-.model_type <- function(x){
-  attr(x, "model_type")
-}
-
-.nthin <- function(x){
-  attr(x, "nthin")
-}
-
-.de_target <- function(x){
-  attr(x, "de_target")
-}
-
-.priors <- function(x){
-  attr(x, "priors")
-}
-
-.n <- function(x){
-  nrow(.augment(x))
-}
-
 ### sample extract
 .nchains <- function(x){
   mcmcr::nchains(.samples(x))
@@ -40,11 +20,8 @@
   mcmcr::niters(.samples(x))
 }
 
-.K <- function(analysis){
-  model <- .model_type(analysis)
-  switch(model,
-         "random" = 4,
-         "fixed" = 2)
+.K <- function(x){
+  mcmcr::nterms(.samples(x))
 }
 
 .ess <- function(x){
