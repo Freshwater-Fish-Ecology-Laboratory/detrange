@@ -23,11 +23,14 @@ test_that("fit functions work", {
 
   ### check dr_fit
   expect_chk_error(dr_fit(data, nthin = 1L, priors = wrong_prior))
-  message("fix error message when wrong prior")
 
   # random slope
   random <- dr_fit(data, nthin = 1L)
   expect_identical(.chk_fit(random), random)
+
+  # check attrs
+  attrs <- .attrs_drfit(random)
+  expect_identical(names(attrs), c("nthin", "n", "model_type", "random_intercept"))
 
   # fixed
   fixed <- dr_fit(data, nthin = 1L, min_random = 10)
