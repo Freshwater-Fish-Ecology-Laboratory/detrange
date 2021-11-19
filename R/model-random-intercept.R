@@ -29,7 +29,7 @@
     eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
     eDist[i] <- bDist + bDistStation[Station[i]]
     logit(eDetects[i]) <- eIntercept[i] + eDist[i] * Distance[i]
-    target[i] <- eIntercept[i] + (<<de_logit>> - eIntercept[i])/eDist[i]
+    target[i] <- eIntercept[i] + (DELogit[i] - eIntercept[i])/eDist[i]
     prediction[i] <- eDetects[i]
   }"
 

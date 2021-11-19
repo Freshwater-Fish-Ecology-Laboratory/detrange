@@ -58,9 +58,9 @@ add_geom_predicted <- function(gp, predicted){
 #' add_geom_predicted(predicted) %>%
 #' add_geom_distance_at_de(distance_at_de)
 #' }
-add_geom_distance_at_de <- function(gp, distance_at_de){
+add_geom_predicted_distance <- function(gp, distance_at_de){
     chk_s3_class(gp, "ggplot")
-    chk_distance_at_de(distance_at_de)
+    .chk_predicted_distance(distance_at_de)
     de <- unique(distance_at_de$de)
     gp <- gp +
       ggplot2::geom_errorbarh(data = distance_at_de, aes(xmin = .data$lower,

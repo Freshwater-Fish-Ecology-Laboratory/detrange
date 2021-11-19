@@ -1,16 +1,17 @@
 test_that("predict funs work", {
   data <- range_test
-  analysis <- dr_fit(data, nthin = 1L)
+  fit <- dr_fit(data, nthin = 1L)
 
   ### test new_data fun
-  x <- new_data(analysis, seq = c("Station", "Distance"), ref = list())
+  data <- .augment(fit)
+  x <- .new_data(data, seq = c("Station", "Distance"), ref = list())
   expect_s3_class(x, "data.frame")
   expect_true(all(names(data) %in% names(x)))
   expect_identical(range(x$Distance), range(data$Distance))
   expect_identical(length(unique(x$Station)), length(unique(data$Station)))
 
   seq1 <- seq(0, 200, 100)
-  x2 <- new_data(analysis, seq = character(0), ref = list(Distance = seq1))
+  x2 <- .new_data(data, seq = character(0), ref = list(Distance = seq1))
   expect_s3_class(x, "data.frame")
   expect_identical(length(unique(x2$Station)), 1L)
 
@@ -20,55 +21,53 @@ test_that("predict funs work", {
   expect_identical(length(unique(x2$Station)), 1L)
 
   ### test new_expr
-  new_expr <- new_expr("random", "prediction")
-  new_expr2 <- new_expr("random", "target", 0)
-  new_expr3 <- new_expr("fixed", "target", 0)
-  expect_type(new_expr, "character")
-  expect_type(new_expr2, "character")
-  expect_type(new_expr3, "character")
-  expect_true(all(new_expr != new_expr2, new_expr2 != new_expr3, new_expr2 != new_expr3))
+  model_type <- .model_type_drfit(fit)
+  random_intercept <- .random_intercept_drfit(fit)
+  template <- .template(model_type, random_intercept)
+  derived_expr <- .derived(template)
+  expect_type(derived_expr, "character")
 
   ### test predict fun
-  x <- new_data(analysis, seq = "Station", ref = list(Distance = seq1))
-  y <- predict(analysis, x, new_expr = new_expr, monitor = "prediction")
+  x <- .new_data(data, seq = "Station", ref = list(Distance = seq1))
+  y <- .predict(fit, x, derived_expr = derived_expr, monitor = "prediction")
   expect_s3_class(y, "data.frame")
   expect_true(all(c("estimate", "lower", "upper") %in% names(y)))
-  y2 <- predict(analysis, x, new_expr = new_expr, monitor = "prediction", conf_level = 0.5, estimate = mean)
+  y2 <- .predict(fit, x, derived_expr = derived_expr, monitor = "prediction",
+                 conf_level = 0.5, estimate = mean)
   expect_true(all(y$lower < y2$lower))
   expect_true(all(y$estimate != y2$estimate))
 
-  ### test predict
-  y3 <- dr_predict(analysis, distance_seq = seq1, by = "Station")
-  expect_identical(clean_predict(y, "Station"), y3)
-  y4 <- dr_predict(analysis, distance_seq = seq1, by = NULL)
-  expect_true(nrow(y4) < nrow(y3))
-  expect_true(!("Station" %in% names(y4)))
-  y5 <- dr_predict(analysis, distance_seq = NULL, by = "Station")
-  expect_s3_class(y5, "data.frame")
-  expect_identical(range(y5$Distance), range(data$Distance))
-  y6 <- dr_predict(analysis, distance_seq = NULL, by = NULL)
-  expect_s3_class(y6, "data.frame")
-  expect_identical(range(y5$Distance), range(data$Distance))
+  ### test dr_predict_distance
+  de1 <- c(0.1, 0.5)
+  de2 <-  0.5
+  y1 <- dr_predict_distance(fit, de1)
+  y2 <- dr_predict_distance(fit, de2, conf_level = 0.5, estimate = mean)
+  expect_identical(round(unique(y1$de), 1), round(de1, 1))
+  expect_identical(round(unique(y2$de), 1), round(de2, 1))
+  y3 <- y1[y1$de == 0.5,]
+  # test that conf_level and estimate work
+  expect_true(all(y2$lower > y3$lower))
+  expect_true(all(y2$estimate != y3$estimate))
 
-  ### test dr_distance_at_de
-  z <- dr_distance_at_de(analysis)
-  expect_s3_class(z, "data.frame")
-  expect_identical(unique(z$Station), unique(data$Station))
-  z2 <- dr_distance_at_de(analysis, de = 0.9)
-  expect_true(all(z2$estimate < z$estimate))
-  z3 <- dr_distance_at_de(analysis, de = 0.1)
-  expect_true(all(z3$estimate > z$estimate))
-  z4 <- dr_distance_at_de(analysis, by = NULL)
-  expect_identical(nrow(z4), 1L)
-  z5 <- dr_distance_at_de(analysis, by = NULL, conf_level = 0.5, estimate = mean)
-  expect_true(z5$estimate != z4$estimate)
-  expect_true(z5$lower > z4$lower)
+  ### test dr_de_at_distance
+  dist <- c(10, 100)
+  dist2 <- 100
+  y1 <- dr_predict_de(fit, dist)
+  y2 <- dr_predict_de(fit, dist2, conf_level = 0.5, estimate = mean)
+  expect_identical(unique(y1$Distance), dist)
+  expect_identical(unique(y2$Distance), dist2)
+  y3 <- y1[y1$de == 100,]
+  # test that conf_level and estimate work
+  expect_true(all(y2$lower > y3$lower))
+  expect_true(all(y2$estimate != y3$estimate))
+  expect_identical(nrow(y2), length(unique(data$Station)))
 
-  ### plot
-  gp <- dr_plot(data)
-  expect_s3_class(gp, "ggplot")
-  gp <- gp %>% add_geom_predicted(y5)
-  expect_s3_class(gp, "ggplot")
-  gp <- gp %>% add_geom_distance_at_de(z)
-  expect_s3_class(gp, "ggplot")
+  # test distance = NULL
+  y4 <- dr_predict_de(fit, distance = NULL)
+  expect_identical(range(y4$Distance), range(data$Distance))
+
+  # test by = NULL
+  y5 <- dr_predict_de(fit, distance = dist2, by = NULL)
+  expect_identical(nrow(y5), 1L)
+
 })

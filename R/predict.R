@@ -1,17 +1,15 @@
-new_data <- function(x, seq, ref){
-  data <- .augment(x)
-
-  newdata::new_data(data = data,
+.new_data <- function(x, seq, ref){
+  newdata::new_data(data = x,
                     seq = seq,
                     ref = ref)
 }
 
-predict <- function(x, new_data, new_expr, monitor, conf_level = 0.95,
-                    estimate = median){
-  samples <- samples(x)
+.predict <- function(x, new_data, derived_expr, monitor,
+                    conf_level = 0.95, estimate = median){
 
+  samples <- .samples(x)
   derived <- mcmcderive::mcmc_derive(samples,
-                                     expr = new_expr,
+                                     expr = derived_expr,
                                      monitor = monitor,
                                      values = new_data,
                                      silent = TRUE)
@@ -22,87 +20,104 @@ predict <- function(x, new_data, new_expr, monitor, conf_level = 0.95,
   data
 }
 
-clean_predict <- function(x, seq){
-  x <- x[, unique(c(seq, "Distance", "estimate", "lower", "upper", "svalue"))]
+clean_predict <- function(x, seq, ref){
+  cols <- intersect(c(seq, names(ref), "de", "estimate", "lower", "upper", "svalue"), names(x))
+  x <- x[, cols]
   if("Station" %in% names(x))
     x <- x[order(x$Station), , drop = FALSE]
   x
 }
 
-#' Predict detection range
+#' Predict detection efficiency
 #'
-#' Predict detection efficiency at distance sequence from model object output of `dr_fit`.
+#' Predict detection efficiency at specified distance(s).
 #'
 #' @inheritParams params
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_predict <- function(x,
+dr_predict_de <- function(x,
+                       distance,
                        by = "Station",
-                       distance_seq = NULL,
                        conf_level = 0.95,
                        estimate = median){
 
-  chk_fit(x)
-  chkor_vld(vld_null(distance_seq), vld_numeric(distance_seq))
-  chkor_vld(vld_null(by), vld_subset(by, c("Station", character(0))))
+  .chk_fit(x)
+  chkor_vld(vld_numeric(distance) & vld_gte(distance, 0),
+            vld_identical(distance, numeric(0)),
+            vld_identical(distance, NULL))
+  chkor_vld(vld_subset(by, "Station"),
+            vld_identical(by, character(0)),
+            vld_identical(by, NULL),
+            vld_identical(by, ""))
   chk_number(conf_level)
   chk_gte(conf_level, 0)
   chk_lte(conf_level, 1)
   chk_is(estimate, "function")
 
-  seq <- if(is.null(by)) character(0) else by
-  if(is.null(distance_seq)){
+  seq <- to_ch0(by)
+  if(!length(distance)){
     seq <- c(seq, "Distance")
     ref <- list()
   } else {
-    ref <- list(Distance = distance_seq)
+    ref <- list(Distance = distance)
   }
 
-  new_data <- new_data(x, seq = seq, ref = ref)
+  data <- .augment(x)
+  new_data <- .new_data(data, seq = seq, ref = ref)
 
-  model_type <- model_type(x)
-  new_expr <- new_expr(model_type, "prediction")
+  model_type <- .model_type_drfit(x)
+  random_intercept <- .random_intercept_drfit(x)
+  template <- .template(model_type, random_intercept)
+  derived_expr <- .derived(template)
 
-  x <- predict(x, new_data, new_expr, conf_level,
+  x <- .predict(x, new_data, derived_expr, conf_level,
           estimate, monitor = "prediction")
-  clean_predict(x, seq)
+  clean_predict(x, seq, ref)
 }
 
-#' Predict distance at target DE
+#' Predict distance
 #'
-#' Predict distance at target detection efficiency from model object output of `dr_analyse`.
+#' Predict distance at specified detection efficiency or vector of detection efficiencies.
 #'
 #' @inheritParams params
 #' @return A tibble of the coefficients.
 #' @export
 #' @family analysis
-dr_distance_at_de <- function(x,
-                              de = 0.5,
+dr_predict_distance <- function(x,
+                              de,
                               by = "Station",
                               conf_level = 0.95,
                               estimate = median){
 
-  chk_fit(x)
-  chk_number(de)
+  .chk_fit(x)
+  chk_numeric(de)
   chk_gte(de, 0)
   chk_lte(de, 1)
-  chkor_vld(vld_null(by), vld_subset(by, c("Station", character(0))))
+  chkor_vld(vld_subset(by, "Station"),
+            vld_identical(by, character(0)),
+            vld_identical(by, NULL),
+            vld_identical(by, ""))
   chk_number(conf_level)
   chk_gte(conf_level, 0)
   chk_lte(conf_level, 1)
   chk_is(estimate, "function")
 
-  seq <- if(is.null(by)) character(0) else by
-  new_data <- new_data(x, seq, ref = list())
-  model_type <- model_type(x)
-  de_logit <- logit(de)
-  new_expr <- new_expr(model_type, "target", de_logit = de_logit)
+  seq <- to_ch0(by)
+  data <- .augment(x)
+  data$DELogit <- 0
+  delogit <- logit(de)
+  ref <- list(DELogit = delogit)
+  new_data <- .new_data(data, seq, ref = ref)
 
-  x <- predict(x, new_data, new_expr, conf_level,
+  model_type <- .model_type_drfit(x)
+  random_intercept <- .random_intercept_drfit(x)
+  template <- .template(model_type, random_intercept)
+  derived_expr <- .derived(template)
+
+  x <- .predict(x, new_data, derived_expr, conf_level,
           estimate, monitor = "target")
-  x <- clean_predict(x, seq)
-  x$de <- de
-  # x$Distance <- NULL
-  x
+  x$de <- plogis(x$DELogit)
+  x$DELogit <- NULL
+  clean_predict(x, seq, ref)
 }

@@ -7,7 +7,7 @@
 dr_plot(data)
 }
 \arguments{
-\item{data}{A tibble of the range test data.
+\item{data}{A tibble of the detection range data.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 }
 \value{

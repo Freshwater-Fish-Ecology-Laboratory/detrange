@@ -14,7 +14,7 @@ dr_fit(
 )
 }
 \arguments{
-\item{data}{A tibble of the range test data.
+\item{data}{A tibble of the detection range data.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 
 \item{nthin}{A whole number of the number of thins.}

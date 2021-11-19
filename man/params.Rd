@@ -6,12 +6,10 @@
 \arguments{
 \item{...}{Unused parameters.}
 
-\item{data}{A tibble of the range test data.
+\item{data}{A tibble of the detection range data.
 Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
 
 \item{x}{The object.}
-
-\item{distance_seq}{A vector of the distances to make predictions for.}
 
 \item{priors}{A named list of the priors for each model term.}
 
@@ -24,21 +22,24 @@ In the case of a fixed-effects model, this will be ignored.}
 
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
 
-\item{by}{A string of the grouping variable to derive predictions for.}
+\item{by}{A string of the column indicating group to derive predictions at.}
 
-\item{conf_level}{A number between 0 and 1 of the confidence level. Default is 0.95.}
+\item{conf_level}{A number between 0 and 1 of the confidence level.}
 
-\item{estimate}{A function to calculate the estimate with. The default is median.}
+\item{estimate}{A function to calculate the estimate.}
 
-\item{de}{A number between 0 and 1 of the detection efficiency.}
+\item{distance}{A vector of the distances to predict detection efficiency at.
+If NULL, a vector of length 30 spanning the range of the Distance in the data will be generated.}
+
+\item{de}{A vector of numbers between 0 and 1 of the detection efficiency to predict distance at.}
 
 \item{random_effects}{A flag indicating whether to include random effect terms.}
 
 \item{gp}{A ggplot object returned from \code{dr_plot}.}
 
-\item{predicted}{A tibble of the output of \code{dr_predict}.}
+\item{predicted_de}{A tibble of the output of \code{dr_predict_de}.}
 
-\item{distance_at_de}{A tibble of the output of \code{dr_distance_at_de}.}
+\item{predicted_distance}{A tibble of the output of \code{dr_predict_distance}.}
 }
 \description{
 Parameter Descriptions for detrange Functions

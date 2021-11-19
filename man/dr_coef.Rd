@@ -9,9 +9,9 @@ dr_coef(x, conf_level = 0.95, estimate = median, random_effects = FALSE)
 \arguments{
 \item{x}{The object.}
 
-\item{conf_level}{A number between 0 and 1 of the confidence level. Default is 0.95.}
+\item{conf_level}{A number between 0 and 1 of the confidence level.}
 
-\item{estimate}{A function to calculate the estimate with. The default is median.}
+\item{estimate}{A function to calculate the estimate.}
 
 \item{random_effects}{A flag indicating whether to include random effect terms.}
 }
@@ -23,8 +23,8 @@ Get coefficients from model object output of \code{dr_fit}.
 }
 \seealso{
 Other analysis: 
-\code{\link{dr_distance_at_de}()},
 \code{\link{dr_glance}()},
-\code{\link{dr_predict}()}
+\code{\link{dr_predict_de}()},
+\code{\link{dr_predict_distance}()}
 }
 \concept{analysis}

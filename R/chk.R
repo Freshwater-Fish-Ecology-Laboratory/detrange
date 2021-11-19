@@ -5,26 +5,29 @@
                                 Distance = c(0, Inf),
                                 Detects = c(0L, .max_int),
                                 Pings = c(1L, .max_int)))
+  invisible(data)
 }
 
-.chk_predicted <- function(data, x_name = deparse(substitute(data))){
+.chk_predicted_de <- function(data, x_name = deparse(substitute(data))){
   chk::check_data(data,
                   x_name = x_name,
                   values = list(Station = factor(),
                                 Distance = c(0, Inf),
-                                estimate = 1,
-                                lower = 1,
-                                upper = 1))
+                                estimate = c(0, 1),
+                                lower = c(0, 1),
+                                upper = c(0, 1)))
+  invisible(data)
 }
 
-.chk_distance_at_de <- function(data, x_name = deparse(substitute(data))){
+.chk_predicted_distance <- function(data, x_name = deparse(substitute(data))){
   chk::check_data(data,
                   x_name = x_name,
                   values = list(Station = factor(),
-                                estimate = 1,
-                                lower = 1,
-                                upper = 1,
-                                de = c(0, 1)))
+                                de = c(0, 1),
+                                estimate = c(0, 1),
+                                lower = c(0, 1),
+                                upper = c(0, 1),
+                                svalue = c(0, 1)))
 }
 
 .chk_priors <- function(priors){

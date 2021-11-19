@@ -10,7 +10,7 @@ test_that("fit functions work", {
   expect_type(template, "closure")
   model <- .model(template, priors)
   expect_type(model, "character")
-  derived <- .derived(template, de_logit = 0)
+  derived <- .derived(template)
   expect_type(derived, "character")
 
   ### check that priors can be replaced

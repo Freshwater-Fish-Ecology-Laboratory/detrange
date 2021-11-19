@@ -2,6 +2,12 @@
 
 logit <- function(x) log(x / (1 - x))
 
+to_ch0 <- function(x){
+  if(!length(x) || x == "")
+    x <- character(0)
+  x
+}
+
 df_to_list <- function(x){
   list(nObs = nrow(x),
        nStation = length(unique(x$Station)),
@@ -15,6 +21,11 @@ list_to_df <- function(x){
   x <- as.data.frame(x)
   x$Station <- as.factor(x$Station)
   x
+}
+
+glue2 <- function(x){
+  as.character(glue::glue(x, .open = "<<", .close = ">>",
+                          .envir = parent.frame()))
 }
 
 

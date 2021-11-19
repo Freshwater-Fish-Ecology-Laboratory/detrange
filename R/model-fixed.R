@@ -24,6 +24,6 @@
 .derived_f <- "for(i in 1:length(Distance)) {
     eDist[i] <- bDist + bDistStation[Station[i]]
     logit(eDetects[i]) <- bIntercept + eDist[i] * Distance[i]
-    target[i] <- bIntercept + (<<de_logit>> - bIntercept)/eDist[i]
+    target[i] <- bIntercept + (DELogit[i] - bIntercept)/eDist[i]
     prediction[i] <- eDetects[i]
   }"

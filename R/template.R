@@ -1,14 +1,9 @@
-glue2 <- function(x){
-  as.character(glue::glue(x, .open = "<<", .close = ">>",
-                          .envir = parent.frame()))
-}
-
 .model <- function(model, priors){
   glue2(model(priors)$model)
 }
 
-.derived <- function(model, de_logit){
-  glue2(model(de_logit)$derived)
+.derived <- function(model){
+  glue2(model()$derived)
 }
 
 .template <- function(model_type, random_intercept){
