@@ -1,3 +1,7 @@
+.ess <- function(x){
+  mcmcr::ess(.samples(x))
+}
+
 #' @export
 universals::estimates
 

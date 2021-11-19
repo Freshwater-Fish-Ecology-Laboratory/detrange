@@ -1,7 +1,9 @@
-#' Analyse model
+#' Fit Detection Range Model
 #'
-#' Analyse detection range test data with a Bayesian model fit with JAGS.
-#' Each station has a random slope and intercept.
+#' Fit detection range model using JAGS.
+#' If the number of stations is < min_random, a fixed-effects model is fit.
+#' Otherwise, a mixed-effects model is fit with random slope for each station.
+#' If random_intercept = TRUE, a random intercept is also fit for each station.
 #'
 #' @inheritParams params
 #' @return A list of the jags model object and mcmcr samples.

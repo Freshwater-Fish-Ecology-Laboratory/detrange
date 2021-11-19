@@ -1,4 +1,3 @@
-### extract from analysis object
 .data_set <- function(x){
   x$model$data()
 }
@@ -7,9 +6,7 @@
   x$samples
 }
 
-.ess <- function(x){
-  mcmcr::ess(.samples(x))
-}
+
 
 
 
