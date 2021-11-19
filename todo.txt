@@ -39,29 +39,25 @@ MODEL
 
 GENERICS
 - Use generics for model object manipulation - some ideas:
-  - glance (summary of model performance/convergence) - Construct a single row summary "glance" of a model, fit, or other object - glance methods always return either a one-row data frame
-  - augment (get underlying data back) - A tibble::tibble() with information about data points
-  - explore (run shiny app/widget on object) invokes a function that starts an interactive, pre-defined widget (e.g. plotly visualization, shiny app, etc.) to investigate the results.
-  - tidy (maybe get coef estimates?) - Turn an object into a tidy tibble
+  - explore (run shiny app/widget on object) invokes a function that starts an interactive, pre-defined widget (e.g. plotly visualization, shiny app, etc.) to investigate the results. - could be used to open leaflet map of sites and detection ranges (alpha by de +  buffer by distance)
   - visualize (maybe plot? or use autoplot?) - Visualize a data set or object.
-  - fit (maybe fit model? but would have to add class to data, or compile mdoel first - seems unnecessary step) - Estimates parameters for a given model from a set of data.
-  - stats::predict should mimic dr_distance_at_de
-  - print method (could jsut be print(summary))
-  - summary method
   - subset (if fit multiple models)
 
 tidy, coef, augment, glance, summary, print, npars, nobs, logLik, autoplot, estimates
 
 PLOTS
-- autoplot methods for drfit class (density + trace) and data.frame (plot observed data)
+- autoplot methods for drfit class (predicted de by station - option to facet or by color) and data.frame (plot observed data - option to facet or color)
 - create custom geoms (see ssdtools) taht string together to make e.g. dr_plot_de
+
+dr_plot_detrange - plot predicted detection range (autoplot)
+ -takes data + predicted_de data or if pass drfit object then automatically generates predictions
+dr_plot_
 
 Pkg maintenance stuff
 - build website
 - set up GH actions and badge
 - add lifecycle badges
 - add test coverage
-
 
 ssdtools
 generics - glance, tidy, augment, predict

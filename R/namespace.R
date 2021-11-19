@@ -1,6 +1,6 @@
-#' @import chk yesno lifecycle
-#' @importFrom stats setNames update median coef predict nobs
-#' @importFrom ggplot2 aes ggplot .data
+#' @import chk ggplot2
+#' @importFrom stats setNames update median coef predict nobs plogis
+#' @importFrom ggplot2 autoplot
 #' @importFrom lifecycle deprecated
 #' @importFrom utils modifyList
 #' @importFrom generics augment glance tidy

@@ -6,19 +6,11 @@
 3. Should we allow for a model with low DE at close distance (i.e. CPDI; Kessler 2015) in n-shape curve.
 we could model both and test best model on the data by AIC or model average estimates.
 
-4. only allow random effects with >5 stations?
+should i report svalue in tidy() and predict() funs?
 
-5. Which generics should I use?
-difference between meaning of glance generic in mbr vs ssdtools
-
-6. Should i rename to drtools in anticipation of related pkgs (e.g. drdata, drshiny)
-
-7. should i allow random interecept? should this be dependent on whether all stations utilize same technology and are in same water body - in that case probably safe to assume fixed intercept estimate?
-
-should i export basic universals generics? e.g. nchains, nterms, npar, estimates, etc.
+should autoplot method for drfit simply fit observed data or should it automatically generated predictions?
 
 ssdtools review
-what are these functions used for: `.attrs_fitdists<-`
 why prefix some functions with .?
 do you save all function args as attributes? useful for reporting later?
 why put ... + chk_unused(...) at end of method functions
