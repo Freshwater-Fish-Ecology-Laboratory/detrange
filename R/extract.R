@@ -21,7 +21,7 @@
 }
 
 .K <- function(x){
-  mcmcr::nterms(.samples(x))
+  mcmcr::npars(.samples(x))
 }
 
 .ess <- function(x){
