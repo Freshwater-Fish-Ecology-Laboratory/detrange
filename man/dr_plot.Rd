@@ -7,8 +7,7 @@
 dr_plot(data)
 }
 \arguments{
-\item{data}{A tibble of the detection range data.
-Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
+\item{data}{A data.frame of the detection range data (see \code{\link{range_test}})}
 }
 \value{
 A ggplot2 object.

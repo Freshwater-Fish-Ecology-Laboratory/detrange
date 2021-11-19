@@ -1,7 +1,6 @@
 #' Parameter Descriptions for detrange Functions
 #' @param ... Unused parameters.
-#' @param data A tibble of the detection range data.
-#' Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).
+#' @param data A data.frame of the detection range data (see [`detrange::range_test`])
 #' @param x The object.
 #' @param priors A named list of the priors for each model term.
 #' @param nthin A whole number of the number of thins.

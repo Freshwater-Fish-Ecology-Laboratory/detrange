@@ -6,8 +6,7 @@
 \arguments{
 \item{...}{Unused parameters.}
 
-\item{data}{A tibble of the detection range data.
-Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
+\item{data}{A data.frame of the detection range data (see \code{\link{range_test}})}
 
 \item{x}{The object.}
 

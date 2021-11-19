@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit.R
 \name{dr_fit}
 \alias{dr_fit}
-\title{Analyse model}
+\title{Fit Detection Range Model}
 \usage{
 dr_fit(
   data,
@@ -14,8 +14,7 @@ dr_fit(
 )
 }
 \arguments{
-\item{data}{A tibble of the detection range data.
-Data must include columns Station (character), Distance (numeric), Pings (integer) and Detects (integer).}
+\item{data}{A data.frame of the detection range data (see \code{\link{range_test}})}
 
 \item{nthin}{A whole number of the number of thins.}
 
@@ -32,7 +31,9 @@ In the case of a fixed-effects model, this will be ignored.}
 A list of the jags model object and mcmcr samples.
 }
 \description{
-Analyse detection range test data with a Bayesian model fit with JAGS.
-Each station has a random slope and intercept.
+Fit detection range model using JAGS.
+If the number of stations is < min_random, a fixed-effects model is fit.
+Otherwise, a mixed-effects model is fit with random slope for each station.
+If random_intercept = TRUE, a random intercept is also fit for each station.
 }
 \concept{fit}
