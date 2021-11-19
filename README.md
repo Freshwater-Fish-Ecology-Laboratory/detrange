@@ -86,92 +86,85 @@ head(data)
 
 ### Analysis
 
-To fit a model and estimate detection range, use `dr_fit()`
+Fit a model
 
 ``` r
+# adjust the `nthin` argument to improve convergence.
 fit <- dr_fit(data)
 #> Registered S3 method overwritten by 'mcmcr':
 #>   method               from 
 #>   as.mcmc.list.mcarray rjags
 ```
 
-Check model convergence with `dr_glance()`. Try adjusting the `nthin`
-argument in `dr_fit()` to improve convergence. Higher `nthin` generates
-more sample iterations.
+The returned object has class `drfit`. A number of generic methods are
+defined, including `glance`, `tidy`, `coef`, `augment`, `summary`,
+`estimates`, `autoplot`, and `predict`.
 
 ``` r
-dr_glance(fit)
+glance(fit)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
-#>   <int> <dbl>   <int>  <int> <int> <int> <dbl> <lgl>    
-#> 1    42     4       3   1000    10    57  1.13 FALSE
+#>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
+#> 1    42     4       3   1000    10    39  1.31 FALSE
 ```
 
-Look at model coefficient estimates `dr_coef()`
-
 ``` r
-coef <- dr_coef(fit, conf_level = 0.89)
-coef
-#> # A tibble: 4 × 6
-#>   term              estimate    lower   upper svalue description                
-#>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
-#> 1 bDist             -0.0167  -0.0225  -0.0124   11.6 Effect of distance on logi…
-#> 2 bIntercept         4.82     4.33     5.42     11.6 Intercept of logit(`eDetec…
-#> 3 sDistStation       0.00681  0.00407  0.0137   11.6 Standard deviation of `bDi…
-#> 4 sInterceptStation  0.432    0.0377   1.31     11.6 Standard deviation of `bIn…
+tidy(fit, conf_level = 0.89)
+#> # A tibble: 3 × 6
+#>   term         estimate    lower   upper svalue description                     
+#>   <term>          <dbl>    <dbl>   <dbl>  <dbl> <chr>                           
+#> 1 bDist        -0.0156  -0.0323  -0.0101   11.6 Effect of distance on logit(`eD…
+#> 2 bIntercept    4.77     4.41     5.14     11.6 Intercept of logit(`eDetects`)  
+#> 3 sDistStation  0.00702  0.00416  0.0194   11.6 Standard deviation of `bDistSta…
 ```
 
-Predict distance at which a target level of detection efficiency occurs
-with `dr_distance_at_de()`
+Predict distance(s) at target levels of detection efficiency
 
 ``` r
-midpoint <- dr_distance_at_de(fit, de = 0.5, conf_level = 0.8)
-midpoint
-#>    Station Distance estimate    lower    upper   svalue  de
-#> 1 Station1 411.1429 389.5118 372.5157 406.8664 11.55123 0.5
-#> 2 Station2 411.1429 245.3827 231.8964 258.9766 11.55123 0.5
-#> 3 Station3 411.1429 217.1764 203.6156 230.6776 11.55123 0.5
-#> 4 Station4 411.1429 297.8706 282.6864 312.5021 11.55123 0.5
-#> 5 Station5 411.1429 259.9257 247.0487 273.5260 11.55123 0.5
-#> 6 Station6 411.1429 676.4424 648.9836 707.0294 11.55123 0.5
+predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
+head(predicted_dist)
+#>    Station  de estimate    lower    upper   svalue
+#> 1 Station1 0.5 389.7861 364.3126 415.5707 11.55123
+#> 7 Station1 0.8 277.9397 255.1301 300.9553 11.55123
+#> 2 Station2 0.5 246.7910 227.5348 267.9408 11.55123
+#> 8 Station2 0.8 176.3395 160.0805 193.4942 11.55123
+#> 3 Station3 0.5 219.3995 199.2574 238.5806 11.55123
+#> 9 Station3 0.8 156.7078 140.8057 173.0853 11.55123
 ```
 
-Predict detection efficiency at a sequence of distances with
-`dr_predict()`
+Predict detection efficiency at distance(s)
 
 ``` r
-predicted <- dr_predict(fit, distance_seq = seq(0, 1000, 20)) 
-head(predicted)
+predicted_de <- dr_predict_de(fit, distance = seq(0, 1000, 50)) 
+head(predicted_de)
 #>     Station Distance  estimate     lower     upper   svalue
-#> 1  Station1        0 0.9914914 0.9826429 0.9959066 11.55123
-#> 7  Station1       20 0.9891123 0.9785856 0.9945735 11.55123
-#> 13 Station1       40 0.9861034 0.9736574 0.9928468 11.55123
-#> 19 Station1       60 0.9822512 0.9676152 0.9905836 11.55123
-#> 25 Station1       80 0.9773436 0.9603259 0.9876080 11.55123
-#> 31 Station1      100 0.9711484 0.9511068 0.9837407 11.55123
+#> 1  Station1        0 0.9915769 0.9871333 0.9947042 11.55123
+#> 7  Station1       50 0.9844739 0.9773648 0.9896813 11.55123
+#> 13 Station1      100 0.9715376 0.9602559 0.9800477 11.55123
+#> 19 Station1      150 0.9483973 0.9311731 0.9621330 11.55123
+#> 25 Station1      200 0.9081576 0.8810294 0.9301988 11.55123
+#> 31 Station1      250 0.8418280 0.8015368 0.8762597 11.55123
 ```
 
 Plot results with `dr_plot()`
 
 ``` r
-dr_plot(data) |>
-  add_geom_predicted(predicted) |>
-  add_geom_distance_at_de(midpoint)
+# dr_plot(data) |>
+#   add_geom_predicted_de(predicted_de) |>
+#   add_geom_predicted_distance(predicted_distance)
 ```
-
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 ### How to do more
 
-The output of `dr_analyse()` is a list with 3 elements:  
-1. `analysis$model` - the model object of class `jags` created by
+The output of `dr_fit()` is a list with 3 elements:  
+1. `fit$model` - the model object of class `jags` created by
 `rjags::jags.model()`  
-1. `analysis$samples` - the MCMC samples generated
-from`rjags::jags.samples()` and converted to `mcmcr` class  
-1. `analysis$data` - the range test data provided
+1. `fit$samples` - the MCMC samples generated
+from`rjags::jags.samples()` converted to `mcmcr` class  
+1. `fit$data` - the detection range data provided
 
 These are the raw materials for any further exploration or analysis. For
-example, view trace and density plots with `plot(analysis$samples)`.
+example, view trace and density plots with `plot(fit$samples)`.
 
 See [mcmcr](https://github.com/poissonconsulting/mcmcr) and
 [mcmcderive](https://github.com/poissonconsulting/mcmcderive) for

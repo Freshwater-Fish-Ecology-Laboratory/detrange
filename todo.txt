@@ -48,6 +48,9 @@ GENERICS
   - stats::predict should mimic dr_distance_at_de
   - print method (could jsut be print(summary))
   - summary method
+  - subset (if fit multiple models)
+
+tidy, coef, augment, glance, summary, print, npars, nobs, logLik, autoplot, estimates
 
 PLOTS
 - autoplot methods for drfit class (density + trace) and data.frame (plot observed data)

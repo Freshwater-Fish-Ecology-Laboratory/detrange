@@ -56,50 +56,49 @@ head(data)
 ```
 
 ### Analysis
-To fit a model and estimate detection range, use `dr_fit()`
+Fit a model
 ```{r}
+# adjust the `nthin` argument to improve convergence.
 fit <- dr_fit(data)
 ```
-Check model convergence with `dr_glance()`. Try adjusting the `nthin` argument in `dr_fit()` to improve convergence. Higher `nthin` generates more sample iterations.
+
+The returned object has class `drfit`. 
+A number of generic methods are defined, including `glance`, `tidy`, `coef`, `augment`, `summary`, `estimates`, `autoplot`, and `predict`.
 
 ```{r}
-dr_glance(fit)
+glance(fit)
 ```
 
-Look at model coefficient estimates `dr_coef()`
-
 ```{r}
-coef <- dr_coef(fit, conf_level = 0.89)
-coef
+tidy(fit, conf_level = 0.89)
 ```
 
-Predict distance at which a target level of detection efficiency occurs with `dr_distance_at_de()`
+Predict distance(s) at target levels of detection efficiency  
 ```{r}
-midpoint <- dr_distance_at_de(fit, de = 0.5, conf_level = 0.8)
-midpoint
+predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
+head(predicted_dist)
 ```
 
-
-Predict detection efficiency at a sequence of distances with `dr_predict()`
+Predict detection efficiency at distance(s)
 ```{r}
-predicted <- dr_predict(fit, distance_seq = seq(0, 1000, 20)) 
-head(predicted)
+predicted_de <- dr_predict_de(fit, distance = seq(0, 1000, 50)) 
+head(predicted_de)
 ```
 
 Plot results with `dr_plot()`
 ```{r}
-dr_plot(data) |>
-  add_geom_predicted(predicted) |>
-  add_geom_distance_at_de(midpoint)
+# dr_plot(data) |>
+#   add_geom_predicted_de(predicted_de) |>
+#   add_geom_predicted_distance(predicted_distance)
 ```
 
 ### How to do more
-The output of `dr_analyse()` is a list with 3 elements:  
-1. `analysis$model` - the model object of class `jags` created by `rjags::jags.model()`    
-1. `analysis$samples` - the MCMC samples generated from`rjags::jags.samples()` and converted to `mcmcr` class  
-1. `analysis$data` - the range test data provided  
+The output of `dr_fit()` is a list with 3 elements:  
+1. `fit$model` - the model object of class `jags` created by `rjags::jags.model()`    
+1. `fit$samples` - the MCMC samples generated from`rjags::jags.samples()` converted to `mcmcr` class  
+1. `fit$data` - the detection range data provided  
 
-These are the raw materials for any further exploration or analysis. For example, view trace and density plots with `plot(analysis$samples)`.
+These are the raw materials for any further exploration or analysis. For example, view trace and density plots with `plot(fit$samples)`.
 
 See [mcmcr](https://github.com/poissonconsulting/mcmcr) and [mcmcderive](https://github.com/poissonconsulting/mcmcderive) for working with `mcmcr` objects, or convert samples to an object of class `mcmc.list`, e,g, with `coda::as.mcmc.list` for working with the [coda](https://github.com/cran/coda) R package. 
 

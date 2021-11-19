@@ -22,7 +22,7 @@ dr_plot(range_test) \%>\% add_geom_predicted(predicted)
 }
 \seealso{
 Other plot: 
-\code{\link{add_geom_distance_at_de}()},
+\code{\link{add_geom_predicted_distance}()},
 \code{\link{dr_plot}()}
 }
 \concept{plot}

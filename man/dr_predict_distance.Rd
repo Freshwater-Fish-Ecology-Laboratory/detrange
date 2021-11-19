@@ -2,11 +2,11 @@
 % Please edit documentation in R/predict.R
 \name{dr_predict_distance}
 \alias{dr_predict_distance}
-\title{Predict distance}
+\title{Predict Distance}
 \usage{
 dr_predict_distance(
   x,
-  de,
+  de = 0.5,
   by = "Station",
   conf_level = 0.95,
   estimate = median
@@ -24,15 +24,14 @@ dr_predict_distance(
 \item{estimate}{A function to calculate the estimate.}
 }
 \value{
-A tibble of the coefficients.
+A tibble of the predicted distance estimates.
 }
 \description{
-Predict distance at specified detection efficiency or vector of detection efficiencies.
+Predict distance at vector of detection efficiencies.
+By default, the midpoint (\code{de = 0.5}) is predicted.
 }
 \seealso{
 Other analysis: 
-\code{\link{dr_coef}()},
-\code{\link{dr_glance}()},
 \code{\link{dr_predict_de}()}
 }
 \concept{analysis}

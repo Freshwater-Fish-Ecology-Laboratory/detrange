@@ -30,7 +30,7 @@ test_that("fit functions work", {
 
   # check attrs
   attrs <- .attrs_drfit(random)
-  expect_identical(names(attrs), c("nthin", "n", "model_type", "random_intercept"))
+  expect_identical(names(attrs), c("nthin", "model_type", "random_intercept"))
 
   # fixed
   fixed <- dr_fit(data, nthin = 1L, min_random = 10)

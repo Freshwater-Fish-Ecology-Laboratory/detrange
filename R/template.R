@@ -1,9 +1,9 @@
-.model <- function(model, priors){
-  glue2(model(priors)$model)
+.model <- function(template, priors){
+  glue2(template(priors)$model)
 }
 
-.derived <- function(model){
-  glue2(model()$derived)
+.derived <- function(template){
+  glue2(template()$derived)
 }
 
 .template <- function(model_type, random_intercept){

@@ -7,15 +7,6 @@
   attr(fit, "model_type", exact = TRUE)
 }
 
-`.n_drfit<-` <- function(fit, value) {
-  attr(fit, "n") <- value
-  fit
-}
-
-.n_drfit <- function(fit) {
-  attr(fit, "n", exact = TRUE)
-}
-
 `.nthin_drfit<-` <- function(fit, value) {
   attr(fit, "nthin") <- value
   fit
@@ -36,12 +27,11 @@
 
 .attrs_drfit <- function(fit) {
   attrs <- attributes(fit)
-  attrs[c("nthin", "n", "model_type", "random_intercept")]
+  attrs[c("nthin", "model_type", "random_intercept")]
 }
 
 `.attrs_drfit<-` <- function(fit, value) {
   .nthin_drfit(fit) <- value$nthin
-  .n_drfit(fit) <- value$n
   .model_type_drfit(fit) <- value$model_type
   .random_intercept_drfit(fit) <- value$random_intercept
   fit

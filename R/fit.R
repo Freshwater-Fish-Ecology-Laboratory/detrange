@@ -1,12 +1,3 @@
-.coef <- function(samples, conf_level, estimate, description, random_effects){
-  coefs <- mcmcr::coef(samples, conf_level = conf_level, estimate = estimate)
-  coefs <- merge(coefs, description, by = "term", all.x = TRUE)
-  if(!random_effects)
-    coefs <- coefs[!coefs$random,]
-  coefs$random <- NULL
-  coefs
-}
-
 #' Analyse model
 #'
 #' Analyse detection range test data with a Bayesian model fit with JAGS.
@@ -55,50 +46,4 @@ dr_fit <- function(data,
   drfit(fit)
 }
 
-#' Get model coefficients
-#'
-#' Get coefficients from model object output of `dr_fit`.
-#'
-#' @inheritParams params
-#' @return A tibble of the coefficients.
-#' @export
-#' @family analysis
-dr_coef <- function(x, conf_level = 0.95,
-                    estimate = median, random_effects = FALSE){
-
-  .chk_fit(x)
-  data <- .data_set(x)
-  samples <- .samples(x)
-  model <- .model_type_drfit(x)
-
-  nstation <- data$nStation
-  description <- .description(n = nstation)
-  if(model == "fixed")
-    description$random <- FALSE
-
-  coefs <- .coef(samples, conf_level, estimate, description, random_effects)
-
-  tibble::as_tibble(coefs)
-}
-
-#' Get analysis glance summary
-#'
-#' Get analysis glance summary from model object output of `dr_analyse`.
-#'
-#' @inheritParams params
-#' @return A tibble of the glance summary.
-#' @export
-#' @family analysis
-dr_glance <- function(x){
-
-  .chk_fit(x)
-  tibble::tibble(n = .n_drfit(x),
-                 K = .K(x),
-                 nchains = .nchains(x),
-                 niters = .niters(x),
-                 nthin = .nthin_drfit(x),
-                 ess = .ess(x),
-                 rhat = .rhat(x),
-                 converged = .converged(x))
-}
 

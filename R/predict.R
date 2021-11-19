@@ -28,16 +28,42 @@ clean_predict <- function(x, seq, ref){
   x
 }
 
-#' Predict detection efficiency
+#' @export
+stats::predict
+
+#' Predict Detection Efficiency
 #'
-#' Predict detection efficiency at specified distance(s).
+#' A wrapper on [`dr_predict_de()`] that by default predicts
+#' detection efficiency over the range of distance in data.
+#'
+#' It is useful for plotting purposes.
 #'
 #' @inheritParams params
-#' @return A tibble of the coefficients.
+#' @export
+#' @seealso [`dr_predict_de()`]
+#' @examples
+#' fit <- dr_fit(detrange::range_test)
+#' predict(fit)
+predict.drfit <- function(object,
+                          distance = NULL,
+                          by = "Station",
+                          conf_level = 0.95,
+                          estimate = median, ...){
+  chk_unused(...)
+  dr_predict_de(object, distance, by, conf_level, estimate)
+}
+
+#' Predict Detection Efficiency
+#'
+#' Predict detection efficiency at specified distance(s).
+#' By default, detection efficiency is predicted over the data distance range.
+#'
+#' @inheritParams params
+#' @return A tibble of the predicted detection efficiency.
 #' @export
 #' @family analysis
 dr_predict_de <- function(x,
-                       distance,
+                       distance = NULL,
                        by = "Station",
                        conf_level = 0.95,
                        estimate = median){
@@ -76,16 +102,17 @@ dr_predict_de <- function(x,
   clean_predict(x, seq, ref)
 }
 
-#' Predict distance
+#' Predict Distance
 #'
-#' Predict distance at specified detection efficiency or vector of detection efficiencies.
+#' Predict distance at vector of detection efficiencies.
+#' By default, the midpoint (`de = 0.5`) is predicted.
 #'
 #' @inheritParams params
-#' @return A tibble of the coefficients.
+#' @return A tibble of the predicted distance estimates.
 #' @export
 #' @family analysis
 dr_predict_distance <- function(x,
-                              de,
+                              de = 0.5,
                               by = "Station",
                               conf_level = 0.95,
                               estimate = median){

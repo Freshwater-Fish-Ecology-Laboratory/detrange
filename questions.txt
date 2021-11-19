@@ -15,6 +15,7 @@ difference between meaning of glance generic in mbr vs ssdtools
 
 7. should i allow random interecept? should this be dependent on whether all stations utilize same technology and are in same water body - in that case probably safe to assume fixed intercept estimate?
 
+should i export basic universals generics? e.g. nchains, nterms, npar, estimates, etc.
 
 ssdtools review
 what are these functions used for: `.attrs_fitdists<-`

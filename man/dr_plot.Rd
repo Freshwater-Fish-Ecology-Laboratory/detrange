@@ -23,7 +23,7 @@ dr_plot(detrange::range_test)
 }
 \seealso{
 Other plot: 
-\code{\link{add_geom_distance_at_de}()},
+\code{\link{add_geom_predicted_distance}()},
 \code{\link{add_geom_predicted}()}
 }
 \concept{plot}
