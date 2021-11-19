@@ -64,7 +64,7 @@ test_that("predict funs work", {
 
   # test distance = NULL
   y4 <- dr_predict_de(fit, distance = NULL)
-  expect_identical(range(y4$Distance), range(data$Distance))
+  expect_identical(range(y4$Distance), c(0, 900))
 
   # test by = NULL
   y5 <- dr_predict_de(fit, distance = dist2, by = NULL)

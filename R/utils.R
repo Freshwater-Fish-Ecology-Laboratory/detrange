@@ -2,6 +2,8 @@
 
 logit <- function(x) log(x / (1 - x))
 
+ceiling100 <- function(x) ceiling(x/100)*100
+
 to_ch0 <- function(x){
   if(!length(x) || x == "")
     x <- character(0)

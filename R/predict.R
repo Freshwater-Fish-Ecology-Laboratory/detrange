@@ -81,15 +81,13 @@ dr_predict_de <- function(x,
   chk_lte(conf_level, 1)
   chk_is(estimate, "function")
 
-  seq <- to_ch0(by)
-  if(!length(distance)){
-    seq <- c(seq, "Distance")
-    ref <- list()
-  } else {
-    ref <- list(Distance = distance)
-  }
-
   data <- .augment(x)
+
+  seq <- to_ch0(by)
+  if(!length(distance))
+    distance <- seq(0, ceiling100(max(data$Distance)), 30)
+
+  ref <- list(Distance = distance)
   new_data <- .new_data(data, seq = seq, ref = ref)
 
   model_type <- .model_type_drfit(x)
