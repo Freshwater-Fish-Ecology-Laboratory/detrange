@@ -23,7 +23,8 @@ Imports:
     rjags,
     newdata,
     mcmcderive,
-    tibble
+    tibble,
+    generics
 Remotes:
     poissonconsulting/newdata
 Depends: 
