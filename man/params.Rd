@@ -10,6 +10,8 @@
 
 \item{x}{The object.}
 
+\item{object}{The object.}
+
 \item{priors}{A named list of the priors for each model term.}
 
 \item{nthin}{A whole number of the number of thins.}

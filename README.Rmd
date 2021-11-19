@@ -49,25 +49,18 @@ Another benefit is the ability to incorporate prior information. By default, the
 
 ```{r data}
 library(detrange)
-
-### view example dataset
-data <- range_test
-head(data)
+detrange::range_test
 ```
 
 ### Analysis
 Fit a model
 ```{r}
 # adjust the `nthin` argument to improve convergence.
-fit <- dr_fit(data)
+fit <- dr_fit(detrange::range_test)
 ```
 
 The returned object has class `drfit`. 
 A number of generic methods are defined, including `glance`, `tidy`, `coef`, `augment`, `summary`, `estimates`, `autoplot`, and `predict`.
-
-```{r}
-glance(fit)
-```
 
 ```{r}
 tidy(fit, conf_level = 0.89)

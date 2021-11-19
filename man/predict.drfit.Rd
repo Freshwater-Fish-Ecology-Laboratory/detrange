@@ -14,6 +14,8 @@
 )
 }
 \arguments{
+\item{object}{The object.}
+
 \item{distance}{A vector of the distances to predict detection efficiency at.
 If NULL, a vector of length 30 spanning the range of the Distance in the data will be generated.}
 

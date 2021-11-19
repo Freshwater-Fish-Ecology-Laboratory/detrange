@@ -7,6 +7,8 @@
 \method{coef}{drfit}(object, conf_level = 0.95, estimate = median, random_effects = FALSE, ...)
 }
 \arguments{
+\item{object}{The object.}
+
 \item{conf_level}{A number between 0 and 1 of the confidence level.}
 
 \item{estimate}{A function to calculate the estimate.}

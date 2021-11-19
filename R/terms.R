@@ -7,10 +7,10 @@ replace_priors <- function(priors, new_prior){
 
 .terms <- function(){
   list(bIntercept = "dnorm(0, 10^-2)",
-       bDist = "dnorm(0, 10^-2)",
+       bDistance = "dnorm(0, 10^-2)",
        sInterceptStation = "dnorm(0, 10^-2) T(0,)",
-       sDistStation = "dnorm(0, 10^-2) T(0,)",
-       bDistStation = NULL,
+       sDistanceStation = "dnorm(0, 10^-2) T(0,)",
+       bDistanceStation = NULL,
        bInterceptStation = NULL)
 }
 
@@ -21,9 +21,9 @@ replace_priors <- function(priors, new_prior){
   description <- c(
     "eDetects[i]" = "Expected `Detects` of `i`^th^ sample event",
     "bIntercept" = "Intercept of logit(`eDetects`)",
-    "bDist" = "Effect of distance on logit(`eDetects`)",
+    "bDistance" = "Effect of distance on logit(`eDetects`)",
     "sInterceptStation" = "Standard deviation of `bInterceptStation`",
-    "sDistStation" = "Standard deviation of `bDistStation`"
+    "sDistanceStation" = "Standard deviation of `bDistanceStation`"
   )
 
   description <- tibble::tibble(term = names(description),
@@ -39,8 +39,8 @@ replace_priors <- function(priors, new_prior){
   }))
 
   dist_df <- do.call(rbind, lapply(1:n, function(i){
-    dist <- glue::glue("bDistStation[{i}]")
-    dist_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bDist`")
+    dist <- glue::glue("bDistanceStation[{i}]")
+    dist_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bDistance`")
     dist_df <- tibble::tibble(term = dist,
                               description = dist_desc,
                               random = TRUE)

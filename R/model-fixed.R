@@ -7,23 +7,23 @@
   "model {
 
   bIntercept ~ <<priors$bIntercept>>
-  bDist ~ <<priors$bDist>>
+  bDistance ~ <<priors$bDistance>>
 
-  bDistStation[1] <- 0
+  bDistanceStation[1] <- 0
   for(i in 2:nStation) {
-    bDistStation[i] ~ dnorm(0, 10^-2)
+    bDistanceStation[i] ~ dnorm(0, 10^-2)
   }
 
   for(i in 1:nObs) {
-    eDist[i] <- bDist + bDistStation[Station[i]]
-    logit(eDetects[i]) <- bIntercept + eDist[i] * Distance[i]
+    eDistance[i] <- bDistance + bDistanceStation[Station[i]]
+    logit(eDetects[i]) <- bIntercept + eDistance[i] * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
   }
 }"
 
 .derived_f <- "for(i in 1:length(Distance)) {
-    eDist[i] <- bDist + bDistStation[Station[i]]
-    logit(eDetects[i]) <- bIntercept + eDist[i] * Distance[i]
-    target[i] <- bIntercept + (DELogit[i] - bIntercept)/eDist[i]
+    eDistance[i] <- bDistance + bDistanceStation[Station[i]]
+    logit(eDetects[i]) <- bIntercept + eDistance[i] * Distance[i]
+    target[i] <- bIntercept + (DELogit[i] - bIntercept)/eDistance[i]
     prediction[i] <- eDetects[i]
   }"

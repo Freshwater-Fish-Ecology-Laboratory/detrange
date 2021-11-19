@@ -55,13 +55,13 @@ test_that("fit functions work", {
   coef <- dr_coef(fixed)
   expect_s3_class(coef, "data.frame")
   expect_true(all(!is.na(coef$description)))
-  expect_false("sDistStation" %in% coef$term)
+  expect_false("sDistanceStation" %in% coef$term)
 
   coef <- dr_coef(random_int)
   expect_true("sInterceptStation" %in% coef$term)
 
   coef <- dr_coef(random)
-  expect_true("sDistStation" %in% coef$term)
+  expect_true("sDistanceStation" %in% coef$term)
   expect_false("sInterceptStation" %in% coef$term)
 
   ## conf_level and estimate args work

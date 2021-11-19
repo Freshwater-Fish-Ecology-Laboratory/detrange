@@ -2,6 +2,7 @@
 #' @param ... Unused parameters.
 #' @param data A data.frame of the detection range data (see [`detrange::range_test`])
 #' @param x The object.
+#' @param object The object.
 #' @param priors A named list of the priors for each model term.
 #' @param nthin A whole number of the number of thins.
 #' @param min_random A whole number of the minimum number of Stations required to fit a mixed-effects model.

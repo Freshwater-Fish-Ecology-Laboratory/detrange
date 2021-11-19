@@ -69,19 +69,21 @@ included for reference.
 
 ``` r
 library(detrange)
-
-### view example dataset
-data <- range_test
-head(data)
-#> # A tibble: 6 × 4
-#>   Distance Pings Detects Station 
-#>      <dbl> <int>   <int> <fct>   
-#> 1       50    51      50 Station1
-#> 2      155    57      45 Station2
-#> 3      275    51      10 Station3
-#> 4      409    50       4 Station4
-#> 5      564    56       0 Station5
-#> 6      659    57      33 Station6
+detrange::range_test
+#> # A tibble: 42 × 4
+#>    Distance Pings Detects Station 
+#>       <dbl> <int>   <int> <fct>   
+#>  1       50    51      50 Station1
+#>  2      155    57      45 Station2
+#>  3      275    51      10 Station3
+#>  4      409    50       4 Station4
+#>  5      564    56       0 Station5
+#>  6      659    57      33 Station6
+#>  7      782    59       0 Station1
+#>  8       13    59      58 Station2
+#>  9      146    51      42 Station3
+#> 10      264    58      38 Station4
+#> # … with 32 more rows
 ```
 
 ### Analysis
@@ -90,7 +92,7 @@ Fit a model
 
 ``` r
 # adjust the `nthin` argument to improve convergence.
-fit <- dr_fit(data)
+fit <- dr_fit(detrange::range_test)
 #> Registered S3 method overwritten by 'mcmcr':
 #>   method               from 
 #>   as.mcmc.list.mcarray rjags
@@ -101,21 +103,13 @@ defined, including `glance`, `tidy`, `coef`, `augment`, `summary`,
 `estimates`, `autoplot`, and `predict`.
 
 ``` r
-glance(fit)
-#> # A tibble: 1 × 8
-#>       n     K nchains niters nthin   ess  rhat converged
-#>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
-#> 1    42     4       3   1000    10    39  1.31 FALSE
-```
-
-``` r
 tidy(fit, conf_level = 0.89)
 #> # A tibble: 3 × 6
 #>   term         estimate    lower   upper svalue description                     
 #>   <term>          <dbl>    <dbl>   <dbl>  <dbl> <chr>                           
-#> 1 bDist        -0.0156  -0.0323  -0.0101   11.6 Effect of distance on logit(`eD…
-#> 2 bIntercept    4.77     4.41     5.14     11.6 Intercept of logit(`eDetects`)  
-#> 3 sDistStation  0.00702  0.00416  0.0194   11.6 Standard deviation of `bDistSta…
+#> 1 bDist        -0.0161  -0.0210  -0.0114   11.6 Effect of distance on logit(`eD…
+#> 2 bIntercept    4.78     4.42     5.16     11.6 Intercept of logit(`eDetects`)  
+#> 3 sDistStation  0.00672  0.00403  0.0133   11.6 Standard deviation of `bDistSta…
 ```
 
 Predict distance(s) at target levels of detection efficiency
@@ -124,12 +118,12 @@ Predict distance(s) at target levels of detection efficiency
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
 #>    Station  de estimate    lower    upper   svalue
-#> 1 Station1 0.5 389.7861 364.3126 415.5707 11.55123
-#> 7 Station1 0.8 277.9397 255.1301 300.9553 11.55123
-#> 2 Station2 0.5 246.7910 227.5348 267.9408 11.55123
-#> 8 Station2 0.8 176.3395 160.0805 193.4942 11.55123
-#> 3 Station3 0.5 219.3995 199.2574 238.5806 11.55123
-#> 9 Station3 0.8 156.7078 140.8057 173.0853 11.55123
+#> 1 Station1 0.5 389.4664 364.6526 415.1351 11.55123
+#> 7 Station1 0.8 277.7559 255.7676 300.3175 11.55123
+#> 2 Station2 0.5 246.7998 227.7792 268.7735 11.55123
+#> 8 Station2 0.8 176.5454 161.0380 193.8171 11.55123
+#> 3 Station3 0.5 219.1731 200.3614 239.3453 11.55123
+#> 9 Station3 0.8 157.1079 141.1661 173.6261 11.55123
 ```
 
 Predict detection efficiency at distance(s)
@@ -138,12 +132,12 @@ Predict detection efficiency at distance(s)
 predicted_de <- dr_predict_de(fit, distance = seq(0, 1000, 50)) 
 head(predicted_de)
 #>     Station Distance  estimate     lower     upper   svalue
-#> 1  Station1        0 0.9915769 0.9871333 0.9947042 11.55123
-#> 7  Station1       50 0.9844739 0.9773648 0.9896813 11.55123
-#> 13 Station1      100 0.9715376 0.9602559 0.9800477 11.55123
-#> 19 Station1      150 0.9483973 0.9311731 0.9621330 11.55123
-#> 25 Station1      200 0.9081576 0.8810294 0.9301988 11.55123
-#> 31 Station1      250 0.8418280 0.8015368 0.8762597 11.55123
+#> 1  Station1        0 0.9916562 0.9874239 0.9948447 11.55123
+#> 7  Station1       50 0.9846018 0.9777962 0.9899222 11.55123
+#> 13 Station1      100 0.9717131 0.9609102 0.9804452 11.55123
+#> 19 Station1      150 0.9486379 0.9316174 0.9626865 11.55123
+#> 25 Station1      200 0.9084043 0.8817604 0.9304673 11.55123
+#> 31 Station1      250 0.8419906 0.8025500 0.8755837 11.55123
 ```
 
 Plot results with `dr_plot()`
