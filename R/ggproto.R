@@ -21,3 +21,47 @@ StatObspoint <- ggproto(
 GeomObspoint <- ggproto(
   "GeomObspoint", GeomPoint
 )
+
+#' @rdname detrange-ggproto
+#' @export
+GeomPredDe <- ggproto(
+  "GeomPredDe",
+  Geom,
+  required_aes = c("x", "estimate", "lower", "upper"),
+  draw_key = draw_key_path,
+  default_aes = aes(
+    colour = "black",
+    fill = "blue",
+    size = 0.5,
+    ribbon_size = 0.1,
+    ribbon_alpha = 0.1,
+    ribbon_colour = "black",
+    linetype = 1,
+    alpha = 1
+  ),
+  setup_data = function(self, data, params) {
+    data <- ggproto_parent(Geom, self)$setup_data(data, params)
+    data
+  },
+  draw_group = function(data, panel_scales, coord) {
+    data$y <- data$estimate
+    data$ymin <- data$lower
+    data$ymax <- data$upper
+
+    dfest <- data
+
+    dfrib <- data
+    dfrib$alpha <- data$ribbon_alpha
+    dfrib$size <- data$ribbon_size
+    dfrib$colour <- data$ribbon_colour
+
+    est_grob <- GeomLine$draw_panel(dfest, panel_scales, coord)
+    int_grob <- GeomRibbon$draw_panel(dfrib, panel_scales, coord)
+
+    ggplot2:::ggname("geom_dr_predicted",
+                     grid::grobTree(int_grob, est_grob))
+
+  }
+)
+
+
