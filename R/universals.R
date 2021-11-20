@@ -14,7 +14,7 @@ universals::estimates
 #' @seealso [`tidy.drfit()`]
 #' @export
 #' @examples
-#' fit <- dr_fit(detrange::range_test)
+#' fit <- dr_fit(detrange::range_obs)
 #' estimates(fit)
 estimates.drfit <- function(x, ...) {
   mcmcr::estimates(.samples(x))

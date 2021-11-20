@@ -24,8 +24,8 @@ GeomObspoint <- ggproto(
 
 #' @rdname detrange-ggproto
 #' @export
-GeomPredDe <- ggproto(
-  "GeomPredDe",
+GeomPredicted <- ggproto(
+  "GeomPredicted",
   Geom,
   required_aes = c("x", "estimate", "lower", "upper"),
   draw_key = draw_key_path,
@@ -48,14 +48,12 @@ GeomPredDe <- ggproto(
     data$ymin <- data$lower
     data$ymax <- data$upper
 
-    dfest <- data
-
     dfrib <- data
     dfrib$alpha <- data$ribbon_alpha
     dfrib$size <- data$ribbon_size
     dfrib$colour <- data$ribbon_colour
 
-    est_grob <- GeomLine$draw_panel(dfest, panel_scales, coord)
+    est_grob <- GeomLine$draw_panel(data, panel_scales, coord)
     int_grob <- GeomRibbon$draw_panel(dfrib, panel_scales, coord)
 
     ggplot2:::ggname("geom_dr_predicted",

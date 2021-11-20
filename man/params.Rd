@@ -6,7 +6,7 @@
 \arguments{
 \item{...}{Unused parameters.}
 
-\item{data}{A data.frame of the detection range data (see \code{\link{range_test}})}
+\item{data}{A data.frame of the detection range data (see \code{\link{range_obs}})}
 
 \item{x}{The object.}
 

@@ -1,5 +1,5 @@
 test_that("predict funs work", {
-  data <- range_test
+  data <- range_obs
   fit <- dr_fit(data, nthin = 1L)
 
   ### test new_data fun

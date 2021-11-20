@@ -5,16 +5,21 @@
 \alias{detrange-ggproto}
 \alias{StatObspoint}
 \alias{GeomObspoint}
+\alias{GeomPredicted}
 \title{ggproto Classes for Plotting Detection Range}
 \format{
 An object of class \code{StatObspoint} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.
 
 An object of class \code{GeomObspoint} (inherits from \code{GeomPoint}, \code{Geom}, \code{ggproto}, \code{gg}) of length 1.
+
+An object of class \code{GeomPredicted} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 6.
 }
 \usage{
 StatObspoint
 
 GeomObspoint
+
+GeomPredicted
 }
 \description{
 ggproto Classes for Plotting Detection Range

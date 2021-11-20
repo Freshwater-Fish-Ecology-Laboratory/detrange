@@ -49,14 +49,14 @@ Another benefit is the ability to incorporate prior information. By default, the
 
 ```{r data}
 library(detrange)
-detrange::range_test
+detrange::range_obs
 ```
 
 ### Analysis
 Fit a model
 ```{r}
 # adjust the `nthin` argument to improve convergence.
-fit <- dr_fit(detrange::range_test)
+fit <- dr_fit(detrange::range_obs)
 ```
 
 The returned object has class `drfit`. 
@@ -78,11 +78,14 @@ predicted_de <- dr_predict_de(fit, distance = seq(0, 1000, 50))
 head(predicted_de)
 ```
 
-Plot results with `dr_plot()`
+Plot results using custom geoms
 ```{r}
-# dr_plot(data) |>
-#   add_geom_predicted_de(predicted_de) |>
-#   add_geom_predicted_distance(predicted_distance)
+library(ggplot2)
+ggplot(data = detrange::range_obs) +
+  geom_dr_predicted(data = predicted_de, aes(x = Distance, estimate = estimate, 
+                                             lower = lower, upper = upper)) + 
+  geom_dr_observed(aes(x = Distance, detects = Detects, pings = Pings), size = 1) + 
+  facet_wrap(~Station)
 ```
 
 ### How to do more

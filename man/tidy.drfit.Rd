@@ -25,7 +25,7 @@ Get a tidy tibble of the coefficient estimates and
 confidence intervals from model fit.
 }
 \examples{
-fit <- dr_fit(detrange::range_test)
+fit <- dr_fit(detrange::range_obs)
 tidy(fit)
 }
 \seealso{

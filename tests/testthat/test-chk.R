@@ -1,5 +1,5 @@
 test_that("checking functions work", {
-  dat <- detrange::range_test
+  dat <- detrange::range_obs
 
   ### check wont accept non-integer pings and detects
   dat2 <- dat

@@ -9,7 +9,7 @@ stats::coef
 #' @seealso [`tidy.drfit()`]
 #' @export
 #' @examples
-#' fit <- dr_fit(detrange::range_test)
+#' fit <- dr_fit(detrange::range_obs)
 #' coef(fit)
 coef.drfit <- function(object, conf_level = 0.95, estimate = median,
                        random_effects = FALSE, ...){

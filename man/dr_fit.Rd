@@ -14,7 +14,7 @@ dr_fit(
 )
 }
 \arguments{
-\item{data}{A data.frame of the detection range data (see \code{\link{range_test}})}
+\item{data}{A data.frame of the detection range data (see \code{\link{range_obs}})}
 
 \item{nthin}{A whole number of the number of thins.}
 

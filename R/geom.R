@@ -1,6 +1,6 @@
-#' Species Sensitivity Data Points
+#' Observed Detection Range
 #'
-#' Uses the empirical cumulative distribution to create scatterplot of points `x`.
+#' Add point layer of observed detection range data.
 #'
 #'
 #' @inheritParams ggplot2::layer
@@ -9,8 +9,8 @@
 #' @family ggplot
 #' @export
 #' @examples
-#' ggplot2::ggplot(detrange::range_test) +
-#'   geom_ssdpoint(ggplot2::aes(x = Distance, detects = Detects, pings = Pings))
+#' ggplot2::ggplot(detrange::range_obs) +
+#'   geom_dr_observed(ggplot2::aes(x = Distance, detects = Detects, pings = Pings))
 geom_dr_observed <- function(mapping = NULL, data = NULL, stat = "obspoint",
                          position = "identity", na.rm = FALSE,
                          show.legend = NA, inherit.aes = TRUE, ...) {
@@ -22,19 +22,22 @@ geom_dr_observed <- function(mapping = NULL, data = NULL, stat = "obspoint",
   )
 }
 
-#' Species Sensitivity Data Points
+#' Predicted Detection Range
 #'
-#' Uses the empirical cumulative distribution to create scatterplot of points `x`.
+#' Add line layer of predicted detection range estimates and
+#' ribbon layer of the confidence interval.
 #'
 #'
 #' @inheritParams ggplot2::layer
-#' @inheritParams ggplot2::geom_point
+#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_ribbon
 #' @seealso [`dr_plot_predicted()`]
 #' @family ggplot
 #' @export
 #' @examples
-#' ggplot2::ggplot(detrange::range_test) +
-#'   geom_ssdpoint(ggplot2::aes(x = Distance, detects = Detects, pings = Pings))
+#' ggplot2::ggplot(data = detrange::range_pred) +
+#'   geom_dr_predicted(ggplot2::aes(x = Distance, estimate = estimate,
+#'                                 lower = lower, upper = upper))
 geom_dr_predicted <-
   function(mapping = NULL,
            data = NULL,
@@ -45,7 +48,7 @@ geom_dr_predicted <-
            inherit.aes = TRUE,
            ...) {
     layer(
-      geom = GeomPredDe,
+      geom = GeomPredicted,
       mapping = mapping,
       data = data,
       stat = stat,

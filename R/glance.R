@@ -23,7 +23,7 @@ dr_glance <- function(x){
 #' @seealso
 #' @export
 #' @examples
-#' fit <- dr_fit(detrange::range_test)
+#' fit <- dr_fit(detrange::range_obs)
 #' glance(fit)
 glance.drfit <- function(x, ...){
   chk_unused(...)

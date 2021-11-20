@@ -1,6 +1,6 @@
 test_that("fit functions work", {
   ### dr_analysis_coefficient
-  data <- range_test
+  data <- range_obs
   model_type <- "random"
   priors <- .priors(.terms())
   random_intercept = TRUE

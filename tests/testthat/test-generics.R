@@ -1,11 +1,11 @@
 test_that("generic functions work", {
-  fit <- dr_fit(detrange::range_test)
+  fit <- dr_fit(detrange::range_obs)
 
   gla <- glance(fit)
   expect_identical(dr_glance(fit), gla)
 
   aug <- augment(fit)
-  expect_identical(detrange::range_test, aug)
+  expect_identical(detrange::range_obs, aug)
 
   tid <- tidy(fit)
   expect_identical(dr_coef(fit), tid)

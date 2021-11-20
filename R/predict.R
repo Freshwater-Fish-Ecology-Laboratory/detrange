@@ -42,7 +42,7 @@ stats::predict
 #' @export
 #' @seealso [`dr_predict_de()`]
 #' @examples
-#' fit <- dr_fit(detrange::range_test)
+#' fit <- dr_fit(detrange::range_obs)
 #' predict(fit)
 predict.drfit <- function(object,
                           distance = NULL,

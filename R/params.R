@@ -1,6 +1,6 @@
 #' Parameter Descriptions for detrange Functions
 #' @param ... Unused parameters.
-#' @param data A data.frame of the detection range data (see [`detrange::range_test`])
+#' @param data A data.frame of the detection range data (see [`detrange::range_obs`])
 #' @param x The object.
 #' @param object The object.
 #' @param priors A named list of the priors for each model term.

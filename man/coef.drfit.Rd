@@ -21,7 +21,7 @@
 A wrapper on \code{\link[=tidy.drfit]{tidy.drfit()}}.
 }
 \examples{
-fit <- dr_fit(detrange::range_test)
+fit <- dr_fit(detrange::range_obs)
 coef(fit)
 }
 \seealso{

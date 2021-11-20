@@ -17,12 +17,12 @@ Add layer of predicted DE at distance to ggplot created by \code{dr_plot()}
 }
 \examples{
 \dontrun{
-dr_plot(range_test) \%>\% add_geom_predicted(predicted)
+dr_plot(range_obs) \%>\% add_geom_predicted(predicted)
 }
 }
 \seealso{
 Other plot: 
 \code{\link{add_geom_predicted_distance}()},
-\code{\link{dr_plot}()}
+\code{\link{dr_plot_ob}()}
 }
 \concept{plot}

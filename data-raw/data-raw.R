@@ -32,9 +32,14 @@ p <- 1/(1 + exp(-mu))
 pings <- round(runif(nobs, 50, 60))
 detects <- rbinom(nobs, size = pings, p = p)
 
-range_test <- tibble::tibble(Distance = distance,
+range_obs <- tibble::tibble(Distance = distance,
                              Pings = as.integer(pings),
                              Detects = as.integer(detects),
                              Station = factor(paste0("Station", rep(1:ngroup, n))))
 
-usethis::use_data(range_test, overwrite = TRUE)
+fit <- dr_fit(range_obs)
+range_pred <- dr_predict_de(fit)
+
+usethis::use_data(range_obs, overwrite = TRUE)
+usethis::use_data(range_pred, overwrite = TRUE)
+

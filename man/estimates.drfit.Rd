@@ -18,7 +18,7 @@ A named list of the estimates.
 Gets a named list of the estimated values by term.
 }
 \examples{
-fit <- dr_fit(detrange::range_test)
+fit <- dr_fit(detrange::range_obs)
 estimates(fit)
 }
 \seealso{

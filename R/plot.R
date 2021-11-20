@@ -8,10 +8,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' dr_plot(detrange::range_test)
+#' dr_plot(detrange::range_obs)
 #' }
-dr_plot <- function(data){
-  chk_range_test(data)
+dr_plot_ob <- function(data){
+  .chk_data(data)
 
   gp <- ggplot() +
     ggplot2::geom_point(data = data, aes(y = .data$Detects/.data$Pings, x = .data$Distance)) +
@@ -30,7 +30,7 @@ dr_plot <- function(data){
 #' @export
 #' @examples
 #' \dontrun{
-#' dr_plot(range_test) %>% add_geom_predicted(predicted)
+#' dr_plot(range_obs) %>% add_geom_predicted(predicted)
 #' }
 add_geom_predicted <- function(gp, predicted){
   chk_s3_class(gp, "ggplot")
@@ -52,7 +52,7 @@ add_geom_predicted <- function(gp, predicted){
 #' @export
 #' @examples
 #' \dontrun{
-#' dr_plot(range_test) %>%
+#' dr_plot(range_obs) %>%
 #' add_geom_predicted(predicted) %>%
 #' add_geom_distance_at_de(distance_at_de)
 #' }

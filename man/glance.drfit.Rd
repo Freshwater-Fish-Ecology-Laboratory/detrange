@@ -18,7 +18,7 @@ A tibble of the glance summary.
 Get a tibble of a one-row summary of the model fit.
 }
 \examples{
-fit <- dr_fit(detrange::range_test)
+fit <- dr_fit(detrange::range_obs)
 glance(fit)
 }
 \seealso{

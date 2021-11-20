@@ -15,7 +15,7 @@ generics::augment
 #' @seealso
 #' @export
 #' @examples
-#' fit <- dr_fit(detrange::range_test)
+#' fit <- dr_fit(detrange::range_obs)
 #' augment(fit)
 augment.drfit <- function(x, ...) {
   chk_unused(...)

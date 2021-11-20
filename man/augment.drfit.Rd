@@ -18,7 +18,7 @@ A tibble of the augmented data.
 Get a tibble of the original data with augmentation.
 }
 \examples{
-fit <- dr_fit(detrange::range_test)
+fit <- dr_fit(detrange::range_obs)
 augment(fit)
 }
 \seealso{

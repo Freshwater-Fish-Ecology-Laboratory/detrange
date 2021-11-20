@@ -35,7 +35,7 @@ detection efficiency over the range of distance in data.
 It is useful for plotting purposes.
 }
 \examples{
-fit <- dr_fit(detrange::range_test)
+fit <- dr_fit(detrange::range_obs)
 predict(fit)
 }
 \seealso{

@@ -12,7 +12,7 @@ generics::tidy
 #' @seealso [`coef.drfit()`]
 #' @export
 #' @examples
-#' fit <- dr_fit(detrange::range_test)
+#' fit <- dr_fit(detrange::range_obs)
 #' tidy(fit)
 tidy.drfit <- function(x, conf_level = 0.95, estimate = median,
                        random_effects = FALSE, ...) {
