@@ -59,33 +59,21 @@ Fit a model
 fit <- dr_fit(detrange::range_obs)
 ```
 
-The returned object has class `drfit`. 
-A number of generic methods are defined, including `glance`, `tidy`, `coef`, `augment`, `summary`, `estimates`, `autoplot`, and `predict`.
+A number of generic methods are defined for the output object of `dr_fit()`, including `autoplot` `glance`, `tidy`, `coef`, `augment`, `summary`, `estimates`, and `predict`.
 
 ```{r}
 tidy(fit, conf_level = 0.89)
+```
+
+Plot predicted detection range
+```{r}
+autoplot(fit)
 ```
 
 Predict distance(s) at target levels of detection efficiency  
 ```{r}
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
-```
-
-Predict detection efficiency at distance(s)
-```{r}
-predicted_de <- dr_predict_de(fit, distance = seq(0, 1000, 50)) 
-head(predicted_de)
-```
-
-Plot results using custom geoms
-```{r}
-library(ggplot2)
-ggplot(data = detrange::range_obs) +
-  geom_dr_predicted(data = predicted_de, aes(x = Distance, estimate = estimate, 
-                                             lower = lower, upper = upper)) + 
-  geom_dr_observed(aes(x = Distance, detects = Detects, pings = Pings), size = 1) + 
-  facet_wrap(~Station)
 ```
 
 ### How to do more

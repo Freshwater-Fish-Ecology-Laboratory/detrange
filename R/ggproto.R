@@ -6,8 +6,8 @@ NULL
 
 #' @rdname detrange-ggproto
 #' @export
-StatObspoint <- ggproto(
-  "StatObspoint", Stat,
+StatDrPoint <- ggproto(
+  "StatDrPoint", Stat,
   required_aes = c("x", "detects", "pings"),
   default_aes = aes(y = ..DE..),
   compute_panel = function(data, scales) {
@@ -18,14 +18,14 @@ StatObspoint <- ggproto(
 
 #' @rdname detrange-ggproto
 #' @export
-GeomObspoint <- ggproto(
-  "GeomObspoint", GeomPoint
+GeomDrPoint <- ggproto(
+  "GeomDrPoint", GeomPoint
 )
 
 #' @rdname detrange-ggproto
 #' @export
-GeomPredicted <- ggproto(
-  "GeomPredicted",
+GeomDrRibbon <- ggproto(
+  "GeomDrRibbon",
   Geom,
   required_aes = c("x", "estimate", "lower", "upper"),
   draw_key = draw_key_path,
@@ -33,9 +33,9 @@ GeomPredicted <- ggproto(
     colour = "black",
     fill = "blue",
     size = 0.5,
-    ribbon_size = 0.1,
-    ribbon_alpha = 0.1,
-    ribbon_colour = "black",
+    size_ribbon = 0.1,
+    alpha_ribbon = 0.1,
+    colour_ribbon = "black",
     linetype = 1,
     alpha = 1
   ),
@@ -49,9 +49,9 @@ GeomPredicted <- ggproto(
     data$ymax <- data$upper
 
     dfrib <- data
-    dfrib$alpha <- data$ribbon_alpha
-    dfrib$size <- data$ribbon_size
-    dfrib$colour <- data$ribbon_colour
+    dfrib$alpha <- data$alpha_ribbon
+    dfrib$size <- data$size_ribbon
+    dfrib$colour <- data$colour_ribbon
 
     est_grob <- GeomLine$draw_panel(data, panel_scales, coord)
     int_grob <- GeomRibbon$draw_panel(dfrib, panel_scales, coord)
@@ -62,4 +62,41 @@ GeomPredicted <- ggproto(
   }
 )
 
+#' @rdname detrange-ggproto
+#' @export
+GeomDrErrorbar <- ggproto(
+  "GeomDrErrorbar",
+  GeomPoint,
+  required_aes = c("y", "x", "xmin", "xmax"),
+  default_aes = aes(
+    shape = 19,
+    colour = "red",
+    size = 1.5,
+    size_errorbar = 0.5,
+    fill = NA,
+    alpha = NA,
+    linetype = 1,
+    stroke = 0.5,
+    height = 0.04,
+  ),
+  draw_panel = function(data, panel_params, coord) {
+
+    data_errbarh <- transform(data,
+                              size = size_errorbar,
+                              ymin = y - height/2,
+                              ymax = y + height/2)
+
+    errorbarh_grob <- GeomErrorbarh$draw_panel(data = data_errbarh,
+                                               panel_params = panel_params,
+                                               coord = coord)
+    point_grob <- GeomPoint$draw_panel(data = data,
+                                       panel_params = panel_params,
+                                       coord = coord)
+    gt <- grid::grobTree(
+      errorbarh_grob,
+      point_grob,
+      name = 'geom_dr_errorbar')
+    gt
+  }
+)
 

@@ -8,7 +8,7 @@
   invisible(data)
 }
 
-.chk_predicted_de <- function(data, x_name = deparse(substitute(data))){
+.chk_predict_de <- function(data, x_name = deparse(substitute(data))){
   chk::check_data(data,
                   x_name = x_name,
                   values = list(Station = factor(),
@@ -19,7 +19,7 @@
   invisible(data)
 }
 
-.chk_predicted_distance <- function(data, x_name = deparse(substitute(data))){
+.chk_predict_distance <- function(data, x_name = deparse(substitute(data))){
   chk::check_data(data,
                   x_name = x_name,
                   values = list(Station = factor(),

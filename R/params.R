@@ -17,8 +17,14 @@
 #' @param de A vector of numbers between 0 and 1 of the detection efficiency to predict distance at.
 #' @param random_effects A flag indicating whether to include random effect terms.
 #' @param gp A ggplot object returned from `dr_plot`.
-#' @param predicted_de A tibble of the output of `dr_predict_de`.
-#' @param predicted_distance A tibble of the output of `dr_predict_distance`.
+#' @param predict_de A tibble of the output of `dr_predict_de`.
+#' @param predict_distance A tibble of the output of `dr_predict_distance`.
+#' @param detects A string of the column name containing detections.
+#' @param pings A string of the column name containing pings.
+#' @param xlab A string of the x-axis title.
+#' @param ylab A string of the y-axis title.
+#' @param facet A flag indicating whether to facet plot by Station.
+#'
 #' @keywords internal
 #' @name params
 NULL

@@ -38,9 +38,19 @@ If NULL, a vector of length 30 spanning the range of the Distance in the data wi
 
 \item{gp}{A ggplot object returned from \code{dr_plot}.}
 
-\item{predicted_de}{A tibble of the output of \code{dr_predict_de}.}
+\item{predict_de}{A tibble of the output of \code{dr_predict_de}.}
 
-\item{predicted_distance}{A tibble of the output of \code{dr_predict_distance}.}
+\item{predict_distance}{A tibble of the output of \code{dr_predict_distance}.}
+
+\item{detects}{A string of the column name containing detections.}
+
+\item{pings}{A string of the column name containing pings.}
+
+\item{xlab}{A string of the x-axis title.}
+
+\item{ylab}{A string of the y-axis title.}
+
+\item{facet}{A flag indicating whether to facet plot by Station.}
 }
 \description{
 Parameter Descriptions for detrange Functions

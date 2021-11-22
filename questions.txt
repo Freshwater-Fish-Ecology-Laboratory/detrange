@@ -6,14 +6,16 @@
 3. Should we allow for a model with low DE at close distance (i.e. CPDI; Kessler 2015) in n-shape curve.
 we could model both and test best model on the data by AIC or model average estimates.
 
+for joe:
+
 should i report svalue in tidy() and predict() funs?
 
-should autoplot method for drfit simply fit observed data or should it automatically generated predictions?
+should autoplot method for drfit simply plot observed data or should it automatically generate predictions (takes a few seconds)?
 
 ssdtools review
 why prefix some functions with .?
-do you save all function args as attributes? useful for reporting later?
 why put ... + chk_unused(...) at end of method functions
+can autoplot take function arguments?
 
 
 

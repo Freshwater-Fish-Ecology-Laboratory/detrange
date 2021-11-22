@@ -98,19 +98,27 @@ fit <- dr_fit(detrange::range_obs)
 #>   as.mcmc.list.mcarray rjags
 ```
 
-The returned object has class `drfit`. A number of generic methods are
-defined, including `glance`, `tidy`, `coef`, `augment`, `summary`,
-`estimates`, `autoplot`, and `predict`.
+A number of generic methods are defined for the output object of
+`dr_fit()`, including `autoplot` `glance`, `tidy`, `coef`, `augment`,
+`summary`, `estimates`, and `predict`.
 
 ``` r
 tidy(fit, conf_level = 0.89)
 #> # A tibble: 3 × 6
 #>   term             estimate    lower   upper svalue description                 
 #>   <term>              <dbl>    <dbl>   <dbl>  <dbl> <chr>                       
-#> 1 bDistance        -0.0156  -0.0218  -0.0104   11.6 Effect of distance on logit…
-#> 2 bIntercept        4.78     4.44     5.16     11.6 Intercept of logit(`eDetect…
-#> 3 sDistanceStation  0.00694  0.00412  0.0144   11.6 Standard deviation of `bDis…
+#> 1 bDistance        -0.0155  -0.0211  -0.0101   11.6 Effect of distance on logit…
+#> 2 bIntercept        4.78     4.43     5.16     11.6 Intercept of logit(`eDetect…
+#> 3 sDistanceStation  0.00685  0.00410  0.0141   11.6 Standard deviation of `bDis…
 ```
+
+Plot predicted detection range
+
+``` r
+autoplot(fit)
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
 Predict distance(s) at target levels of detection efficiency
 
@@ -118,40 +126,13 @@ Predict distance(s) at target levels of detection efficiency
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
 #>    Station  de estimate    lower    upper   svalue
-#> 1 Station1 0.5 390.1591 365.9360 414.9143 11.55123
-#> 7 Station1 0.8 278.1292 255.2679 300.1251 11.55123
-#> 2 Station2 0.5 247.0141 227.3975 267.8640 11.55123
-#> 8 Station2 0.8 176.7456 160.1723 192.8687 11.55123
-#> 3 Station3 0.5 219.1298 200.8481 239.3193 11.55123
-#> 9 Station3 0.8 156.9741 141.5989 173.4617 11.55123
+#> 1 Station1 0.5 389.6640 364.8976 416.2076 11.55123
+#> 7 Station1 0.8 278.2240 254.9899 302.0757 11.55123
+#> 2 Station2 0.5 247.0591 228.0564 268.2992 11.55123
+#> 8 Station2 0.8 176.8466 161.0729 194.0914 11.55123
+#> 3 Station3 0.5 219.7037 200.8148 239.7070 11.55123
+#> 9 Station3 0.8 157.3090 141.1735 173.3605 11.55123
 ```
-
-Predict detection efficiency at distance(s)
-
-``` r
-predicted_de <- dr_predict_de(fit, distance = seq(0, 1000, 50)) 
-head(predicted_de)
-#>     Station Distance  estimate     lower     upper   svalue
-#> 1  Station1        0 0.9916523 0.9874795 0.9947832 11.55123
-#> 7  Station1       50 0.9845822 0.9776997 0.9897999 11.55123
-#> 13 Station1      100 0.9717054 0.9607739 0.9802212 11.55123
-#> 19 Station1      150 0.9486291 0.9312498 0.9625162 11.55123
-#> 25 Station1      200 0.9085519 0.8810815 0.9304842 11.55123
-#> 31 Station1      250 0.8424952 0.8014641 0.8759805 11.55123
-```
-
-Plot results using custom geoms
-
-``` r
-library(ggplot2)
-ggplot(data = detrange::range_obs) +
-  geom_dr_predicted(data = predicted_de, aes(x = Distance, estimate = estimate, 
-                                             lower = lower, upper = upper)) + 
-  geom_dr_observed(aes(x = Distance, detects = Detects, pings = Pings), size = 1) + 
-  facet_wrap(~Station)
-```
-
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 ### How to do more
 

@@ -43,8 +43,6 @@ GENERICS
   - visualize (maybe plot? or use autoplot?) - Visualize a data set or object.
   - subset (if fit multiple models)
 
-tidy, coef, augment, glance, summary, print, npars, nobs, logLik, autoplot, estimates
-
 PLOTS
 - autoplot methods for drfit class (predicted de by station - option to facet or by color) and data.frame (plot observed data - option to facet or color)
 - create custom geoms (see ssdtools) taht string together to make e.g. dr_plot_de
@@ -52,6 +50,7 @@ PLOTS
 dr_plot_detrange - plot predicted detection range (autoplot)
  -takes data + predicted_de data or if pass drfit object then automatically generates predictions
 dr_plot_
+fix argument names of geom_dr_errorbar (lower, estimate, upper)
 
 Pkg maintenance stuff
 - build website
