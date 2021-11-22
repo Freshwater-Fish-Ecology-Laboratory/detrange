@@ -8,6 +8,12 @@ package/function names
 - rdr
 - detection
 
+drtools - loads and installs the following
+  - drdata
+  - drfit
+  - drshiny
+  - drsim
+
 Readme/articles
 - reference to gold standard range testing methods (and why pkg works for that)
 - move detailed readme sections into articles for website (only include simple call to dr_fit and installation)
@@ -36,6 +42,7 @@ MODEL
 - model for nested station/transect (i.e. cardinal directions at single station)
 - model for CPDI - lower detection efficiency at close distance due to CPDI (i.e. a n-shaped curve), should fit two models (one with breakpoint) and use AIC to select the best model - or model average for estimates.
 - covariates - term names = column name prefix with b + s<>Station + b<>Station
+- add data simulation function (dr_simulate)
 
 GENERICS
 - Use generics for model object manipulation - some ideas:
@@ -44,13 +51,8 @@ GENERICS
   - subset (if fit multiple models)
 
 PLOTS
-- autoplot methods for drfit class (predicted de by station - option to facet or by color) and data.frame (plot observed data - option to facet or color)
-- create custom geoms (see ssdtools) taht string together to make e.g. dr_plot_de
-
-dr_plot_detrange - plot predicted detection range (autoplot)
- -takes data + predicted_de data or if pass drfit object then automatically generates predictions
-dr_plot_
 fix argument names of geom_dr_errorbar (lower, estimate, upper)
+add trace and density plot functions
 
 Pkg maintenance stuff
 - build website

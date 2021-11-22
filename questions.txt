@@ -1,7 +1,7 @@
 ### for me/ further research
 1. should default priors capture what is expected by the manufacturer under 'standard' conditions - or rather should they be uninformative. in initial exploration using uninformative priors works best - as informative priors may yield unexpected results.
 
-2. should we build functionality for multiple directions within singel station - is this a nested mixed-effects model? or does user simply need to give each transect a unique station name?
+2. should we build functionality for multiple directions within singel station - is this a nested mixed-effects model? or does user simply need to give each transect a unique station name? if yes, should the degree (compass direction) of the transect be taken into account or should they simpy be used to estimate a 'typical' transect from each station? (this amtters e.g. when visualizing or creating a 'detection range zone' - i.e. as convex hull rather than circle)
 
 3. Should we allow for a model with low DE at close distance (i.e. CPDI; Kessler 2015) in n-shape curve.
 we could model both and test best model on the data by AIC or model average estimates.
@@ -11,6 +11,22 @@ for joe:
 should i report svalue in tidy() and predict() funs?
 
 should autoplot method for drfit simply plot observed data or should it automatically generate predictions (takes a few seconds)?
+
+is it better to have a 'suite' of R packages rather than one giant one to reduce dependencies? (i.e. shiny, eventually some kind fo simulation packages) - does this make it harder to publish? does it maek harder to document in articles/vignettes? i.e. one website for all to show workflows that use several packages?
+
+does it maek sense to have one overarching package (drtools) to load/install them all?
+
+Tidy design principles talks about importance of not having function arguments that rely on the value of another function argument
+an example in my case: nrandom controls whether fixed or mixed-effects and random_intercept controls whether a random intercept parameter is estimated. random_intercept is ignored if fixed model fit. would it be better to have e.g. dr_fit_random (or fit_mixed?) and dr_fit_fixed and an explanation in website/vignettes on when to use either? in future, there may be additional arguments that apply only to a mixed-effects model.
+
+for movement simulation - should i use SiMRiv r package or use it as inspirationa dn build my own simulation functions to reduce dependencies?
+simriv is a bit overkill - as we dont need multiple values of landscape resistance - only need 0 (water) and 1 (land)
+simriv downsides
+- depnds on raster and sp rather than sf and stars
+- frequentist
+- movement parameters approximated using 'heuristic approximation method' - not comparable to ML
+do i want to use a nimble model to simulate hmm?
+use momentuHMM or moveHMM instead?
 
 ssdtools review
 why prefix some functions with .?
