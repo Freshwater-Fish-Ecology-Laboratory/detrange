@@ -14,10 +14,10 @@ replace_priors <- function(priors, new_prior){
        bInterceptStation = NULL)
 }
 
-.monitors <- function(terms) names(terms)
-.priors <- function(terms) terms[!sapply(terms, is.null)]
+monitors <- function(terms = .terms()) names(terms)
+priors <- function(terms = .terms()) terms[!sapply(terms, is.null)]
 
-.description <- function(n){
+description <- function(n){
   description <- c(
     "eDetects[i]" = "Expected `Detects` of `i`^th^ sample event",
     "bIntercept" = "Intercept of logit(`eDetects`)",

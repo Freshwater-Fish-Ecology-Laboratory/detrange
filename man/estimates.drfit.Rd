@@ -4,10 +4,12 @@
 \alias{estimates.drfit}
 \title{Estimates for drfit Object}
 \usage{
-\method{estimates}{drfit}(x, ...)
+\method{estimates}{drfit}(x, term = NULL, ...)
 }
 \arguments{
 \item{x}{The object.}
+
+\item{term}{A string of the term name.}
 
 \item{...}{Unused parameters.}
 }

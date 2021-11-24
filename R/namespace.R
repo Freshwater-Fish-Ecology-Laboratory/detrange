@@ -1,5 +1,5 @@
 #' @import chk ggplot2
-#' @importFrom stats setNames update median coef predict nobs plogis
+#' @importFrom stats setNames update median coef predict nobs plogis runif
 #' @importFrom ggplot2 autoplot
 #' @importFrom lifecycle deprecated
 #' @importFrom utils modifyList

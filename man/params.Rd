@@ -12,45 +12,62 @@
 
 \item{object}{The object.}
 
-\item{priors}{A named list of the priors for each model term.}
-
-\item{nthin}{A whole number of the number of thins.}
-
-\item{min_random}{A whole number of the minimum number of Stations required to fit a mixed-effects model.}
-
-\item{random_intercept}{A flag indicating whether to model intercept as a random effect.
-In the case of a fixed-effects model, this will be ignored.}
-
-\item{quiet}{A flag indicating whether to suppress messages and progress bars.}
-
 \item{by}{A string of the column indicating group to derive predictions at.}
 
 \item{conf_level}{A number between 0 and 1 of the confidence level.}
 
-\item{estimate}{A function to calculate the estimate.}
-
-\item{distance}{A vector of the distances to predict detection efficiency at.
-If NULL, a vector of length 30 spanning the range of the Distance in the data will be generated.}
-
 \item{de}{A vector of numbers between 0 and 1 of the detection efficiency to predict distance at.}
 
-\item{random_effects}{A flag indicating whether to include random effect terms.}
+\item{detects}{A string of the column name containing detections.}
 
-\item{gp}{A ggplot object returned from \code{dr_plot}.}
+\item{distance}{A vector of the distances to predict detection efficiency at.
+If NULL, a vector of length 30 spanning the range of the Distance in the data is generated.}
+
+\item{distance_min}{A positive number of the minimum distance.}
+
+\item{distance_max}{A positive number of the maximum distance.}
+
+\item{estimate}{A function to calculate the estimate.}
+
+\item{facet}{A flag indicating whether to facet plot by Station.}
+
+\item{min_random_slope}{A whole number of the minimum number of Stations
+required to fit slope parameter as a random effect.}
+
+\item{min_random_intercept}{A whole number of the minimum number of Stations
+required to fit intercept parameter as a random effect.}
+
+\item{n}{A whole number of the data points per station.}
+
+\item{nstation}{A whole number of the number of stations.}
+
+\item{nthin}{A whole number of the number of thins.}
+
+\item{pings}{A string of the column name containing pings.}
+
+\item{ping_min}{A positive whole number of the minimum pings.}
+
+\item{ping_max}{A positive whole number of the maximum pings.}
 
 \item{predict_de}{A tibble of the output of \code{dr_predict_de}.}
 
 \item{predict_distance}{A tibble of the output of \code{dr_predict_distance}.}
 
-\item{detects}{A string of the column name containing detections.}
+\item{priors}{A named list of the priors for each model term.}
 
-\item{pings}{A string of the column name containing pings.}
+\item{quiet}{A flag indicating whether to suppress messages and progress bars.}
+
+\item{random_effects}{A flag indicating whether to include random effect terms.}
+
+\item{seed}{A positive whole number of the seed.}
+
+\item{term}{A string of the term name.}
+
+\item{params}{A named list of the parameter names and values to simulate.}
 
 \item{xlab}{A string of the x-axis title.}
 
 \item{ylab}{A string of the y-axis title.}
-
-\item{facet}{A flag indicating whether to facet plot by Station.}
 }
 \description{
 Parameter Descriptions for detrange Functions

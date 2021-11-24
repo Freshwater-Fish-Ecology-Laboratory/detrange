@@ -24,7 +24,8 @@ Imports:
     mcmcderive,
     tibble,
     generics,
-    universals
+    universals,
+    sims
 Remotes:
     poissonconsulting/newdata
 Depends: 

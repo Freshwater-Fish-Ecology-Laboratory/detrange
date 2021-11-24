@@ -1,5 +1,5 @@
 test_that("generic functions work", {
-  fit <- dr_fit(detrange::range_obs)
+  fit <- dr_fit(detrange::range_obs, min_random_intercept = 100)
 
   gla <- glance(fit)
   expect_identical(dr_glance(fit), gla)
@@ -18,6 +18,10 @@ test_that("generic functions work", {
 
   est <- estimates(fit)
   expect_identical(names(sum$arrays[[1]]), names(est))
+
+  bint <- estimates(fit, "bIntercept")
+  expect_identical(length(bint), 1L)
+  expect_true(is.numeric(bint))
 
   pa <- pars(fit)
   expect_identical(pa, names(est))

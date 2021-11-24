@@ -7,10 +7,11 @@
 dr_fit(
   data,
   nthin = 10,
-  min_random = 5,
-  random_intercept = FALSE,
+  min_random_slope = 5,
+  min_random_intercept = 5,
   priors = NULL,
-  quiet = TRUE
+  quiet = TRUE,
+  seed = .rndm_seed()
 )
 }
 \arguments{
@@ -18,14 +19,17 @@ dr_fit(
 
 \item{nthin}{A whole number of the number of thins.}
 
-\item{min_random}{A whole number of the minimum number of Stations required to fit a mixed-effects model.}
+\item{min_random_slope}{A whole number of the minimum number of Stations
+required to fit slope parameter as a random effect.}
 
-\item{random_intercept}{A flag indicating whether to model intercept as a random effect.
-In the case of a fixed-effects model, this will be ignored.}
+\item{min_random_intercept}{A whole number of the minimum number of Stations
+required to fit intercept parameter as a random effect.}
 
 \item{priors}{A named list of the priors for each model term.}
 
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
+
+\item{seed}{A positive whole number of the seed.}
 }
 \value{
 A list of the jags model object and mcmcr samples.
@@ -36,4 +40,4 @@ If the number of stations is < min_random, a fixed-effects model is fit.
 Otherwise, a mixed-effects model is fit with random slope for each station.
 If random_intercept = TRUE, a random intercept is also fit for each station.
 }
-\concept{fit}
+\concept{model}

@@ -1,3 +1,9 @@
+### use nimble?
+- better support for simulation
+- maybe can mimic jags by setting slice samplers - nimble not good at guessing init values on vague priors though
+- users would have to download compiler and tools if not there: https://r-nimble.org/download
+- c++ compilation time - need to check whether can pre-compile as in STAN
+
 ### for me/ further research
 1. should default priors capture what is expected by the manufacturer under 'standard' conditions - or rather should they be uninformative. in initial exploration using uninformative priors works best - as informative priors may yield unexpected results.
 
@@ -8,17 +14,30 @@ we could model both and test best model on the data by AIC or model average esti
 
 for joe:
 
+## coef reporting
 should i report svalue in tidy() and predict() funs?
 
-should autoplot method for drfit simply plot observed data or should it automatically generate predictions (takes a few seconds)?
+## plotting
+should autoplot method for drfit object simply plot observed data or should it automatically generate predictions (takes a few seconds)?
 
+## mixed/random terminology
+should i call it fixed vs mixed-effects model or fixed vs random-effects model?
+
+## seed
+how best to pass a seed into rjags and via several functions (e.g. dr_simulate)
+
+## accepting null/character(0)
+thoughts on accepting NULL/character(0) for function args and then doing if/else? (e.g. estimates function in universals)
+
+## package names
 is it better to have a 'suite' of R packages rather than one giant one to reduce dependencies? (i.e. shiny, eventually some kind fo simulation packages) - does this make it harder to publish? does it maek harder to document in articles/vignettes? i.e. one website for all to show workflows that use several packages?
-
 does it maek sense to have one overarching package (drtools) to load/install them all?
 
+## dr_fit function(s)
 Tidy design principles talks about importance of not having function arguments that rely on the value of another function argument
 an example in my case: nrandom controls whether fixed or mixed-effects and random_intercept controls whether a random intercept parameter is estimated. random_intercept is ignored if fixed model fit. would it be better to have e.g. dr_fit_random (or fit_mixed?) and dr_fit_fixed and an explanation in website/vignettes on when to use either? in future, there may be additional arguments that apply only to a mixed-effects model.
 
+## movement simulation
 for movement simulation - should i use SiMRiv r package or use it as inspirationa dn build my own simulation functions to reduce dependencies?
 simriv is a bit overkill - as we dont need multiple values of landscape resistance - only need 0 (water) and 1 (land)
 simriv downsides
@@ -28,7 +47,7 @@ simriv downsides
 do i want to use a nimble model to simulate hmm?
 use momentuHMM or moveHMM instead?
 
-ssdtools review
+## ssdtools review
 why prefix some functions with .?
 why put ... + chk_unused(...) at end of method functions
 can autoplot take function arguments?

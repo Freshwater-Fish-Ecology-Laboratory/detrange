@@ -1,3 +1,5 @@
+.rndm_seed <- function() as.integer(Sys.time())
+
 .max_int <- .Machine$integer.max
 
 logit <- function(x) log(x / (1 - x))
@@ -10,7 +12,7 @@ to_ch0 <- function(x){
   x
 }
 
-df_to_list <- function(x){
+data_list <- function(x){
   list(nObs = nrow(x),
        nStation = length(unique(x$Station)),
        Distance = x$Distance,

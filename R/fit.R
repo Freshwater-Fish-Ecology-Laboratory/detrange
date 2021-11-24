@@ -1,3 +1,25 @@
+model_type <- function(nstation, min_random_intercept, min_random_slope){
+  slope <- nstation >= min_random_slope
+  intercept <- nstation >= min_random_intercept
+  m <- "f"
+  if(!slope & intercept)
+    m <- "ri"
+  if(slope & !intercept)
+    m <- "rs"
+  if(slope & intercept)
+    m <- "rsri"
+  m
+}
+
+nstation <- function(data){
+  length(unique(data$Station))
+}
+
+clean_data <- function(data){
+  data$Station <- factor(data$Station)
+  data
+}
+
 #' Fit Detection Range Model
 #'
 #' Fit detection range model using JAGS.
@@ -7,41 +29,44 @@
 #'
 #' @inheritParams params
 #' @return A list of the jags model object and mcmcr samples.
-#' @aliases dr_fit
 #' @export
-#' @family fit
+#' @family model
 dr_fit <- function(data,
                    nthin = 10,
-                   min_random = 5,
-                   random_intercept = FALSE,
+                   min_random_slope = 5,
+                   min_random_intercept = 5,
                    priors = NULL,
-                   quiet = TRUE){
+                   quiet = TRUE,
+                   seed = .rndm_seed()){
 
   .chk_data(data)
-  chk_whole_number(min_random)
+  chk_whole_number(min_random_slope)
+  chk_whole_number(min_random_intercept)
   .chk_priors(priors)
   chk_whole_number(nthin)
   chk_gte(nthin, value = 1L)
   chk_flag(quiet)
+  chk_whole_number(seed)
+  chk_gte(seed, 0)
 
-  data_list <- df_to_list(data)
-  model_type <- if(data_list$nStation >= min_random) "random" else "fixed"
-  terms <- .terms()
-  default_priors <- .priors(terms)
+  # reset factor so doesnt cause issues down the line
+  data <- clean_data(data)
+  datal <- data_list(data)
+  nstation <- nstation(datal)
+  model <- model_type(nstation, min_random_intercept, min_random_slope)
+  default_priors <- priors()
   priors <- replace_priors(default_priors, priors)
-  template <- .template(model_type, random_intercept)
-  template_model <- .model(template, priors)
-  monitors <- .monitors(terms)
+  template <- template_model(model, priors)
+  monitor <- monitors()
 
-  fit <- run_jags(template = template_model,
-                  data = data_list, monitor = monitors,
+  fit <- run_jags(template = template,
+                  data = datal, monitor = monitor,
                   inits = NULL, niters = 1000, nchains = 3,
-                  nthin = nthin, quiet = quiet)
+                  nthin = nthin, quiet = quiet, seed = seed)
 
   attrs <- list(nthin = nthin,
                 n = nrow(data),
-                model_type = model_type,
-                random_intercept = random_intercept)
+                model = model)
 
   .attrs_drfit(fit) <- attrs
   fit$data <- data

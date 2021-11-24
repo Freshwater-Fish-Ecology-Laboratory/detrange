@@ -35,15 +35,25 @@
   chk_is(priors, "list")
   chk_named(priors)
   x <- unlist(priors)
-  chk_true(all(is.character(x)))
-  chk_subset(names(x), names(.priors(.terms())), x_name = "Term name")
+  chk_character(x)
+  chk_subset(names(x), names(priors()), x_name = "Term name")
   invisible(priors)
+}
+
+.chk_params <- function(params){
+  if(is.null(params)) return(params)
+  chk_is(params, "list")
+  chk_named(params)
+  x <- unlist(params)
+  chk_numeric(x)
+  chk_subset(names(x), names(priors()), x_name = "Term name")
+  invisible(params)
 }
 
 .chk_fit <- function(x){
   chk_s3_class(x, "drfit")
   chk_subset(names(x), c("model", "samples", "data"))
-  chk_true(all(names(attributes(x)) %in% c("names", "model_type", "nthin", "n", "random_intercept", "class")))
+  chk_true(all(names(attributes(x)) %in% c("names", "nthin", "model", "n", "class")))
   chk_s3_class(x$model, "jags")
   chk_s3_class(x$samples, "mcmcr")
   invisible(x)

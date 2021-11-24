@@ -7,7 +7,7 @@
 .predict <- function(x, new_data, derived_expr, monitor,
                     conf_level = 0.95, estimate = median){
 
-  samples <- .samples(x)
+  samples <- samples(x)
   derived <- mcmcderive::mcmc_derive(samples,
                                      expr = derived_expr,
                                      monitor = monitor,
@@ -81,7 +81,7 @@ dr_predict_de <- function(x,
   chk_lte(conf_level, 1)
   chk_is(estimate, "function")
 
-  data <- .augment(x)
+  data <- augment(x)
 
   seq <- to_ch0(by)
   if(!length(distance))
@@ -90,12 +90,10 @@ dr_predict_de <- function(x,
   ref <- list(Distance = distance)
   new_data <- .new_data(data, seq = seq, ref = ref)
 
-  model_type <- .model_type_drfit(x)
-  random_intercept <- .random_intercept_drfit(x)
-  template <- .template(model_type, random_intercept)
-  derived_expr <- .derived(template)
+  model_type <- .model_drfit(x)
+  template <- template_derived(model_type)
 
-  x <- .predict(x, new_data, derived_expr, conf_level,
+  x <- .predict(x, new_data, template, conf_level,
           estimate, monitor = "prediction")
   clean_predict(x, seq, ref)
 }
@@ -129,18 +127,16 @@ dr_predict_distance <- function(x,
   chk_is(estimate, "function")
 
   seq <- to_ch0(by)
-  data <- .augment(x)
+  data <- augment(x)
   data$DELogit <- 0
   delogit <- logit(de)
   ref <- list(DELogit = delogit)
   new_data <- .new_data(data, seq, ref = ref)
 
-  model_type <- .model_type_drfit(x)
-  random_intercept <- .random_intercept_drfit(x)
-  template <- .template(model_type, random_intercept)
-  derived_expr <- .derived(template)
+  model_type <- .model_drfit(x)
+  template <- template_derived(model_type)
 
-  x <- .predict(x, new_data, derived_expr, conf_level,
+  x <- .predict(x, new_data, template, conf_level,
           estimate, monitor = "target")
   x$de <- plogis(x$DELogit)
   x$DELogit <- NULL

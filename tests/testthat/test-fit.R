@@ -1,16 +1,13 @@
 test_that("fit functions work", {
   ### dr_analysis_coefficient
   data <- range_obs
-  model_type <- "random"
-  priors <- .priors(.terms())
-  random_intercept = TRUE
+  priors <- priors()
 
   ### check template funs
-  template <- .template(model_type, random_intercept)
-  expect_type(template, "closure")
-  model <- .model(template, priors)
-  expect_type(model, "character")
-  derived <- .derived(template)
+  model <- "f"
+  template <- template_model(model, priors)
+  expect_type(template, "character")
+  derived <- template_derived(model)
   expect_type(derived, "character")
 
   ### check that priors can be replaced
@@ -27,32 +24,47 @@ test_that("fit functions work", {
   # random slope
   random <- dr_fit(data, nthin = 1L)
   expect_identical(.chk_fit(random), random)
+  expect_identical(.model_drfit(random), "rsri")
 
   # check attrs
   attrs <- .attrs_drfit(random)
-  expect_identical(names(attrs), c("nthin", "model_type", "random_intercept"))
+  expect_identical(names(attrs), c("nthin", "model"))
 
   # fixed
-  fixed <- dr_fit(data, nthin = 1L, min_random = 10)
+  fixed <- dr_fit(data, nthin = 1L, min_random_slope = 100, min_random_intercept = 100)
   expect_identical(.chk_fit(fixed), fixed)
+  expect_identical(.model_drfit(fixed), "f")
 
-  # random interecept
-  random_int <- dr_fit(data, nthin = 1L, min_random = 1, random_intercept = TRUE)
+  # random intercept
+  random_int <- dr_fit(data, nthin = 1L, min_random_slope = 10)
   expect_identical(.chk_fit(random_int), random_int)
+  expect_identical(.model_drfit(random_int), "ri")
+
+  # random slope
+  random_slope <- dr_fit(data, nthin = 1L, min_random_intercept = 10)
+  expect_identical(.chk_fit(random_slope), random_slope)
+  expect_identical(.model_drfit(random_slope), "rs")
+
+  # check seed
+  seed1 <- dr_fit(data, nthin = 1L, seed = 1)
+  seed2 <- dr_fit(data, nthin = 1L, seed = 2)
+  seed3 <- dr_fit(data, nthin = 1L, seed = 2)
+  expect_identical(seed2$samples, seed3$samples)
+  expect_false(identical(seed1$samples, seed2$samples))
 
   ### check glance
-  glance <- dr_glance(random)
+  glance <- glance(random)
   expect_s3_class(glance, "data.frame")
   expect_true(all(names(glance) %in% c("n", "K", "nchains", "niters",
                                        "nthin", "ess", "rhat", "converged")))
 
   # test term_description
-  desc <- .description(2)
+  desc <- description(2)
   expect_s3_class(desc, "data.frame")
   expect_identical(nrow(desc), 9L)
 
   # test coef
-  coef <- dr_coef(fixed)
+  coef <- coef(fixed)
   expect_s3_class(coef, "data.frame")
   expect_true(all(!is.na(coef$description)))
   expect_false("sDistanceStation" %in% coef$term)
@@ -60,12 +72,12 @@ test_that("fit functions work", {
   coef <- dr_coef(random_int)
   expect_true("sInterceptStation" %in% coef$term)
 
-  coef <- dr_coef(random)
+  coef <- dr_coef(random_slope)
   expect_true("sDistanceStation" %in% coef$term)
   expect_false("sInterceptStation" %in% coef$term)
 
   ## conf_level and estimate args work
-  coef2 <- dr_coef(random, conf_level = 0.8, estimate = mean)
+  coef2 <- dr_coef(random_slope, conf_level = 0.8, estimate = mean)
   expect_true(all(coef2$estimate != coef$estimate))
   expect_true(all(coef2$lower > coef$lower))
 

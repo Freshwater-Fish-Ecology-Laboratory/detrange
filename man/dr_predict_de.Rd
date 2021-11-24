@@ -16,7 +16,7 @@ dr_predict_de(
 \item{x}{The object.}
 
 \item{distance}{A vector of the distances to predict detection efficiency at.
-If NULL, a vector of length 30 spanning the range of the Distance in the data will be generated.}
+If NULL, a vector of length 30 spanning the range of the Distance in the data is generated.}
 
 \item{by}{A string of the column indicating group to derive predictions at.}
 

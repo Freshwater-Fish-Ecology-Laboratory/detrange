@@ -1,8 +1,8 @@
-.data_set <- function(x){
+data_set <- function(x){
   x$model$data()
 }
 
-.samples <- function(x){
+samples <- function(x){
   x$samples
 }
 

@@ -22,12 +22,12 @@ dr_coef <- function(x, conf_level = 0.95,
                     estimate = median, random_effects = FALSE){
 
   .chk_fit(x)
-  data <- .data_set(x)
-  samples <- .samples(x)
-  model <- .model_type_drfit(x)
+  data <- data_set(x)
+  samples <- samples(x)
+  model <- .model_drfit(x)
 
   nstation <- data$nStation
-  description <- .description(n = nstation)
+  description <- description(n = nstation)
   if(model == "fixed")
     description$random <- FALSE
 

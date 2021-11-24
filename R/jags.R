@@ -1,6 +1,10 @@
-run_jags <- function(template, data, monitor, inits, niters, nchains, nthin, quiet) {
+run_jags <- function(template, data, monitor, inits, niters, nchains, nthin, quiet, seed) {
 
-  model <- rjags::jags.model(textConnection(template), data, inits = inits,
+  rjags::load.module('glm', quiet = TRUE)
+  rng <- list(.RNG.name = "base::Wichmann-Hill",
+              .RNG.seed = seed)
+  model <- rjags::jags.model(textConnection(template), data,
+                             inits = c(inits, rng),
                              n.adapt = 0, quiet = quiet, n.chains = nchains)
 
   progress_bar <- if(quiet) "none" else "text"

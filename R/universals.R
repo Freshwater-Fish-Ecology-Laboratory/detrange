@@ -1,5 +1,5 @@
 .ess <- function(x){
-  mcmcr::ess(.samples(x))
+  mcmcr::ess(samples(x))
 }
 
 #' @export
@@ -16,8 +16,11 @@ universals::estimates
 #' @examples
 #' fit <- dr_fit(detrange::range_obs)
 #' estimates(fit)
-estimates.drfit <- function(x, ...) {
-  mcmcr::estimates(.samples(x))
+estimates.drfit <- function(x, term = NULL, ...) {
+  chkor_vld(vld_null(term), vld_character(term))
+  if(!length(term))
+    return(mcmcr::estimates(samples(x)))
+  mcmcr::estimates(samples(x))[[term]]
 }
 
 #' @export
@@ -29,7 +32,7 @@ universals::nchains
 #' @return A number of the number of chains.
 #' @export
 nchains.drfit <- function(x, ...) {
-  mcmcr::nchains(.samples(x))
+  mcmcr::nchains(samples(x))
 }
 
 #' @export
@@ -41,7 +44,7 @@ universals::npars
 #' @return A number of the number of parameters.
 #' @export
 npars.drfit <- function(x, ...) {
-  mcmcr::npars(.samples(x))
+  mcmcr::npars(samples(x))
 }
 
 #' @export
@@ -53,7 +56,7 @@ universals::nterms
 #' @return A number of the number of terms.
 #' @export
 nterms.drfit <- function(x, ...) {
-  mcmcr::nterms(.samples(x))
+  mcmcr::nterms(samples(x))
 }
 
 #' @export
@@ -65,7 +68,7 @@ universals::niters
 #' @return A number of the number of iterations.
 #' @export
 niters.drfit <- function(x, ...) {
-  mcmcr::niters(.samples(x))
+  mcmcr::niters(samples(x))
 }
 
 #' @export
@@ -77,7 +80,7 @@ universals::rhat
 #' @return A number of rhat value.
 #' @export
 rhat.drfit <- function(x, ...) {
-  mcmcr::rhat(.samples(x))
+  mcmcr::rhat(samples(x))
 }
 
 #' @export
@@ -89,7 +92,7 @@ universals::esr
 #' @return A number of the number of chains.
 #' @export
 esr.drfit <- function(x, ...) {
-  mcmcr::esr(.samples(x))
+  mcmcr::esr(samples(x))
 }
 
 #' @export
@@ -101,7 +104,7 @@ universals::converged
 #' @return A flag indicating convergence.
 #' @export
 converged.drfit <- function(x, ...) {
-  mcmcr::converged(.samples(x))
+  mcmcr::converged(samples(x))
 }
 
 #' @export
@@ -113,5 +116,5 @@ universals::pars
 #' @return A vector of the parameter names.
 #' @export
 pars.drfit <- function(x, ...) {
-  mcmcr::pars(.samples(x))
+  mcmcr::pars(samples(x))
 }

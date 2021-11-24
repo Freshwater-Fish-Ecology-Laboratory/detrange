@@ -1,6 +1,6 @@
 #' @export
 summary.drfit <- function(object, ...) {
-  summary(.samples(object))
+  summary(samples(object))
 }
 
 #' @export
@@ -12,7 +12,7 @@ print.drfit <- function(x, ...) {
 stats::nobs
 #' @export
 nobs.drfit <- function(object, ...) {
-  .data_set(object)$nObs
+  data_set(object)$nObs
 }
 
 

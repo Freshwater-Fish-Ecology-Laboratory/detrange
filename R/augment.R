@@ -1,10 +1,6 @@
 #' @export
 generics::augment
 
-.augment <- function(x){
-  x$data
-}
-
 #' Get Augmented Data from drfit Object
 #'
 #' Get a tibble of the original data with augmentation.
@@ -19,5 +15,5 @@ generics::augment
 #' augment(fit)
 augment.drfit <- function(x, ...) {
   chk_unused(...)
-  .augment(x)
+  x$data
 }

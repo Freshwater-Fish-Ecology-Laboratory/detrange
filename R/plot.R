@@ -72,7 +72,7 @@ dr_plot.data.frame <- function(x,
 dr_plot.drfit <- function(x,
                           facet = TRUE,
                           xlab = "Distance",
-                          ylab = "Propotion of Pings Detected", ...){
+                          ylab = "Proportion of Pings Detected", ...){
   chk_unused(...)
   .chk_fit(x)
   dr_plot_predict(x, facet = facet, xlab = xlab, ylab = ylab)

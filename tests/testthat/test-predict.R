@@ -3,7 +3,7 @@ test_that("predict funs work", {
   fit <- dr_fit(data, nthin = 1L)
 
   ### test new_data fun
-  data <- .augment(fit)
+  data <- augment(fit)
   x <- .new_data(data, seq = c("Station", "Distance"), ref = list())
   expect_s3_class(x, "data.frame")
   expect_true(all(names(data) %in% names(x)))
@@ -21,11 +21,8 @@ test_that("predict funs work", {
   expect_identical(length(unique(x2$Station)), 1L)
 
   ### test new_expr
-  model_type <- .model_type_drfit(fit)
-  random_intercept <- .random_intercept_drfit(fit)
-  template <- .template(model_type, random_intercept)
-  derived_expr <- .derived(template)
-  expect_type(derived_expr, "character")
+  model_type <- .model_drfit(fit)
+  derived_expr <- template_derived(model_type)
 
   ### test predict fun
   x <- .new_data(data, seq = "Station", ref = list(Distance = seq1))
@@ -36,6 +33,13 @@ test_that("predict funs work", {
                  conf_level = 0.5, estimate = mean)
   expect_true(all(y$lower < y2$lower))
   expect_true(all(y$estimate != y2$estimate))
+
+  ### test on smaller dataset
+  data <- data[data$Station %in% c("Station1", "Station2"),]
+  fit <- dr_fit(data, nthin = 1L)
+  dr_predict_de(fit)
+  x <- .new_data(data, seq = "Station", ref = list(Distance = seq1))
+  y <- .predict(fit, x, derived_expr = derived_expr, monitor = "prediction")
 
   ### test dr_predict_distance
   de1 <- c(0.1, 0.5)

@@ -20,7 +20,7 @@ dr_plot(x, ...)
   x,
   facet = TRUE,
   xlab = "Distance",
-  ylab = "Propotion of Pings Detected",
+  ylab = "Proportion of Pings Detected",
   ...
 )
 }
