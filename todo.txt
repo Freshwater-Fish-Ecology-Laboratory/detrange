@@ -43,6 +43,8 @@ MODEL
 - model for CPDI - lower detection efficiency at close distance due to CPDI (i.e. a n-shaped curve), should fit two models (one with breakpoint) and use AIC to select the best model - or model average for estimates.
 - covariates - term names = column name prefix with b + s<>Station + b<>Station
 - add data simulation function (dr_simulate)
+- add function arg to control # iterations, e.g. c('quick' (500), 'report' (1000), 'paper' (1500))
+- standardize covariate?
 
 GENERICS
 - Use generics for model object manipulation - some ideas:

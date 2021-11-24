@@ -12,6 +12,8 @@
 3. Should we allow for a model with low DE at close distance (i.e. CPDI; Kessler 2015) in n-shape curve.
 we could model both and test best model on the data by AIC or model average estimates.
 
+4. should i standradize distance covariate?
+
 for joe:
 
 ## coef reporting
@@ -19,9 +21,6 @@ should i report svalue in tidy() and predict() funs?
 
 ## plotting
 should autoplot method for drfit object simply plot observed data or should it automatically generate predictions (takes a few seconds)?
-
-## mixed/random terminology
-should i call it fixed vs mixed-effects model or fixed vs random-effects model?
 
 ## seed
 how best to pass a seed into rjags and via several functions (e.g. dr_simulate)
@@ -33,10 +32,6 @@ thoughts on accepting NULL/character(0) for function args and then doing if/else
 is it better to have a 'suite' of R packages rather than one giant one to reduce dependencies? (i.e. shiny, eventually some kind fo simulation packages) - does this make it harder to publish? does it maek harder to document in articles/vignettes? i.e. one website for all to show workflows that use several packages?
 does it maek sense to have one overarching package (drtools) to load/install them all?
 
-## dr_fit function(s)
-Tidy design principles talks about importance of not having function arguments that rely on the value of another function argument
-an example in my case: nrandom controls whether fixed or mixed-effects and random_intercept controls whether a random intercept parameter is estimated. random_intercept is ignored if fixed model fit. would it be better to have e.g. dr_fit_random (or fit_mixed?) and dr_fit_fixed and an explanation in website/vignettes on when to use either? in future, there may be additional arguments that apply only to a mixed-effects model.
-
 ## movement simulation
 for movement simulation - should i use SiMRiv r package or use it as inspirationa dn build my own simulation functions to reduce dependencies?
 simriv is a bit overkill - as we dont need multiple values of landscape resistance - only need 0 (water) and 1 (land)
@@ -44,8 +39,8 @@ simriv downsides
 - depnds on raster and sp rather than sf and stars
 - frequentist
 - movement parameters approximated using 'heuristic approximation method' - not comparable to ML
-do i want to use a nimble model to simulate hmm?
-use momentuHMM or moveHMM instead?
+If we can build a JAGS model to do the same thing, we can use sims package to simulate data
+alternative is to use momentuHMM, but would prefer to code myself for dependency/flexibility reasons?
 
 ## ssdtools review
 why prefix some functions with .?
