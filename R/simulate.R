@@ -15,7 +15,8 @@ sim_group <- function(n, ngroup){
   as.vector(sapply(1:ngroup, function(x) rep(x, n)))
 }
 
-dr_simulate <- function(code, parameters = list(bIntercept = 4,
+dr_simulate <- function(code,
+                        parameters = list(bIntercept = 4,
                                                 bDistance = -0.02,
                                                 sDistanceStation = 0.01),
                         monitor  = ".*",

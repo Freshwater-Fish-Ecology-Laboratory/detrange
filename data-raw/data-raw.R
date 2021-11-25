@@ -4,38 +4,42 @@
 set.seed(153)
 logit <- function(x) log(x / (1 - x))
 
-generate_distance <- function(n){
-  sapply(1:n, function(x) {
-    xmin <- (x-1)*130
-    round(runif(1, xmin, xmin+50))
-  })
-}
-
 ### set up data
-ngroup = 6
+nstation = 6
 n = 7
-nobs = ngroup * n
-distance <- as.vector(replicate(ngroup, generate_distance(n)))
-
 bIntercept = 5
 bDist = -0.02
 sDistStation = 0.007
 sInterceptStation = 0.1
-bDistStation <- rnorm(ngroup, mean = 0, sd = sDistStation)
-bInterceptStation <- rnorm(ngroup, mean = 0, sd = sInterceptStation)
 
-eIntercept <- bIntercept + bInterceptStation
-eDist <- bDist + bDistStation
-mu <- eIntercept + eDist * distance
+parameters <- list(bIntercept = 5,
+                   bDistance = bDist,
+                   sDistanceStation = sDistStation,
+                   sInterceptStation = sInterceptStation)
 
-p <- 1/(1 + exp(-mu))
-pings <- round(runif(nobs, 50, 60))
-detects <- rbinom(nobs, size = pings, p = p)
+model <- "for(i in 1:nStation) {
+    bInterceptStation[i] ~ dnorm(0, sInterceptStation^-2)
+    bDistanceStation[i] ~ dnorm(0, sDistanceStation^-2)
+  }
 
-range_obs <- tibble::tibble(Distance = distance,
-                             Pings = as.integer(pings),
-                             Detects = as.integer(detects),
-                             Station = factor(paste0("Station", rep(1:ngroup, n))))
+  for(i in 1:nObs) {
+    eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
+    eDistance[i] <- bDistance + bDistanceStation[Station[i]]
+    logit(eDetects[i]) <- eIntercept[i] + eDistance[i] * Distance[i]
+    Detects[i] ~ dbin(eDetects[i], Pings[i])
+  }
+"
+range_obs <- dr_simulate(code = model,
+            parameters = parameters,
+            monitor = c("Detects"), nstation = nstation, n = n,
+            nsims = 1, distance_min = 0, distance_max = 1000,
+            ping_min = 100, ping_max = 150)
+
+range_obs$Station <- factor(paste("Station", range_obs$Station, sep = ""))
+range_obs$Distance <- as.numeric(range_obs$Distance)
+range_obs$Detects <- as.integer(range_obs$Detects)
+
+range_obs <- tibble::as_tibble(range_obs)
 
 fit <- dr_fit(range_obs)
 range_pred <- dr_predict_de(fit)
