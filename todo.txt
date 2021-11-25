@@ -36,10 +36,10 @@ Issues/fixes
 Enhancements
 - function to plot posteriors of distance estimates?
 - build shiny app
-- add options?
 - put on CRAN
 - link to funs in documentation
-- expose priors and terms to user - data-raw - to allow easily changing priors and seeing which terms will be in a given model
+- rearrange model templates to separate priors from likelihood
+  - allows to know exact required priors for each specific model and also to just use likelihood for simulation
 
 DR_FIT
 default prior arg should be priors() not NULL - might need to change name of priors function

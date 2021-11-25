@@ -3,7 +3,7 @@
 
 2. transects nested within stations  - should we allow for multiple transects (directions) within stations? or should we treat all data from single station as one cluster? if no, should the degree (compass direction) of the transect be taken into account or should they simpy be used to estimate a 'typical' transect from each station? (if keep transect direction we could create detection rnage visualization not as sphere - but convex hull?)
 
-3. model CPDI = Should we provide option to model n-shape curve, with low DE at close distance (i.e. CPDI; Kessler 2015).
+3. model CPDI - Should we provide option to model n-shape curve, with low DE at close distance (i.e. CPDI; Kessler 2015).
 should we model both and test best model on the data by DIC or model average estimates.
 
 4. standardize - should i standradize distance covariate?
@@ -11,7 +11,10 @@ should we model both and test best model on the data by DIC or model average est
 5. covariates - should we allow for covariates?
    - this will take some tweaking of the code to allow for dynamically creating model template code/term names etc.
 
-6. I only have one fixed effect model currently (effect of station on slope, single intercept)
+6. generalize to model de over time
+  - essentially variation in DE over time is single distance and multiple timesteps, whereas DR is multiple distance at single timestep. You can imagine both multiple distance and multiple timestep (i.e. multiple sentinel tags at receiver). DE over time is simply change in DR (midpoint) with covariates. Should I just expand the model to allow this temporal component? + allow multiple covariates? is this getting too complex?
+
+7. fixed effects -  I only have one fixed effect model currently (effect of station on slope, single intercept)
 should I allow single slope and effect of station on interecept as well?
 also should I allow mixed e.g. fixed effect of station on intercept, random effect of station on slope
 with only one covariate (distance) this would lead to 2^3 (8) combinations (pooled, fixed, random for each of slope and intercept)
