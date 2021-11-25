@@ -1,21 +1,22 @@
-### use nimble?
-- better support for simulation
-- maybe can mimic jags by setting slice samplers - nimble not good at guessing init values on vague priors though
-- users would have to download compiler and tools if not there: https://r-nimble.org/download
-- c++ compilation time - need to check whether can pre-compile as in STAN
+## ------ model stuff --------
+1. default priors - should default priors capture what is expected by the manufacturer under 'standard' conditions - or be uninformative. in initial exploration using uninformative priors works best
 
-### for me/ further research
-1. should default priors capture what is expected by the manufacturer under 'standard' conditions - or rather should they be uninformative. in initial exploration using uninformative priors works best - as informative priors may yield unexpected results.
+2. transects nested within stations  - should we allow for multiple transects (directions) within stations? or should we treat all data from single station as one cluster? if no, should the degree (compass direction) of the transect be taken into account or should they simpy be used to estimate a 'typical' transect from each station? (if keep transect direction we could create detection rnage visualization not as sphere - but convex hull?)
 
-2. should we build functionality for multiple directions within singel station - is this a nested mixed-effects model? or does user simply need to give each transect a unique station name? if yes, should the degree (compass direction) of the transect be taken into account or should they simpy be used to estimate a 'typical' transect from each station? (this amtters e.g. when visualizing or creating a 'detection range zone' - i.e. as convex hull rather than circle)
+3. model CPDI = Should we provide option to model n-shape curve, with low DE at close distance (i.e. CPDI; Kessler 2015).
+should we model both and test best model on the data by DIC or model average estimates.
 
-3. Should we allow for a model with low DE at close distance (i.e. CPDI; Kessler 2015) in n-shape curve.
-we could model both and test best model on the data by AIC or model average estimates.
+4. standardize - should i standradize distance covariate?
 
-4. should i standradize distance covariate?
+5. covariates - should we allow for covariates?
+   - this will take some tweaking of the code to allow for dynamically creating model template code/term names etc.
 
-for joe:
+6. I only have one fixed effect model currently (effect of station on slope, single intercept)
+should I allow single slope and effect of station on interecept as well?
+also should I allow mixed e.g. fixed effect of station on intercept, random effect of station on slope
+with only one covariate (distance) this would lead to 2^3 (8) combinations (pooled, fixed, random for each of slope and intercept)
 
+## ----- programming stuff -----
 ## coef reporting
 should i report svalue in tidy() and predict() funs?
 
@@ -32,6 +33,7 @@ thoughts on accepting NULL/character(0) for function args and then doing if/else
 is it better to have a 'suite' of R packages rather than one giant one to reduce dependencies? (i.e. shiny, eventually some kind fo simulation packages) - does this make it harder to publish? does it maek harder to document in articles/vignettes? i.e. one website for all to show workflows that use several packages?
 does it maek sense to have one overarching package (drtools) to load/install them all?
 
+## ------- simulation --------
 ## movement simulation
 for movement simulation - should i use SiMRiv r package or use it as inspirationa dn build my own simulation functions to reduce dependencies?
 simriv is a bit overkill - as we dont need multiple values of landscape resistance - only need 0 (water) and 1 (land)
@@ -41,6 +43,13 @@ simriv downsides
 - movement parameters approximated using 'heuristic approximation method' - not comparable to ML
 If we can build a JAGS model to do the same thing, we can use sims package to simulate data
 alternative is to use momentuHMM, but would prefer to code myself for dependency/flexibility reasons?
+
+### use nimble?
+- better support for simulation
+- maybe can mimic jags by setting slice samplers - nimble not good at guessing init values on vague priors though
+- users would have to download compiler and tools if not there: https://r-nimble.org/download
+- c++ compilation time - need to check whether can pre-compile as in STAN
+
 
 ## ssdtools review
 why prefix some functions with .?

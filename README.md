@@ -25,30 +25,28 @@ al (2019) as
 > transmission rate.”
 
 Following recommendations from Brownscombe et al (2019) and Huveneers et
-al. (2016), it can be useful to estimate the midpoint of the DR
-(i.e. distance at 50% DE) in order to place sentinel tags at a sample of
-receivers to measure variation in DE over time.
+al. (2016), it can be useful to estimate the distance at which a target
+level of DE occurs (i.e. midpoint of DR at 50% DE), e.g. to place
+sentinel tags at a sample of receivers to measure variation in DE over
+time.
 
 #### The modelling approach
 
 Under the hood, `detrange` uses JAGS software and the
 [rjags](https://cran.r-project.org/web/packages/rjags/rjags.pdf) R
 package to implement a Bayesian generalized linear model with logit link
-and binomial response distribution. If there are 5 or more stations, the
-model is fit as a generalized linear mixed-effects model with random
-intercept and slope for each Station. Otherwise, Station is treated as a
-fixed effect.
+and binomial response distribution. The user may choose to fit a
+generalized linear mixed-effects model with random slope and/or random
+intercept for each Station. Otherwise, Station is treated as a fixed
+effect.
 
 A benefit of using a Bayesian approach is that uncertainty can be
-quantifed for estimates of the distance at which a specified DE occurs.
-In Bayesian lingo, the uncertainty of this derived parameter can be
-estimated with the posterior distributions of other parameters in the
-model.
-
-Another benefit is the ability to incorporate prior information. By
-default, the priors used in the model are non-informative. However, the
-user may set custom priors, e.g., if prior information about realistic
-detection range in a given system is known or if data is limited.
+quantified for estimates of the distance at which a specified DE occurs
+(i.e., a derived parameter). Another benefit is the ability to
+incorporate prior information. By default, the priors used in the model
+are non-informative. However, the user may set custom priors, e.g., if
+prior information about realistic detection range in a given system is
+known or if data is limited.
 
 ## Demonstration
 
@@ -103,13 +101,22 @@ A number of generic methods are defined for the output object of
 `summary`, `estimates`, and `predict`.
 
 ``` r
+glance(fit)
+#> # A tibble: 1 × 8
+#>       n     K nchains niters nthin   ess  rhat converged
+#>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
+#> 1    42     6       3   1000    10   120  1.01 FALSE
+```
+
+``` r
 tidy(fit, conf_level = 0.89)
-#> # A tibble: 3 × 6
-#>   term             estimate    lower   upper svalue description                 
-#>   <term>              <dbl>    <dbl>   <dbl>  <dbl> <chr>                       
-#> 1 bDistance        -0.0155  -0.0211  -0.0101   11.6 Effect of distance on logit…
-#> 2 bIntercept        4.78     4.43     5.16     11.6 Intercept of logit(`eDetect…
-#> 3 sDistanceStation  0.00685  0.00410  0.0141   11.6 Standard deviation of `bDis…
+#> # A tibble: 4 × 6
+#>   term              estimate    lower   upper svalue description                
+#>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
+#> 1 bDistance         -0.0162  -0.0219  -0.0111   8.74 Effect of distance on logi…
+#> 2 bIntercept         4.77     4.23     5.34    11.6  Intercept of logit(`eDetec…
+#> 3 sDistanceStation   0.00685  0.00386  0.0149  11.6  Standard deviation of `bDi…
+#> 4 sInterceptStation  0.445    0.0526   1.52    11.6  Standard deviation of `bIn…
 ```
 
 Plot predicted detection range
@@ -118,7 +125,7 @@ Plot predicted detection range
 autoplot(fit)
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 Predict distance(s) at target levels of detection efficiency
 
@@ -126,12 +133,12 @@ Predict distance(s) at target levels of detection efficiency
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
 #>    Station  de estimate    lower    upper   svalue
-#> 1 Station1 0.5 389.6640 364.8976 416.2076 11.55123
-#> 7 Station1 0.8 278.2240 254.9899 302.0757 11.55123
-#> 2 Station2 0.5 247.0591 228.0564 268.2992 11.55123
-#> 8 Station2 0.8 176.8466 161.0729 194.0914 11.55123
-#> 3 Station3 0.5 219.7037 200.8148 239.7070 11.55123
-#> 9 Station3 0.8 157.3090 141.1735 173.3605 11.55123
+#> 1 Station1 0.5 389.3697 364.7692 416.2844 11.55123
+#> 7 Station1 0.8 276.8753 247.0259 305.5638 11.55123
+#> 2 Station2 0.5 244.7734 222.2829 266.1706 11.55123
+#> 8 Station2 0.8 170.0843 143.8369 192.5909 11.55123
+#> 3 Station3 0.5 215.9613 195.1305 237.4502 11.55123
+#> 9 Station3 0.8 150.3942 124.2386 170.9276 11.55123
 ```
 
 ### How to do more

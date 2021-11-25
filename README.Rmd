@@ -25,14 +25,12 @@ Given a modeled DR, it is possible to estimate the distance at which a target de
 
 >"[t]he number of acoustic transmitter detections effectively logged by an acoustic receiver in a given time period, expressed as a percentage (or proportion) of total potential detections based on transmission rate."
 
-Following recommendations from Brownscombe et al (2019) and Huveneers et al. (2016), it can be useful to estimate the midpoint of the DR (i.e. distance at 50% DE) in order to place sentinel tags at a sample of receivers to measure variation in DE over time.
+Following recommendations from Brownscombe et al (2019) and Huveneers et al. (2016), it can be useful to estimate the distance at which a target level of DE occurs (i.e. midpoint of DR at 50% DE), e.g. to place sentinel tags at a sample of receivers to measure variation in DE over time.
 
 #### The modelling approach
-Under the hood, `detrange` uses JAGS software and the [rjags](https://cran.r-project.org/web/packages/rjags/rjags.pdf) R package to implement a Bayesian generalized linear model with logit link and binomial response distribution. If there are 5 or more stations, the model is fit as a generalized linear mixed-effects model with random intercept and slope for each Station. Otherwise, Station is treated as a fixed effect. 
+Under the hood, `detrange` uses JAGS software and the [rjags](https://cran.r-project.org/web/packages/rjags/rjags.pdf) R package to implement a Bayesian generalized linear model with logit link and binomial response distribution. The user may choose to fit a generalized linear mixed-effects model with random slope and/or random intercept for each Station. Otherwise, Station is treated as a fixed effect. 
 
-A benefit of using a Bayesian approach is that uncertainty can be quantifed for estimates of the distance at which a specified DE occurs. In Bayesian lingo, the uncertainty of this derived parameter can be estimated with the posterior distributions of other parameters in the model. 
-
-Another benefit is the ability to incorporate prior information. By default, the priors used in the model are non-informative. However, the user may set custom priors, e.g., if prior information about realistic detection range in a given system is known or if data is limited. 
+A benefit of using a Bayesian approach is that uncertainty can be quantified for estimates of the distance at which a specified DE occurs (i.e., a derived parameter). Another benefit is the ability to incorporate prior information. By default, the priors used in the model are non-informative. However, the user may set custom priors, e.g., if prior information about realistic detection range in a given system is known or if data is limited. 
 
 ## Demonstration
 
@@ -60,6 +58,10 @@ fit <- dr_fit(detrange::range_obs)
 ```
 
 A number of generic methods are defined for the output object of `dr_fit()`, including `autoplot` `glance`, `tidy`, `coef`, `augment`, `summary`, `estimates`, and `predict`.
+
+```{r}
+glance(fit)
+```
 
 ```{r}
 tidy(fit, conf_level = 0.89)
