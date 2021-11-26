@@ -25,7 +25,8 @@
 #' @param ping_max A positive whole number of the maximum pings.
 #' @param predict_de A tibble of the output of `dr_predict_de`.
 #' @param predict_distance A tibble of the output of `dr_predict_distance`.
-#' @param priors A named list of the priors for each model term.
+#' @param priors A named list of the parameter names and priors (in BUGS language) including some subset of the parameters required by the model.
+#' Any parameters not included will fall back to defaults in `priors()`. If NULL, all default priors are used.
 #' @param quiet A flag indicating whether to suppress messages and progress bars.
 #' @param random_effects A flag indicating whether to include random effect terms.
 #' @param seed A positive whole number of the seed.

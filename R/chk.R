@@ -47,16 +47,17 @@ xname <- function(x, col){
                                 svalue = c(0, 1)))
 }
 
-.chk_priors <- function(priors){
+.chk_priors <- function(priors, req_params){
   if(is.null(priors)) return(priors)
   chk_is(priors, "list")
   chk_named(priors)
   x <- unlist(priors)
   chk_character(x)
-  chk_subset(names(x), names(priors()), x_name = "Term name")
+  chk_subset(names(x), req_params, x_name = "Parameter names in priors")
   invisible(priors)
 }
 
+### looser check than above
 .chk_params <- function(params){
   if(is.null(params)) return(params)
   chk_is(params, "list")

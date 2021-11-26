@@ -15,4 +15,12 @@ template_model <- function(model, priors){
     rsri = .model_rsri(priors))
 }
 
+template_params <- function(model){
+  switch(model,
+         f = .params_f(),
+         rs = .params_rs(),
+         ri = .params_ri(),
+         rsri = .params_rsri())
+}
+
 

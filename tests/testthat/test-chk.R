@@ -18,4 +18,17 @@ test_that("checking functions work", {
   dat2 <- dat
   dat2$Pings <- NULL
   expect_chk_error(.chk_data(dat2))
+
+  ### check priors
+  priors <- priors()
+  req_params <- template_params("rs")
+  # fails because more than required provided
+  expect_chk_error(.chk_priors(priors, req_params))
+
+  priors2 <- priors[1:2]
+  # passes because some priors provided of the required
+  expect_silent(.chk_priors(priors2, req_params))
+
+  priors3 <- c(priors2, list(bInt = "nope"))
+  expect_chk_error(.chk_priors(priors3, req_params))
 })

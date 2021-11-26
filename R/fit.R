@@ -15,7 +15,7 @@ nstation <- function(data){
   length(unique(data$Station))
 }
 
-clean_data <- function(data){
+set_factors <- function(data){
   data$Station <- factor(data$Station)
   data
 }
@@ -42,7 +42,6 @@ dr_fit <- function(data,
   .chk_data(data)
   chk_whole_number(min_random_slope)
   chk_whole_number(min_random_intercept)
-  .chk_priors(priors)
   chk_whole_number(nthin)
   chk_gte(nthin, value = 1L)
   chk_flag(quiet)
@@ -50,10 +49,14 @@ dr_fit <- function(data,
   chk_gte(seed, 0)
 
   # reset factor so doesnt cause issues down the line
-  data <- clean_data(data)
+  data <- set_factors(data)
   datal <- data_list(data)
   nstation <- nstation(datal)
   model <- model_type(nstation, min_random_intercept, min_random_slope)
+  req_params <- template_params(model)
+  .chk_priors(priors, req_params)
+
+
   default_priors <- priors()
   priors <- replace_priors(default_priors, priors)
   template <- template_model(model, priors)

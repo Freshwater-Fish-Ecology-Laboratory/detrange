@@ -1,11 +1,13 @@
+make_priors <- function(x){
+  paste0(glue::glue("{x} ~ <<priors${x}>>"), collapse = "\n")
+}
+make_model <- function(params, likelihood){
+  glue2("model {\n<<make_priors(params)>>\n\n <<likelihood>>\n}")
+}
+
 ### fixed ----
-.model_f <- function(priors){
-  glue2("model {
-
-  bIntercept ~ <<priors$bIntercept>>
-  bDistance ~ <<priors$bDistance>>
-
-  bDistanceStation[1] <- 0
+.likelihood_f <- function(){
+  "bDistanceStation[1] <- 0
   for(i in 2:nStation) {
     bDistanceStation[i] ~ dnorm(0, 10^-2)
   }
@@ -14,9 +16,10 @@
     eDistance[i] <- bDistance + bDistanceStation[Station[i]]
     logit(eDetects[i]) <- bIntercept + eDistance[i] * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
-  }
-}")
+  }"
 }
+.params_f <- function() c("bIntercept", "bDistance")
+.model_f <- function(priors) glue2(make_model(.params_f(), .likelihood_f()))
 
 .derived_f <- function() {
   "for(i in 1:length(Distance)) {
@@ -28,14 +31,8 @@
 }
 
 ### random slope ----
-.model_rs <- function(priors){
-  glue2("model {
-
-  bIntercept ~ <<priors$bIntercept>>
-  bDistance ~ <<priors$bDistance>>
-  sDistanceStation ~ <<priors$sDistanceStation>>
-
-  for(i in 1:nStation) {
+.likelihood_rs <- function(){
+  "for(i in 1:nStation) {
     bDistanceStation[i] ~ dnorm(0, sDistanceStation^-2)
   }
 
@@ -43,9 +40,10 @@
     eDistance[i] <- bDistance + bDistanceStation[Station[i]]
     logit(eDetects[i]) <- bIntercept + eDistance[i] * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
-  }
-}")
+  }"
 }
+.params_rs <- function() c("bIntercept", "bDistance", "sDistanceStation")
+.model_rs <- function(priors) glue2(make_model(.params_rs(), .likelihood_rs()))
 
 .derived_rs <- function(){
   "for(i in 1:length(Distance)) {
@@ -57,14 +55,8 @@
 }
 
 ### random intercept ----
-.model_ri <- function(priors){
-  glue2("model {
-
-  bIntercept ~ <<priors$bIntercept>>
-  bDistance ~ <<priors$bDistance>>
-  sInterceptStation ~ <<priors$sInterceptStation>>
-
-  for(i in 1:nStation) {
+.likelihood_ri <- function(){
+  "for(i in 1:nStation) {
     bInterceptStation[i] ~ dnorm(0, sInterceptStation^-2)
   }
 
@@ -72,9 +64,10 @@
     eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
     logit(eDetects[i]) <- eIntercept[i] + bDistance * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
-  }
-}")
+  }"
 }
+.params_ri <- function() c("bIntercept", "bDistance", "sInterceptStation")
+.model_ri <- function(priors) glue2(make_model(.params_ri(), .likelihood_ri()))
 
 .derived_ri <- function() {
   "for(i in 1:length(Distance)) {
@@ -86,15 +79,8 @@
 }
 
 #### random slope  + random intercept ----
-.model_rsri <- function(priors){
-  glue2("model {
-
-  bIntercept ~ <<priors$bIntercept>>
-  bDistance ~ <<priors$bDistance>>
-  sInterceptStation ~ <<priors$sInterceptStation>>
-  sDistanceStation ~ <<priors$sDistanceStation>>
-
-  for(i in 1:nStation) {
+.likelihood_rsri <- function(){
+  "for(i in 1:nStation) {
     bInterceptStation[i] ~ dnorm(0, sInterceptStation^-2)
     bDistanceStation[i] ~ dnorm(0, sDistanceStation^-2)
   }
@@ -104,9 +90,10 @@
     eDistance[i] <- bDistance + bDistanceStation[Station[i]]
     logit(eDetects[i]) <- eIntercept[i] + eDistance[i] * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
-  }
-}")
+  }"
 }
+.params_rsri <- function() c("bIntercept", "bDistance", "sDistanceStation", "sInterceptStation")
+.model_rsri <- function(priors) glue2(make_model(.params_rsri(), .likelihood_rsri()))
 
 .derived_rsri <- function(){
   "for(i in 1:length(Distance)) {
