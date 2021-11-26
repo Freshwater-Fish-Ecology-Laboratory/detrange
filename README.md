@@ -3,6 +3,8 @@
 
 # detrange
 
+##### \*\*\* Please note that this package is still experimental - API may change in the future \*\*\*
+
 ## Installation
 
 Install the development version from [GitHub](https://github.com/) with:
@@ -114,7 +116,7 @@ glance(fit)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
-#> 1    42     6       3   1000    10    57  1.03 FALSE
+#> 1    42     6       3   1000    10    27  1.09 FALSE
 ```
 
 ``` r
@@ -122,10 +124,10 @@ tidy(fit, conf_level = 0.89)
 #> # A tibble: 4 × 6
 #>   term              estimate    lower   upper svalue description                
 #>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
-#> 1 bDistance         -0.0198  -0.0260  -0.0131   7.85 Effect of distance on logi…
-#> 2 bIntercept         5.22     4.81     5.66    11.6  Intercept of logit(`eDetec…
-#> 3 sDistanceStation   0.00855  0.00502  0.0181  11.6  Standard deviation of `bDi…
-#> 4 sInterceptStation  0.262    0.0271   1.02    11.6  Standard deviation of `bIn…
+#> 1 bDistance         -0.0203  -0.0277  -0.0137   8.74 Effect of distance on logi…
+#> 2 bIntercept         5.33     4.88     5.87    11.6  Intercept of logit(`eDetec…
+#> 3 sDistanceStation   0.00933  0.00554  0.0195  11.6  Standard deviation of `bDi…
+#> 4 sInterceptStation  0.432    0.0531   1.39    11.6  Standard deviation of `bIn…
 ```
 
 Plot predicted detection range
@@ -142,12 +144,12 @@ Predict distance(s) at target levels of detection efficiency
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
 #>    Station  de estimate    lower    upper   svalue
-#> 1 Station1 0.5 214.3672 202.8872 227.2773 11.55123
-#> 7 Station1 0.8 158.1755 145.7474 170.3174 11.55123
-#> 2 Station2 0.5 191.1527 177.6366 205.2845 11.55123
-#> 8 Station2 0.8 142.2480 129.7757 157.2942 11.55123
-#> 3 Station3 0.5 397.8866 380.3226 416.6712 11.55123
-#> 9 Station3 0.8 293.0379 271.6928 314.7079 11.55123
+#> 1 Station1 0.5 214.2234 203.5032 225.6082 11.55123
+#> 7 Station1 0.8 157.4464 143.2458 170.2870 11.55123
+#> 2 Station2 0.5 189.3641 176.6194 202.8207 11.55123
+#> 8 Station2 0.8 144.4096 131.2160 161.0342 11.55123
+#> 3 Station3 0.5 398.7436 380.9732 417.9149 11.55123
+#> 9 Station3 0.8 294.6026 272.2866 317.6278 11.55123
 ```
 
 ### How to do more
