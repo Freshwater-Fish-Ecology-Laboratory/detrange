@@ -7,7 +7,12 @@
 
 ## Installation
 
-Install the development version from [GitHub](https://github.com/) with:
+To use `detrange`, you must have JAGS installed on your system. Go to
+<http://mcmc-jags.sourceforge.net> for instructions. On a mac, you can
+also install JAGS from homebrew with `brew install jags`.
+
+Once JAGS is installed, install the development version of `detrange`
+from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -116,7 +121,7 @@ glance(fit)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
-#> 1    42     6       3   1000    10    48  1.04 FALSE
+#> 1    42     6       3   1000    10    90  1.04 FALSE
 ```
 
 ``` r
@@ -124,10 +129,10 @@ tidy(fit, conf_level = 0.89)
 #> # A tibble: 4 × 6
 #>   term              estimate    lower   upper svalue description                
 #>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
-#> 1 bDistance         -0.0193  -0.0259  -0.0134   8.74 Effect of distance on logi…
-#> 2 bIntercept         5.20     4.80     5.60    11.6  Intercept of logit(`eDetec…
-#> 3 sDistanceStation   0.00829  0.00479  0.0182  11.6  Standard deviation of `bDi…
-#> 4 sInterceptStation  0.342    0.0357   1.02    11.6  Standard deviation of `bIn…
+#> 1 bDistance         -0.0199  -0.0258  -0.0134   7.85 Effect of distance on logi…
+#> 2 bIntercept         5.25     4.83     5.70    11.6  Intercept of logit(`eDetec…
+#> 3 sDistanceStation   0.00842  0.00504  0.0174  11.6  Standard deviation of `bDi…
+#> 4 sInterceptStation  0.344    0.0446   0.981   11.6  Standard deviation of `bIn…
 ```
 
 Plot predicted detection range
@@ -144,12 +149,12 @@ Predict distance(s) at target levels of detection efficiency
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
 #>    Station  de estimate    lower    upper   svalue
-#> 1 Station1 0.5 213.7196 201.8401 225.2937 11.55123
-#> 7 Station1 0.8 157.5776 143.8716 169.2490 11.55123
-#> 2 Station2 0.5 192.6349 179.3938 205.6603 11.55123
-#> 8 Station2 0.8 142.9481 130.0874 157.6216 11.55123
-#> 3 Station3 0.5 398.5169 380.2231 415.2408 11.55123
-#> 9 Station3 0.8 293.8671 274.4121 314.6404 11.55123
+#> 1 Station1 0.5 213.8398 203.4610 225.4947 11.55123
+#> 7 Station1 0.8 157.1263 142.6546 168.8998 11.55123
+#> 2 Station2 0.5 190.3333 176.5238 203.8178 11.55123
+#> 8 Station2 0.8 142.6949 129.1813 157.2775 11.55123
+#> 3 Station3 0.5 399.4190 379.6626 416.7705 11.55123
+#> 9 Station3 0.8 294.2814 270.5769 317.1310 11.55123
 ```
 
 ### How to do more

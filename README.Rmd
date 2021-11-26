@@ -18,7 +18,9 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-Install the development version from [GitHub](https://github.com/) with:
+To use `detrange`, you must have JAGS installed on your system. Go to http://mcmc-jags.sourceforge.net for instructions. On a mac, you can also install JAGS from homebrew with `brew install jags`.
+
+Once JAGS is installed, install the development version of `detrange` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
