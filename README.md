@@ -57,12 +57,11 @@ intercept for each Station. Otherwise, Station is treated as a fixed
 effect.
 
 A benefit of using a Bayesian approach is that uncertainty can be
-quantified for estimates of the distance at which a specified DE occurs
-(i.e., a derived parameter). Another benefit is the ability to
-incorporate prior information. By default, the priors used in the model
-are non-informative. However, the user may set custom priors, e.g., if
-prior information about realistic detection range in a given system is
-known or if data is limited.
+quantified for estimates of the distance at which a specified DE occurs.
+Another benefit is the ability to incorporate prior information. By
+default, the priors used in the model are non-informative. However, the
+user may set custom priors, e.g., if prior information about realistic
+detection range in a given system is known or if data are limited.
 
 ## Demonstration
 
@@ -121,7 +120,7 @@ glance(fit)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
-#> 1    42     6       3   1000    10    90  1.04 FALSE
+#> 1    42     6       3   1000    10    81  1.07 FALSE
 ```
 
 ``` r
@@ -129,10 +128,10 @@ tidy(fit, conf_level = 0.89)
 #> # A tibble: 4 × 6
 #>   term              estimate    lower   upper svalue description                
 #>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
-#> 1 bDistance         -0.0199  -0.0258  -0.0134   7.85 Effect of distance on logi…
-#> 2 bIntercept         5.25     4.83     5.70    11.6  Intercept of logit(`eDetec…
-#> 3 sDistanceStation   0.00842  0.00504  0.0174  11.6  Standard deviation of `bDi…
-#> 4 sInterceptStation  0.344    0.0446   0.981   11.6  Standard deviation of `bIn…
+#> 1 bDistance         -0.0201  -0.0274  -0.0134   7.85 Effect of distance on logi…
+#> 2 bIntercept         5.32     4.94     5.75    11.6  Intercept of logit(`eDetec…
+#> 3 sDistanceStation   0.00895  0.00510  0.0188  11.6  Standard deviation of `bDi…
+#> 4 sInterceptStation  0.305    0.0388   0.990   11.6  Standard deviation of `bIn…
 ```
 
 Plot predicted detection range
@@ -149,12 +148,12 @@ Predict distance(s) at target levels of detection efficiency
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
 #>    Station  de estimate    lower    upper   svalue
-#> 1 Station1 0.5 213.8398 203.4610 225.4947 11.55123
-#> 7 Station1 0.8 157.1263 142.6546 168.8998 11.55123
-#> 2 Station2 0.5 190.3333 176.5238 203.8178 11.55123
-#> 8 Station2 0.8 142.6949 129.1813 157.2775 11.55123
-#> 3 Station3 0.5 399.4190 379.6626 416.7705 11.55123
-#> 9 Station3 0.8 294.2814 270.5769 317.1310 11.55123
+#> 1 Station1 0.5 213.4136 202.5508 224.7126 11.55123
+#> 7 Station1 0.8 157.7085 144.1835 169.7845 11.55123
+#> 2 Station2 0.5 190.2935 178.1132 202.8770 11.55123
+#> 8 Station2 0.8 143.4297 131.3238 156.7641 11.55123
+#> 3 Station3 0.5 400.6412 381.8278 418.0218 11.55123
+#> 9 Station3 0.8 296.8965 273.7231 317.4138 11.55123
 ```
 
 ### How to do more
