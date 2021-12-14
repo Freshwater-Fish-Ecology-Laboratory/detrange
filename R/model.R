@@ -7,14 +7,9 @@ make_model <- function(params, likelihood){
 
 ### fixed ----
 .likelihood_f <- function(){
-  "bDistanceStation[1] <- 0
-  for(i in 2:nStation) {
-    bDistanceStation[i] ~ dnorm(0, 10^-2)
-  }
-
+  "
   for(i in 1:nObs) {
-    eDistance[i] <- bDistance + bDistanceStation[Station[i]]
-    logit(eDetects[i]) <- bIntercept + eDistance[i] * Distance[i]
+    logit(eDetects[i]) <- bIntercept + bDistance * Distance[i]
     Detects[i] ~ dbin(eDetects[i], Pings[i])
   }"
 }
@@ -23,9 +18,8 @@ make_model <- function(params, likelihood){
 
 .derived_f <- function() {
   "for(i in 1:length(Distance)) {
-    eDistance[i] <- bDistance + bDistanceStation[Station[i]]
-    logit(eDetects[i]) <- bIntercept + eDistance[i] * Distance[i]
-    target[i] <- bIntercept + (DELogit[i] - bIntercept)/eDistance[i]
+    logit(eDetects[i]) <- bIntercept + bDistance * Distance[i]
+    target[i] <- (DELogit[i] - bIntercept) / bDistance
     prediction[i] <- eDetects[i]
   }"
 }
@@ -49,7 +43,7 @@ make_model <- function(params, likelihood){
   "for(i in 1:length(Distance)) {
     eDistance[i] <- bDistance + bDistanceStation[Station[i]]
     logit(eDetects[i]) <- bIntercept + eDistance[i] * Distance[i]
-    target[i] <- bIntercept + (DELogit[i] - bIntercept)/eDistance[i]
+    target[i] <- (DELogit[i] - bIntercept) / eDistance[i]
     prediction[i] <- eDetects[i]
   }"
 }
@@ -73,7 +67,7 @@ make_model <- function(params, likelihood){
   "for(i in 1:length(Distance)) {
     eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
     logit(eDetects[i]) <- eIntercept[i] + bDistance * Distance[i]
-    target[i] <- eIntercept[i] + (DELogit[i] - eIntercept[i])/eDistance[i]
+    target[i] <- (DELogit[i] - eIntercept[i]) / bDistance
     prediction[i] <- eDetects[i]
   }"
 }
@@ -100,7 +94,7 @@ make_model <- function(params, likelihood){
     eIntercept[i] <- bIntercept + bInterceptStation[Station[i]]
     eDistance[i] <- bDistance + bDistanceStation[Station[i]]
     logit(eDetects[i]) <- eIntercept[i] + eDistance[i] * Distance[i]
-    target[i] <- eIntercept[i] + (DELogit[i] - eIntercept[i])/eDistance[i]
+    target[i] <- (DELogit[i] - eIntercept[i]) / eDistance[i]
     prediction[i] <- eDetects[i]
   }"
 }
