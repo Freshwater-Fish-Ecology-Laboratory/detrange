@@ -30,6 +30,9 @@ description <- function(n){
                                 description = description,
                                 random = FALSE)
 
+  if(!length(n))
+    return(description)
+
   intercept_df <- do.call(rbind, lapply(1:n, function(i){
     intercept <- glue::glue("bInterceptStation[{i}]")
     intercept_desc <- glue::glue("Effect of `{i}`^th^ `Station` on `bIntercept`")

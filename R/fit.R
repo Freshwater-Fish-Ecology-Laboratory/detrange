@@ -56,11 +56,16 @@ dr_fit <- function(data,
   req_params <- template_params(model)
   .chk_priors(priors, req_params)
 
-
   default_priors <- priors()
   priors <- replace_priors(default_priors, priors)
   template <- template_model(model, priors)
   monitor <- monitors()
+
+  ### in case of fixed model remove nStation and Station
+  if(model == "f"){
+    datal$Station <- NULL
+    datal$nStation <- NULL
+  }
 
   fit <- run_jags(template = template,
                   data = datal, monitor = monitor,

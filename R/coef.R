@@ -28,7 +28,7 @@ dr_coef <- function(x, conf_level = 0.95,
 
   nstation <- data$nStation
   description <- description(n = nstation)
-  if(model == "fixed")
+  if(model == "f")
     description$random <- FALSE
 
   coefs <- mcmcr::coef(samples, conf_level = conf_level, estimate = estimate)
