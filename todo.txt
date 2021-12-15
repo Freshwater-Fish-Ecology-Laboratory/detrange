@@ -14,7 +14,6 @@ Readme/articles
 
 Issues/fixes
 - get edu/joe to look over term descriptions
-- get edu/joe to look over fixed-effect model and coef table
 - ensure no negative distance estimates - how to properly bound? including lower/upper est
 
 Enhancements

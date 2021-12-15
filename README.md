@@ -67,46 +67,37 @@ detection range in a given system is known or if data are limited.
 
 ### Data
 
-`detrange` expects data typical of detection range testing. Mandatory
-columns include:
+`detrange` expects data typical of detection range testing.
+
+Mandatory columns include:
 
 -   `station` (character or factor)  
--   `distance` (numeric)  
+-   `distance` (positive numeric)  
 -   `detects` (whole numeric)  
 -   `pings` (whole numeric)
 
+Optional columns include:
+
+-   `depth_receiver` (positive numeric)  
+-   `depth_tag` (postive numeric)
+
 `pings` is the expected number of detections and `detects` is the
 observed number of detections over the duration of the range testing
-time period at a given distance. An example dataset `range_test` is
-included for reference.
+time period at a given distance. If `depth_receiver` and `depth_tag` are
+provided, distance is corrected to account for depth.
+
+An example dataset `range_test` is included for reference.
 
 ``` r
 library(detrange)
-detrange::range_obs
-#>          station distance pings detects depth_receiver depth_tag
-#> 1   Border Right      100    90      70            3.0       7.0
-#> 2   Border Right      200    96       0            3.0       3.6
-#> 3   Border Right      300    78      10            3.0       1.8
-#> 4   Border Right      400    90       0            3.0       9.4
-#> 5        Genelle      100    78      68            2.3       7.4
-#> 6        Genelle      250    78       7            2.3       5.1
-#> 7        Genelle      400    84       7            2.3       5.4
-#> 8      Glenmarry      100    84      79            2.7       6.0
-#> 9      Glenmarry      250    84       0            2.7       7.6
-#> 10     Glenmarry      450    84       0            2.7       7.6
-#> 11     Glenmarry      750   114       0            2.7      10.1
-#> 12      Kinnaird      100    84      64            2.4       9.4
-#> 13      Kinnaird      250    78      50            2.4       6.8
-#> 14      Kinnaird      450    84      11            2.4       9.6
-#> 15      Kinnaird      750    78      14            2.4       5.5
-#> 16      Kootenay      100   120     105            2.3      10.0
-#> 17      Kootenay      250    90      16            2.3      10.1
-#> 18      Kootenay      450    78       0            2.3      10.7
-#> 19      Kootenay      550    84       0            2.3       3.7
-#> 20 Trail Airport      100    84      41            2.3       4.6
-#> 21 Trail Airport      250    84       3            2.3       8.0
-#> 22 Trail Airport      450    78       0            2.3       8.7
-#> 23 Trail Airport      750   240       0            2.3       4.6
+head(detrange::range_obs)
+#>        station distance pings detects depth_receiver depth_tag
+#> 1 Border Right      100    90      70            3.0       7.0
+#> 2 Border Right      200    96       0            3.0       3.6
+#> 3 Border Right      300    78      10            3.0       1.8
+#> 4 Border Right      400    90       0            3.0       9.4
+#> 5      Genelle      100    78      68            2.3       7.4
+#> 6      Genelle      250    78       7            2.3       5.1
 ```
 
 ### Analysis
@@ -126,22 +117,36 @@ A number of generic methods are defined for the output object of
 `summary`, `estimates`, and `predict`.
 
 ``` r
+# model summary
 glance(fit)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
-#> 1    23     6       3   1000    10   210  1.05 FALSE
+#> 1    23     6       3   1000    10    51  1.09 FALSE
 ```
 
 ``` r
+# parameter estimates
 tidy(fit, conf_level = 0.89)
 #> # A tibble: 4 × 6
-#>   term              estimate    lower   upper svalue description                
-#>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
-#> 1 bDistance          -0.0231 -0.0342  -0.0113   6.12 Effect of distance on logi…
-#> 2 bIntercept          3.57    1.81     5.35     5.62 Intercept of logit(`eDetec…
-#> 3 sDistanceStation    0.0155  0.00937  0.0320  11.6  Standard deviation of `bDi…
-#> 4 sInterceptStation   2.26    1.28     4.72    11.6  Standard deviation of `bIn…
+#>   term              estimate   lower    upper svalue description                
+#>   <term>               <dbl>   <dbl>    <dbl>  <dbl> <chr>                      
+#> 1 bDistance          -0.0248 -0.0406 -0.00992   5.49 Effect of distance on logi…
+#> 2 bIntercept          3.92    1.73    5.99      5.62 Intercept of logit(`eDetec…
+#> 3 sDistanceStation    0.0201  0.0111  0.0423   11.6  Standard deviation of `bDi…
+#> 4 sInterceptStation   2.80    1.60    6.15     11.6  Standard deviation of `bIn…
+```
+
+``` r
+# original data with corrected distance
+head(augment(fit))
+#>        Station Distance Pings Detects DepthReceiver DepthTag DistanceRaw
+#> 1 Border Right 100.0800    90      70           3.0      7.0         100
+#> 2 Border Right 200.0009    96       0           3.0      3.6         200
+#> 3 Border Right 300.0024    78      10           3.0      1.8         300
+#> 4 Border Right 400.0512    90       0           3.0      9.4         400
+#> 5      Genelle 100.1300    78      68           2.3      7.4         100
+#> 6      Genelle 250.0157    78       7           2.3      5.1         250
 ```
 
 Plot predicted detection range
@@ -150,7 +155,7 @@ Plot predicted detection range
 autoplot(fit)
 ```
 
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 Predict distance(s) at target levels of detection efficiency
 
@@ -158,12 +163,12 @@ Predict distance(s) at target levels of detection efficiency
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
 #>        Station  de  estimate     lower     upper   svalue
-#> 1 Border Right 0.5 133.73957 118.27801 148.12319 11.55123
-#> 7 Border Right 0.8  74.04273  47.62251  93.48811 11.55123
-#> 2      Genelle 0.5 180.69737 159.64310 200.26617 11.55123
-#> 8      Genelle 0.8 104.30744  70.45081 128.49005 11.55123
-#> 3    Glenmarry 0.5 155.70971 140.58795 173.97181 11.55123
-#> 9    Glenmarry 0.8 124.23611 108.99620 143.33763 11.55123
+#> 1 Border Right 0.5 133.78845 119.82756 147.18271 11.55123
+#> 7 Border Right 0.8  76.31486  52.11954  96.51069 11.55123
+#> 2      Genelle 0.5 180.47057 158.48262 200.90797 11.55123
+#> 8      Genelle 0.8 104.23110  70.08540 130.26285 11.55123
+#> 3    Glenmarry 0.5 147.58768 134.06424 163.19103 11.55123
+#> 9    Glenmarry 0.8 121.75911 109.17899 135.37747 11.55123
 ```
 
 ### How to do more

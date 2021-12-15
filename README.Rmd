@@ -49,18 +49,28 @@ A benefit of using a Bayesian approach is that uncertainty can be quantified for
 
 ### Data
 
-`detrange` expects data typical of detection range testing. Mandatory columns include:  
+`detrange` expects data typical of detection range testing.  
+
+Mandatory columns include:  
 
 - `station` (character or factor)  
-- `distance` (numeric)  
+- `distance` (positive numeric)  
 - `detects` (whole numeric)  
 - `pings` (whole numeric)
 
-`pings` is the expected number of detections and `detects` is the observed number of detections over the duration of the range testing time period at a given distance. An example dataset `range_test` is included for reference.
+Optional columns include:  
+
+- `depth_receiver` (positive numeric)  
+- `depth_tag` (postive numeric)  
+
+`pings` is the expected number of detections and `detects` is the observed number of detections over the duration of the range testing time period at a given distance. 
+If `depth_receiver` and `depth_tag` are provided, distance is corrected to account for depth. 
+
+An example dataset `range_test` is included for reference.
 
 ```{r data}
 library(detrange)
-detrange::range_obs
+head(detrange::range_obs)
 ```
 
 ### Analysis
@@ -73,11 +83,18 @@ fit <- dr_fit(detrange::range_obs)
 A number of generic methods are defined for the output object of `dr_fit()`, including `autoplot` `glance`, `tidy`, `coef`, `augment`, `summary`, `estimates`, and `predict`.
 
 ```{r}
+# model summary
 glance(fit)
 ```
 
 ```{r}
+# parameter estimates
 tidy(fit, conf_level = 0.89)
+```
+
+```{r}
+# original data with corrected distance
+head(augment(fit))
 ```
 
 Plot predicted detection range

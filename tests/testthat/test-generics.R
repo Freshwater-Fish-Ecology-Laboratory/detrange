@@ -2,6 +2,7 @@ test_that("generic functions work", {
   fit <- dr_fit(detrange::range_obs, min_random_intercept = 100)
   data <- format_colnames(detrange::range_obs)
   data <- set_classes(data)
+  data <- correct_distance(data)
 
   gla <- glance(fit)
   expect_identical(dr_glance(fit), gla)

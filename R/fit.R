@@ -56,6 +56,8 @@ dr_fit <- function(data,
 
   # set classes
   data <- set_classes(data)
+  # get distance corrected by depth
+  data <- correct_distance(data)
 
   datal <- data_list(data)
   nstation <- nstation(datal)
