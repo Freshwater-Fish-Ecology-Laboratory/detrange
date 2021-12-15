@@ -53,7 +53,8 @@ required to fit intercept parameter as a random effect.}
 
 \item{predict_distance}{A tibble of the output of \code{dr_predict_distance}.}
 
-\item{priors}{A named list of the priors for each model term.}
+\item{priors}{A named list of the parameter names and priors (in BUGS language) including some subset of the parameters required by the model.
+Any parameters not included will fall back to defaults in \code{priors()}. If NULL, all default priors are used.}
 
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
 

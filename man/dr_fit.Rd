@@ -25,7 +25,8 @@ required to fit slope parameter as a random effect.}
 \item{min_random_intercept}{A whole number of the minimum number of Stations
 required to fit intercept parameter as a random effect.}
 
-\item{priors}{A named list of the priors for each model term.}
+\item{priors}{A named list of the parameter names and priors (in BUGS language) including some subset of the parameters required by the model.
+Any parameters not included will fall back to defaults in \code{priors()}. If NULL, all default priors are used.}
 
 \item{quiet}{A flag indicating whether to suppress messages and progress bars.}
 
