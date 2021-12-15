@@ -32,5 +32,16 @@ glue2 <- function(x){
                           .envir = parent.frame()))
 }
 
+format_colnames <- function(x){
+  nm <- names(x)
+  nml <- strsplit(nm, "_", fixed = TRUE)
+  nml <- lapply(nml, function(x){
+    x <- tools::toTitleCase(x)
+    paste(x, collapse = "")
+  })
+  names(x) <- unlist(nml)
+  x
+}
+
 
 

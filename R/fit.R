@@ -15,7 +15,8 @@ nstation <- function(data){
   length(unique(data$Station))
 }
 
-set_factors <- function(data){
+set_classes <- function(data){
+  data$Distance <- as.numeric(data$Distance)
   data$Station <- factor(data$Station)
   data
 }
@@ -39,7 +40,12 @@ dr_fit <- function(data,
                    quiet = TRUE,
                    seed = .rndm_seed()){
 
+
+  chk_s3_class(data, "data.frame")
+  # allow lower and snake_case
+  data <- format_colnames(data)
   .chk_data(data)
+
   chk_whole_number(min_random_slope)
   chk_whole_number(min_random_intercept)
   chk_whole_number(nthin)
@@ -48,8 +54,9 @@ dr_fit <- function(data,
   chk_whole_number(seed)
   chk_gte(seed, 0)
 
-  # reset factor so doesnt cause issues down the line
-  data <- set_factors(data)
+  # set classes
+  data <- set_classes(data)
+
   datal <- data_list(data)
   nstation <- nstation(datal)
   model <- model_type(nstation, min_random_intercept, min_random_slope)

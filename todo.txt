@@ -1,22 +1,5 @@
 package/function names
-- drtools (drfit, drsim, drdata, drshiny)
-- deff (deffdata, deffshiny)
 - deft (detection efficiency for telemetry)
-  - shinydeft/deftshiny
-  - datadeft/deftdata
-- defat
-- derange
-- detrange
-- drfit
-- detr
-- rdr
-- detection
-
-drtools - loads and installs the following
-  - drdata
-  - drfit
-  - drshiny
-  - drsim
 
 Readme/articles
 - reference to gold standard range testing methods (and why pkg works for that)
@@ -32,24 +15,25 @@ Readme/articles
 Issues/fixes
 - get edu/joe to look over term descriptions
 - get edu/joe to look over fixed-effect model and coef table
+- ensure no negative distance estimates - how to properly bound? including lower/upper est
 
 Enhancements
+- calculate corrected distance from receiver/tag depth
 - function to plot posteriors of distance estimates?
 - build shiny app
 - put on CRAN
 - link to funs in documentation
-- rearrange model templates to separate priors from likelihood
-  - allows to know exact required priors for each specific model and also to just use likelihood for simulation
+- include env covariates
+- fully document datasets
 
 DR_FIT
-default prior arg should be priors() not NULL - might need to change name of priors function
+
 
 MODEL
 - implement correlated slope/intercept model
 - model for nested station/transect (i.e. cardinal directions at single station)
 - model for CPDI - lower detection efficiency at close distance due to CPDI (i.e. a n-shaped curve), should fit two models (one with breakpoint) and use AIC to select the best model - or model average for estimates.
 - covariates - term names = column name prefix with b + s<>Station + b<>Station
-- add data simulation function (dr_simulate)
 - add function arg to control # iterations, e.g. c('quick' (500), 'report' (1000), 'paper' (1500))
 - standardize covariate?
 
@@ -71,6 +55,4 @@ Pkg maintenance stuff
 - add lifecycle badges
 - add test coverage
 
-ssdtools
-generics - glance, tidy, augment, predict
-check out universals (generics), extras, nlist
+

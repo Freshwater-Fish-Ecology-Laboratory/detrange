@@ -3,8 +3,9 @@ xname <- function(x, col){
 }
 
 .chk_data <- function(data, x_name = deparse(substitute(data))) {
+
   nms <- c("Station", "Distance", "Detects", "Pings")
-  chk_subset(nms, names(data), x_name = x_name)
+  chk_superset(names(data), nms, x_name = x_name)
 
   chk_character_or_factor(data$Station, x_name = xname(x_name, "Station"))
   chk_whole_numeric(data$Detects, x_name = xname(x_name, "Detects"))

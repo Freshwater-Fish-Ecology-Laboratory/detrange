@@ -8,6 +8,7 @@ should we model both and test best model on the data by DIC or model average est
 
 4. standardize - should i standradize distance covariate?
 
+ok
 5. covariates - should we allow for covariates?
    - this will take some tweaking of the code to allow for dynamically creating model template code/term names etc.
 

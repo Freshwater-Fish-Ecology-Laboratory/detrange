@@ -42,6 +42,9 @@ dr_plot.data.frame <- function(x,
                                ylab = "Proportion of Pings Detected", ...){
   chk_unused(...)
   data <- x
+
+  chk_s3_class(data, "data.frame")
+  data <- format_colnames(data)
   .chk_data(data)
 
   gp <- ggplot() +

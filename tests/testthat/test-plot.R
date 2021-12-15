@@ -1,6 +1,6 @@
 test_that("check plot funs work", {
-  data <- detrange::range_obs
-  data <- data[data$Station %in% c("Station1", "Station2"),]
+  data <- format_colnames(detrange::range_obs)
+  data <- data[data$Station %in% c("Glenmarry", "Border Right"),]
   fit <- dr_fit(data, min_random_slope = 1, min_random_intercept = 1)
 
   ### drfit method for predict plot

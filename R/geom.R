@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' ggplot2::ggplot(detrange::range_obs) +
-#'   geom_dr_point(ggplot2::aes(x = Distance, detects = Detects, pings = Pings))
+#'   geom_dr_point(ggplot2::aes(x = distance, detects = detects, pings = pings))
 geom_dr_point <- function(mapping = NULL, data = NULL, stat = "drPoint",
                          position = "identity", na.rm = FALSE,
                          show.legend = NA, inherit.aes = TRUE, ...) {

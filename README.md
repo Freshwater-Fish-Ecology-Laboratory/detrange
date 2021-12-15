@@ -70,12 +70,12 @@ detection range in a given system is known or if data are limited.
 `detrange` expects data typical of detection range testing. Mandatory
 columns include:
 
--   `Station` (factor)  
--   `Distance` (numeric)  
--   `Detects` (integer)  
--   `Pings` (integer)
+-   `station` (character or factor)  
+-   `distance` (numeric)  
+-   `detects` (whole numeric)  
+-   `pings` (whole numeric)
 
-`Pings` is the expected number of detections and `Detects` is the
+`pings` is the expected number of detections and `detects` is the
 observed number of detections over the duration of the range testing
 time period at a given distance. An example dataset `range_test` is
 included for reference.
@@ -83,20 +83,30 @@ included for reference.
 ``` r
 library(detrange)
 detrange::range_obs
-#> # A tibble: 42 × 4
-#>    Station  Distance Pings Detects
-#>    <fct>       <dbl> <int>   <int>
-#>  1 Station1      125   111      95
-#>  2 Station1      212   121      61
-#>  3 Station1      324   116       6
-#>  4 Station1      536   108       0
-#>  5 Station1      576   142       0
-#>  6 Station1      811   136       0
-#>  7 Station1      937   132       0
-#>  8 Station2      130   108      93
-#>  9 Station2      283   122       6
-#> 10 Station2      339   145       1
-#> # … with 32 more rows
+#>          station distance pings detects depth_receiver depth_tag
+#> 1   Border Right      100    90      70            3.0       7.0
+#> 2   Border Right      200    96       0            3.0       3.6
+#> 3   Border Right      300    78      10            3.0       1.8
+#> 4   Border Right      400    90       0            3.0       9.4
+#> 5        Genelle      100    78      68            2.3       7.4
+#> 6        Genelle      250    78       7            2.3       5.1
+#> 7        Genelle      400    84       7            2.3       5.4
+#> 8      Glenmarry      100    84      79            2.7       6.0
+#> 9      Glenmarry      250    84       0            2.7       7.6
+#> 10     Glenmarry      450    84       0            2.7       7.6
+#> 11     Glenmarry      750   114       0            2.7      10.1
+#> 12      Kinnaird      100    84      64            2.4       9.4
+#> 13      Kinnaird      250    78      50            2.4       6.8
+#> 14      Kinnaird      450    84      11            2.4       9.6
+#> 15      Kinnaird      750    78      14            2.4       5.5
+#> 16      Kootenay      100   120     105            2.3      10.0
+#> 17      Kootenay      250    90      16            2.3      10.1
+#> 18      Kootenay      450    78       0            2.3      10.7
+#> 19      Kootenay      550    84       0            2.3       3.7
+#> 20 Trail Airport      100    84      41            2.3       4.6
+#> 21 Trail Airport      250    84       3            2.3       8.0
+#> 22 Trail Airport      450    78       0            2.3       8.7
+#> 23 Trail Airport      750   240       0            2.3       4.6
 ```
 
 ### Analysis
@@ -120,7 +130,7 @@ glance(fit)
 #> # A tibble: 1 × 8
 #>       n     K nchains niters nthin   ess  rhat converged
 #>   <dbl> <int>   <int>  <int> <dbl> <int> <dbl> <lgl>    
-#> 1    42     6       3   1000    10    81  1.07 FALSE
+#> 1    23     6       3   1000    10   210  1.05 FALSE
 ```
 
 ``` r
@@ -128,10 +138,10 @@ tidy(fit, conf_level = 0.89)
 #> # A tibble: 4 × 6
 #>   term              estimate    lower   upper svalue description                
 #>   <term>               <dbl>    <dbl>   <dbl>  <dbl> <chr>                      
-#> 1 bDistance         -0.0201  -0.0274  -0.0134   7.85 Effect of distance on logi…
-#> 2 bIntercept         5.32     4.94     5.75    11.6  Intercept of logit(`eDetec…
-#> 3 sDistanceStation   0.00895  0.00510  0.0188  11.6  Standard deviation of `bDi…
-#> 4 sInterceptStation  0.305    0.0388   0.990   11.6  Standard deviation of `bIn…
+#> 1 bDistance          -0.0231 -0.0342  -0.0113   6.12 Effect of distance on logi…
+#> 2 bIntercept          3.57    1.81     5.35     5.62 Intercept of logit(`eDetec…
+#> 3 sDistanceStation    0.0155  0.00937  0.0320  11.6  Standard deviation of `bDi…
+#> 4 sInterceptStation   2.26    1.28     4.72    11.6  Standard deviation of `bIn…
 ```
 
 Plot predicted detection range
@@ -147,13 +157,13 @@ Predict distance(s) at target levels of detection efficiency
 ``` r
 predicted_dist <- dr_predict_distance(fit, de = c(0.5, 0.8))
 head(predicted_dist)
-#>    Station  de estimate    lower    upper   svalue
-#> 1 Station1 0.5 213.4136 202.5508 224.7126 11.55123
-#> 7 Station1 0.8 157.7085 144.1835 169.7845 11.55123
-#> 2 Station2 0.5 190.2935 178.1132 202.8770 11.55123
-#> 8 Station2 0.8 143.4297 131.3238 156.7641 11.55123
-#> 3 Station3 0.5 400.6412 381.8278 418.0218 11.55123
-#> 9 Station3 0.8 296.8965 273.7231 317.4138 11.55123
+#>        Station  de  estimate     lower     upper   svalue
+#> 1 Border Right 0.5 133.73957 118.27801 148.12319 11.55123
+#> 7 Border Right 0.8  74.04273  47.62251  93.48811 11.55123
+#> 2      Genelle 0.5 180.69737 159.64310 200.26617 11.55123
+#> 8      Genelle 0.8 104.30744  70.45081 128.49005 11.55123
+#> 3    Glenmarry 0.5 155.70971 140.58795 173.97181 11.55123
+#> 9    Glenmarry 0.8 124.23611 108.99620 143.33763 11.55123
 ```
 
 ### How to do more

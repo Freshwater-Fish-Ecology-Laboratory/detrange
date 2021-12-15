@@ -1,11 +1,13 @@
 test_that("generic functions work", {
   fit <- dr_fit(detrange::range_obs, min_random_intercept = 100)
+  data <- format_colnames(detrange::range_obs)
+  data <- set_classes(data)
 
   gla <- glance(fit)
   expect_identical(dr_glance(fit), gla)
 
   aug <- augment(fit)
-  expect_identical(detrange::range_obs, aug)
+  expect_identical(data, aug)
 
   tid <- tidy(fit)
   expect_identical(dr_coef(fit), tid)

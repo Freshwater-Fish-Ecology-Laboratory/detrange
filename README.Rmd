@@ -51,12 +51,12 @@ A benefit of using a Bayesian approach is that uncertainty can be quantified for
 
 `detrange` expects data typical of detection range testing. Mandatory columns include:  
 
-- `Station` (factor)  
-- `Distance` (numeric)  
-- `Detects` (integer)  
-- `Pings` (integer)
+- `station` (character or factor)  
+- `distance` (numeric)  
+- `detects` (whole numeric)  
+- `pings` (whole numeric)
 
-`Pings` is the expected number of detections and `Detects` is the observed number of detections over the duration of the range testing time period at a given distance. An example dataset `range_test` is included for reference.
+`pings` is the expected number of detections and `detects` is the observed number of detections over the duration of the range testing time period at a given distance. An example dataset `range_test` is included for reference.
 
 ```{r data}
 library(detrange)

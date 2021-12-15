@@ -1,5 +1,6 @@
 test_that("test run_jags function works", {
-  data <- detrange::range_obs
+  data <- format_colnames(detrange::range_obs)
+  data <- set_classes(data)
   data_list <- data_list(data)
   priors <- priors()
 

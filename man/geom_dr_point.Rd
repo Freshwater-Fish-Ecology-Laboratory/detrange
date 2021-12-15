@@ -66,7 +66,7 @@ Add point layer of observed detection range data.
 }
 \examples{
 ggplot2::ggplot(detrange::range_obs) +
-  geom_dr_point(ggplot2::aes(x = Distance, detects = Detects, pings = Pings))
+  geom_dr_point(ggplot2::aes(x = distance, detects = detects, pings = pings))
 }
 \seealso{
 \code{\link[=dr_plot]{dr_plot()}} \code{\link[=dr_plot_predict]{dr_plot_predict()}}

@@ -35,7 +35,7 @@ test_that("predict funs work", {
   expect_true(all(y$estimate != y2$estimate))
 
   ### test on smaller dataset
-  data <- data[data$Station %in% c("Station1", "Station2"),]
+  data <- data[data$Station %in% c("Glenmarry", "Border Right"),]
   fit <- dr_fit(data, nthin = 1L)
   x <- .new_data(data, seq = "Station", ref = list(Distance = seq1))
   y <- .predict(fit, x, derived_expr = derived_expr, monitor = "prediction")
@@ -67,7 +67,7 @@ test_that("predict funs work", {
 
   # test distance = NULL
   y4 <- dr_predict_de(fit, distance = NULL)
-  expect_identical(range(y4$Distance), c(0, 990))
+  expect_identical(range(y4$Distance), c(0, 780))
 
   # test by = NULL
   y5 <- dr_predict_de(fit, distance = dist2, by = NULL)

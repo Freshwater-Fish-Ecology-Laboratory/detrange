@@ -37,10 +37,12 @@ dr_plot_predict.data.frame <- function(x, predict_de,
                                        xlab = "Distance",
                                        ylab = "Proportion of Pings Detected",
                                        facet = TRUE, ...){
-  .chk_data(x)
-  .chk_predict_de(predict_de)
   chk_unused(...)
   data <- x
+  chk_s3_class(data, "data.frame")
+  data <- format_colnames(data)
+  .chk_data(data)
+  .chk_predict_de(predict_de)
 
   gp <- ggplot() +
     geom_dr_point(data = data, aes(x = .data$Distance,
