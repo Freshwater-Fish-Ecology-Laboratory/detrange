@@ -3,8 +3,6 @@
 
 # detrange
 
-##### \*\*\* Please note that this package is still experimental. The API may change in the future. Feel free to drop some issues with questions/bugs/ideas/feedback! \*\*\*
-
 ## Installation
 
 To use `detrange`, you must have JAGS installed on your system. Go to
