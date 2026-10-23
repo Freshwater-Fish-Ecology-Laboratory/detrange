@@ -27,6 +27,7 @@ Imports:
     universals,
     sims
 Remotes:
+    poissonconsulting/mcmcderive,
     poissonconsulting/newdata
 Depends: 
     R (>= 2.10)
